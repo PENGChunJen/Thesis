@@ -1,0 +1,43 @@
+\chapter{Experiments}
+\label{c:experiments}
+
+% talk about ROI, what it is, why it is important
+Overview of real-valued optimization
+
+\section{Test Problems}
+
+\subsection{CEC2005 25 benchmark problems}
+Describe termination criterion and evaluation method for CEC2005
+Describe reason for 25 repeat runs.
+Describe how initial setting effect real-valued optimization, so that all algorithms should start with identicle initial status.
+
+
+\section{Experiment Settings}
+
+Describe the parameters setting for CMA-ES, SPSO and ACOR.
+
+We use the \textit{Covariance Matrix Adaptation Evolution Strategy for non-linear numerical optimization in Python} package~\footnote{https://pypi.python.org/pypi/cma} provided by Hensen, the author of CMA-ES.
+CMA-ES initial mean and std, population settings.
+
+SPSO2011 parameters (c, w) settings, and population settings.
+
+For ACOR, we set our parameters according to the original paper~\cite{Socha:2008:ACOR}. 
+The parameters are shown in Table~\ref{table:ACOR_parameters}.
+
+
+\begin{table}%[t!]
+\centering
+\label{table:ACOR_parameters}
+\begin{tabular}{lll}
+\hline
+Parameter                        & Symbol   & Value          \\ \hline
+No. of ants used in an iteration & $m$      & $2$            \\
+Speed of convergence             & $\xi$    & $0.85$         \\
+Locality of the search process   & $q$      & $10^{-4}$      \\
+Archive size                     & $k$      & $50$           \\ \hline
+\end{tabular}
+\caption{Summary of the parameters used by $ACO_R$}
+\end{table}
+
+
+Describe our bandit parameters setting, including the initial population, maximum number of arms, and (1+1)-ES step size.

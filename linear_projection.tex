@@ -1,0 +1,66 @@
+\chapter{Linear Projection}
+\label{chapter:projection}
+
+For each uni-model, we wish to define a region of interest for exploitation.
+
+Projection creates a well-defined hypercube boundary on subspace that some algorithms need, e.g. SPSO.
+
+Subspace projection also gives advantage to solving \textit{inseparabel problems}.
+
+
+
+\section{Affine Transformation}
+
+\subsection{Translation}
+\subsection{Rotation}
+\subsection{Scaling}
+\subsection{Shear}
+\subsection{Affine transformation matrix}
+
+
+
+
+
+
+\section{Projection}
+
+\subsection{Basic Projection}
+
+
+\subsection{Homogeneous Coordinate}
+Augmented Matrix
+
+
+
+\subsection{Perspective Projection}
+
+
+
+
+
+\section{Optimization for Projection Matrix}
+
+
+
+\subsection{Loss function}
+
+Describe our loss function:
+\begin{itemize}
+    \item Points within boundaries should be within $[0, 1]^D$ in subspace
+    \item Points within other boundaries should be out of $[0, 1]^D$ in subspace
+    \item Point with best fitness should be at the center
+    \item We hope that the standard deviation on each dimension should be around 0.2
+    \item Minimal error for inverse transformation
+\end{itemize}
+
+
+
+\subsection{Optimization Algorithms}
+
+Describe the difficulty of finding a fast yet powerful algorithm for \textit{hyperparameters optimization}.
+
+We first tried CMA-ES.
+
+Later, we utilize the (1+1)-ES, described in Algorithm~\ref{algo:1+1ES}.
+
+

@@ -1,0 +1,96 @@
+\chapter{The New Bandit Technique}
+\label{chapter:new_bandit}
+
+In this chapter, we illustrate the proposed algorithm step-by-step. 
+
+Overview of real-valued optimization
+
+\section{Framework of the New Bandit Algorithm}
+
+The goal is to identify the ROI for exploitation and maintain exploration through resource allocation.
+
+Each algorithm needs to be modified to satisfy the following conditions:
+\begin{enumerate}
+    \item Update one individual at a time 
+    \item The algorithm can be projected onto a subspace and continue iterating
+    \item Replace one individual with a given position and fitness
+\end{enumerate}
+
+The pseudocode of our new algorithm is given in Algorithm~\ref{algo:new_bandit}
+
+\begin{algorithm}%[t!]
+\caption{Framework of the new Bandit Algorithm}\label{algo:new_banidt}
+
+$\boldsymbol{X}_{n}$: solution of the $n^{th}$ iteration, $\sigma_n$: step size of the $n^{th}$ iteration, \\
+$N(\boldsymbol{0}, \boldsymbol{I})$: multivariant normal distribution with mean vector $\boldsymbol{0}$ \\ 
+and identical covariance matrix $\boldsymbol{I}$.
+
+\BlankLine
+\SetKwInOut{Input}{input} \SetKwInOut{Output}{output}
+\Input{ $f$: evaluation function }
+\Output{ $X_{n+1}$: best solution }
+
+\BlankLine
+Initialize $\boldsymbol{X}_0, \sigma_0$ \\
+\While{ termination criterion not met } {
+
+    $\widetilde{\boldsymbol{X}}_n = \boldsymbol{X}_n + \sigma_n N(\boldsymbol{0}, \boldsymbol{I})$  \\
+
+    \eIf{ $f(\widetilde{\boldsymbol{X}}_n) \leq f(\boldsymbol{X}_n) $}{
+        $\boldsymbol{X}_{n+1} = \widetilde{\boldsymbol{X}}_n$ \\
+        $\sigma_{n+1} = 1.5 \sigma_n$
+    }{
+        $\boldsymbol{X}_{n+1} = \boldsymbol{X}_n$ \\
+        $\sigma_{n+1} = 1.5^{-1/4}\sigma_n$
+    }
+}
+
+\Return $\boldsymbol{X}_{n+1}$
+
+\end{algorithm}
+
+
+
+
+
+\section{Initialization and Unimodal Identification}
+
+For a problem with $D$ dimension, initialize with $100D$ points.
+
+Keep only top $50\%$ of points for unimodal identification. 
+Use clustering techniques mentioned in Chapter~\ref{chapter:clustering}.
+
+Iteratively add $10D$ points until estimated cluster number is identical.
+
+With a given cluster number $k$, do K-Means clustering.
+
+
+
+
+
+\section{Define Region of Interest}
+
+Each arm is composed of an algorithm and a projection matrix.
+Initial matrix is set as a tight hyperbox that contains all points in the given cluster.
+Optimize matrix one-by-one.
+Resize each cluster to match the required population for each algorithm.
+Start algorithm with given initial positions and fitnesses.
+
+
+
+
+
+\section{Remain Evaluations Allocation}
+
+Calcualte remain evaluations allocatoin and normalize the value to 0~1.
+Add newly calculated allocatoin to record.
+Choose arm the argmax allocation to pull, i.e. update one individual.
+Max arm allocation -1.
+
+
+
+
+
+\section{Recluster}
+
+

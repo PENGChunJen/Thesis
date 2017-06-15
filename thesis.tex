@@ -8,6 +8,13 @@
 \usepackage{array}
 \usepackage{wallpaper} 
 
+% Additional packages
+\usepackage[vlined, ruled]{algorithm2e}
+\usepackage{multirow}
+\usepackage{bm}
+\usepackage{lmodern}
+
+
 % Using the tex-text mapping for ligatures etc.
 \defaultfontfeatures{Mapping=tex-text}
 
@@ -43,13 +50,14 @@
 
 % Your thesis goes here
 \input{introduction}
-%\input{related}
-%\input{photoshoot}
-%\input{modeling}
-%\input{application}
-%\input{conclusion}
+\input{real-valued_optimization_algorithms}
+\input{clustering_techniques}
+\input{linear_projection}
+\input{multi-armed_bandit_algorithms}
+\input{new_bandit}
+\input{experiments}
+\input{conclusion}
 
-\appendix
 
 \backmatter
 
@@ -58,5 +66,7 @@
 
 % Your bibliography goes here
 \bibliography{thesis}
+
+\appendix
 
 \end{document}

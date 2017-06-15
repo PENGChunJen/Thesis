@@ -1,0 +1,40 @@
+\chapter{Multi-armed Bandit Algorithms}
+\label{chapter:MAB}
+
+After identifying the unimodals in Chapter~\ref{chapter:clustering} and defining a ROI for exploitation in Chapter~\ref{chapter:projection},
+we still need to decide how to allocate our resources.
+Describe the exploration vs. exploitation dilemma.
+One should take different strategies according to evaluations left.
+Instead of letting the algorithms handling both eploration and exploitation, we propose a bandit technique to help manage exploitation.
+
+
+Multi-armed Bandit Algorithms are suitable for this scenario.
+It learns model from outcomes and the actions do not change the state of the world.
+
+Unlike canonical MAB algorithms that minimize regrets, we wish to maximize the probability of gaining the maximum rank.
+
+
+
+
+
+\section{The Multi-armed Bandit Problem}
+
+Multi-aremed Bandit (MAB) Problem describes an agent needs to decide in $K$ arms to pull at time $t$ and receives a reward.
+
+Describe \textit{policy} and \textit{regret}.
+
+The goal is to minimize regret.
+
+
+
+\section{Some common MAB Algorithm}
+
+\subsection{UCB}
+
+\subsection{POKER}
+The Price of Knowledge and Estimated Reward (POKER) strategy considers three ideas: pricing uncertainty, exploiting the lever distribution and taking into account the horizon
+
+
+\section{The New Bandit Technique}
+
+
