@@ -6,11 +6,15 @@ Overview of real-valued optimization
 \section{Covariance Matrix Adaptation Evolution Strategy}
 
 Describe history of \textit{Evolutionary Strategies} (ES).
+
 The simplest algorithm is (1+1)-ES.
+
 Here we describe the (1+1)-ES with one-fifth success rule with independent restarts.
+
 The pseudo code of (1+1)-ES is given in Algorithm~\ref{algo:1+1ES}.
 
 Covariance Matrix Adaptation Evolution Strategy (CMA-ES) is an extended version fo CSA-ES with de-randomized adaptation of covariance matrix.
+
 Describe the underlying covariance matrix model.
 
 Describe how to update \textit{mean}.
@@ -58,32 +62,66 @@ Initialize $\boldsymbol{X}_0, \sigma_0$ \\
 
 \section{Standard Particle Swarm Optimization}
 
-Particle Swarm Optimization was first proposed by ...
-The swarm intelligence family... 
-However, there are multiple varients of PSO over the years.
+Particle Swarm Optimization (PSO) is a swarm intelligence optimization algorithm. 
+%The swarm intelligence family... 
+It was first proposed by J. Kennedy and R. C. Eberhart in 1995~\cite{Kennedy:1995:PSO} to simulate the foraging behavior of bird flocks.
+The swarm is composed of \textit{particles} that move around in a given multi-dimensional \textit{search space} to find the best solution.
+Each particle updates its velocity according to its historical experience, as well as the information of the neighboring particles.
+The neighborhood of a particle is a set of information links defined by the \textit{swarm topology}.%, which indicates whom informs whom.
+PSO iteratively updates the swarm topology, the velocities, and the positions of each particle until the global optimum candidate solution is found.
 
-Standard PSO provides a well defined version of PSO that follows the basic principles.
-It is intend to be a milestone for future comparison, instead of the best algorithm on the market.
 
-So far, there have been three successive versions of standard PSO: SPSO 2006, 2007 and 2011
-The underlying principles of these three versions are generally the same as all PSO varients.
+Throughout the years, numerous varients of PSO have been proposed to improve performance.
+As a result, a \textit{standard} PSO, composed of clear principals, is needed as the baseline for comparison.
+Standard PSO (SPSO) provides a well defined version that follows the common principals of PSO design.
+It is intended to be a milestone with simple and clear implementation for future comparison, instead of the best algorithm on the market.
+So far, there have been three successive versions of standard PSO: SPSO 2006, SPSO 2007, and SPSO 2011.
+The underlying principals of these three algorithms are generally the same as all PSO varients.
 The exact formula and implementation are slightly different due to latest theoretical progress.
+A detailed description of SPSO 2011 is given in the following paragrahs.
 
-Describe swarm size definition and basic elements for each particle.
-Initialization of the swarm.
+\subsection{Initialization of the swarm}
+
+For a search space $E$ with a given dimension $D$, $E$ is confined by a set of minimum and maximum bounds in each dimension.
+The hyperparallelepid search space $E$ can be formally defined as the Euclidean product of $D$ real intervals~\cite{Clerc:2012:SPSO2011}.
+\begin{displaymath}
+E = \bigotimes_{d=1}^{D}[min_d, max_d]
+\end{displaymath}
+For each position within the multi-dimensional search space $E$, there exists a corresponding numerical value $f$, i.e. \textit{fitness}.
+A swarm is composed of particles, which explore different positions in the search space to find the best corresponding fitness value.
+At time $t$, each particle in the swarm possesses the following vectors with $D$ coordinate:
+\begin{itemize}
+\item $x_i(t)$ is the position of the particle $i$ at time $t$.
+\item $v_i(t)$ is the velocity of the particle $i$ at time $t$.
+\item $p_i(t)$ is the previous best position the particle $i$ had been to, at time $t$.
+\item $l_i(t)$ is best position within all the previous best positions in the neighborhood of particle $i$ at time $t$.
+\end{itemize}
+
+Let $U(min_d, max_d)$ be a random number drawn from a uniform distribution within $[min_d, max_d]$, 
+and $N_i(t)$ be a set of neighbours of particle $i$ at time $t$ defined by the swarm topology.
+In SPSO 2011~\cite{Clerc:2012:SPSO2011}, each particle is initialized with a random position and random velocity as following:
+\begin{align*}
+x_i(0) &= U(min_d, max_d) \\
+v_i(0) &= U(min_d - x_{i,d}(0), max_d - x_{i,d}(0)) \\
+p_i(0) &= x_i(0) \\ 
+l_i(0) &= argmin_{j \in U(min_d, max_d) 
+\end{align*}
+
+
 The swarm size, denoted as $S$, differs in SPSO 2006 and SPSO 2011.
-In both SPSO 2006 and SPSO 2007, the initial number of particles for dimension $D$ is defined as:
+In both SPSO 2006 and SPSO 2007, the initial number of particles $S$ for dimension $D$ is defined as:
 \begin{displaymath}
 S = 10 + \lfloor 2\sqrt{D} \rfloor,
 \end{displaymath}
-However, in SPSO 2011, the swarm size can be defined by user, yet suggested as 40~\cite{Clerc:2012:SPSO2011} since the original swarm size is far from optimal.
+However, emperically, the definition of swarm size in SPSO 2006 is far from optmial swarm size~\cite{Clerc:2012:SPSO2011}.
+Therefore, in SPSO 2011, the swarm size is suggested as
+\begin{displaymath}
+S = 40,
+\end{displaymath}
+yet can also be defined by user~\cite{Clerc:2012:SPSO2011}.
 
-Each particle in the swarm possesses the following elements: current position, current velocity, personal pervious best position, and previous best position in the neighbourhood. 
 
-
-Describe random topology and when to update topology.
-The information links...
-The adaptive random topology described in ~\cite{Clerc:2007:randomTopology} is formally equivalent to "Stocastic Star".
+\subsection{Velocity update equations}
 
 Describe velocity update for SPSO 2006 and SPSO 2011
 Update Velocity as shown in Figure~\ref{fig:SPSO_update}
@@ -94,6 +132,10 @@ Update Velocity as shown in Figure~\ref{fig:SPSO_update}
 \end{figure}
 
 Describe boundary and out-of-bound handling.
+
+\subsection{Random Topology}
+Describe random topology and when to update topology.
+The information links...  The adaptive random topology described in ~\cite{Clerc:2007:randomTopology} is formally equivalent to "Stocastic Star".
 
 
 
