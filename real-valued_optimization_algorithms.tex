@@ -67,14 +67,14 @@ Particle Swarm Optimization (PSO) is a swarm intelligence optimization algorithm
 It was first proposed by J. Kennedy and R. C. Eberhart in 1995~\cite{Kennedy:1995:PSO} to simulate the foraging behavior of bird flocks.
 The swarm is composed of \textit{particles} that move around in a given multi-dimensional \textit{search space} to find the best solution.
 Each particle updates its velocity according to its historical experience, as well as the information of the neighboring particles.
-The neighborhood of a particle is a set of information links defined by the \textit{swarm topology}.%, which indicates whom informs whom.
-PSO iteratively updates the swarm topology, the velocities, and the positions of each particle until the global optimum candidate solution is found.
+The neighborhood of a particle is a set of information links defined by the \textit{swarm topology}. %, which indicates whom informs whom.
+PSO iteratively updates the swarm topology, the velocities, and the positions of each particle until the global optimum solution is found.
 
 
 Throughout the years, numerous varients of PSO have been proposed to improve performance.
 As a result, a \textit{standard} PSO, composed of clear principals, is needed as the baseline for comparison.
 Standard PSO (SPSO) provides a well defined version that follows the common principals of PSO design.
-It is intended to be a milestone with simple and clear implementation for future comparison, instead of the best algorithm on the market.
+It is intended to be a milestone with simple and clear implementation for future comparison. %, instead of the best algorithm on the market.
 So far, there have been three successive versions of standard PSO: SPSO 2006, SPSO 2007, and SPSO 2011.
 The underlying principals of these three algorithms are generally the same as all PSO varients.
 The exact formula and implementation are slightly different due to latest theoretical progress.
@@ -87,34 +87,35 @@ The hyperparallelepid search space $E$ can be formally defined as the Euclidean 
 \begin{displaymath}
 E = \bigotimes_{d=1}^{D}[min_d, max_d]
 \end{displaymath}
-For each position within the multi-dimensional search space $E$, there exists a corresponding numerical value $f$, i.e. \textit{fitness}.
+For each position $x$ within the multi-dimensional search space $E$, there exists a corresponding numerical value $f(x)$, i.e. \textit{fitness}.
 A swarm is composed of particles, which explore different positions in the search space to find the best corresponding fitness value.
 At time $t$, each particle in the swarm possesses the following vectors with $D$ coordinate:
 \begin{itemize}
-\item $x_i(t)$ is the position of the particle $i$ at time $t$.
-\item $v_i(t)$ is the velocity of the particle $i$ at time $t$.
-\item $p_i(t)$ is the previous best position the particle $i$ had been to, at time $t$.
-\item $l_i(t)$ is best position within all the previous best positions in the neighborhood of particle $i$ at time $t$.
+\item $x_i(t)$ is the \textbf{position} of the particle $i$ at time $t$.
+\item $v_i(t)$ is the \textbf{velocity} of the particle $i$ at time $t$.
+\item $p_i(t)$ is the \textbf{previous best position} the particle $i$ had been to, at time $t$.
+\item $l_i(t)$ is best position of all the previous best positions in the \textbf{neighborhood} of particle $i$ at time $t$.
 \end{itemize}
 
 Let $U(min_d, max_d)$ be a random number drawn from a uniform distribution within $[min_d, max_d]$, 
 and $N_i(t)$ be a set of neighbours of particle $i$ at time $t$ defined by the swarm topology.
-In SPSO 2011~\cite{Clerc:2012:SPSO2011}, each particle is initialized with a random position and random velocity as following:
+In SPSO 2011~\cite{Clerc:2012:SPSO2011}, each particle is initialized with a random position and velocity defined as following:
 \begin{align*}
 x_i(0) &= U(min_d, max_d) \\
 v_i(0) &= U(min_d - x_{i,d}(0), max_d - x_{i,d}(0)) \\
 p_i(0) &= x_i(0) \\ 
-l_i(0) &= argmin_{j \in U(min_d, max_d) 
+l_i(0) &= argmin_{j \in N_i(0)}(f(p_j(0)))
 \end{align*}
 
 
-The swarm size, denoted as $S$, differs in SPSO 2006 and SPSO 2011.
-In both SPSO 2006 and SPSO 2007, the initial number of particles $S$ for dimension $D$ is defined as:
-\begin{displaymath}
-S = 10 + \lfloor 2\sqrt{D} \rfloor,
-\end{displaymath}
-However, emperically, the definition of swarm size in SPSO 2006 is far from optmial swarm size~\cite{Clerc:2012:SPSO2011}.
-Therefore, in SPSO 2011, the swarm size is suggested as
+%The swarm size, denoted as $S$, differs in SPSO 2006 and SPSO 2011.
+%In both SPSO 2006 and SPSO 2007, the initial number of particles $S$ for dimension $D$ is defined as:
+%\begin{displaymath}
+%S = 10 + \lfloor 2\sqrt{D} \rfloor,
+%\end{displaymath}
+%However, emperically, the definition of swarm size in SPSO 2006 is far from optmial swarm size~\cite{Clerc:2012:SPSO2011}.
+%Therefore, in SPSO 2011, the swarm size is suggested as
+The swarm size of SPSO 2011, denoted as $S$, is suggested as
 \begin{displaymath}
 S = 40,
 \end{displaymath}
@@ -123,20 +124,107 @@ yet can also be defined by user~\cite{Clerc:2012:SPSO2011}.
 
 \subsection{Velocity update equations}
 
-Describe velocity update for SPSO 2006 and SPSO 2011
-Update Velocity as shown in Figure~\ref{fig:SPSO_update}
-\begin{figure}
-\centering
+Velocity update equations differs in different variations of PSO, since it is the core procedure of optimization that determines the performance of PSO.
+To prevent premature convergence~\cite{Clerc:2012:SPSO2011}, SPSO follows a random permutation order to update the positions of particles in the swarm.
+The position of particle $i$ at time $t+1$ depends on the previous position and the current velocity:
+\begin{displaymath}
+x_i(t+1) = x_i(t) + v_i(t+1).
+\end{displaymath}
+The velocity of particle $i$ at time $t+1$ can be described as a combination of three vectors:
+\begin{displaymath}
+v_i(t+1) = w v_i(t) + \alpha (p_i(t) - x_i(t)) + \beta (l_i(t) - x_i(t)),
+\end{displaymath}
+where $w$ mimics the momemtum of the particle, and $\alpha$, $\beta$ describes how successive actions are effected by the personal previous best position and the neighborhood previous best position.
+
+In SPSO 2006 and SPSO 2007, the velocity update equation is applied dimension by dimension as follows:
+\begin{align*}
+v_i(t+1) &=  w v_i(t) + U(0,c)(p_i(t) - x_i(t)) + U(0,c) (l_i(t) - x_i(t)) \\
+       w &= \frac{1}{2\ln(2)} \simeq 0.721 \\
+       c &= \frac{1}{2} + \ln(2) \simeq 1.193
+\end{align*}
+
+
+Figure~\ref{fig:SPSO_update} visualize the three main vectors in a two dimensional problem.
+The first part, $v_1$, represents the influence of previous action on current velocity.
+$w$ is the inertia weight that resembles the momentum, relating the next velocity to the latest velocity $v_i(t)$.
+It allows \textit{exploration} by giving a tendency of expanding the search space.
+The second part, $v_2$ is a random vector drawn from the parallelepid $c(p_i(t) - x_i(t))$.
+$c$ is the acceleration constant and the parallelepid $c(p_i(t) - x_i(t))$ represents the effect of personnal best memory $p_i(t)$ on current decision making.
+The third part, $v_3$ is a random vector drawn from the parallelepid $c(l_i(t) - x_i(t))$
+The parallelepid $c(l_i(t) - x_i(t))$ mimics how the best social memory $l_i(t)$ contributes to current decision making.
+The last two parts allows \textit{exploitation}, by attracting the particles near the possible optimum positions.
+Therefore, the new velocity depends on the latest action, personnal best memory, and social influence.
+
+However, the velocity update equations of SPSO 2006 depends on the system of coordinates.
+The distribution of all possible next positions is more dense near the center of a $D$ dimension rectangle.
+Moreover, the dimension-by-dimension updating method makes the algorithm dependent to system coordinates.
+It is extremely easy to find the optimum point lying on an axis, a diagonal or the center of the coordinate.
+
+In SPSO 2011, the velocity update equations eliminates the coordinate dependency by creating a hypersphere according to $x_i$, $p_i$ and $l_i$, shown in Figure~\ref{fig:SPSO_update}.
+The hypersphere is defined as:
+\begin{displaymath}
+H_i(G_i, ||G_i - x_i||),
+\end{displaymath}
+with center $G_i$ and radius $||G_i - x_i||$.
+When the personal best $p_i(t)$ is not the neighborhood previous best $l_i(t)$, the center $G_i$ is defined as:
+\begin{displaymath}
+G_i = \frac{1}{3} (x_i + (x_i + c(p_i - x_i)) + (x_i + c(l_i - x_i))) = x_i + \frac{c}{3}(p_i + l_i - 2x_i) 
+\end{displaymath}
+If the personal best is the best in the neighborhood, i.e. $p_i(t) = l_i(t)$, the center $G_i$ is defined as:
+\begin{displaymath}
+G_i = \frac{1}{2} (x_i + (x_i + c(p_i - x_i))) = x_i + \frac{c}{2}(p_i - x_i)
+\end{displaymath}
+In both cases, the acceleration constant $c$ is:
+\begin{displaymath}
+c = \frac{1}{2} + \ln(2) \simeq 1.193
+\end{displaymath}
+
+As shown in Figure~\ref{fig:SPSO_update}, a random sample $x^{'}_{i}$ is drawn from the hypershpere with uniform random direction and uniform radius.
+\begin{displaymath}
+r = U(0, ||G_i - x_i||)
+\end{displaymath} 
+
+Therefore, the velocity update equation and new position of SPSO 2011 is defined as:
+\begin{align*}
+v_i(t+1) &= wv_i(t) + x_{i}^{'}(t) - x_i(t) \\
+x_i(t+1) &= x_i(t) + v_i(t+1) = wv_i(t) + x_{i}^{'}(t) 
+\end{align*} 
+where the inertia weight is also:
+\begin{displaymath}
+w = \frac{1}{2\ln(2)} \simeq 0.721
+\end{displaymath} 
+
+
+\begin{figure}[!t] \centering
 \includegraphics[width=\textwidth]{SPSO_update}
 \caption{(a) SPSO 2011. (b) SPSO 2006.}\label{fig:SPSO_update}
-\end{figure}
+\end{figure} 
 
-Describe boundary and out-of-bound handling.
+As mentioned before, the search space is defined as a hyperparallelepid with confinement $[min_d, max_d]$ in each dimension $d$.
+Therefore, after calculating the new velocities and positions of particles, we have to go through confinement check to make sure all particles stay inside the search space.
+There are mutliple options to handle confinement in SPSO 2011.
+The following method described in~\cite{Clerc:2012:SPSO2011} treat boundary as ``wall", so that all particles bounce back with half of previous velocity after they reach the border.
+For the new position $x_{i,d}(t+1)$ of particle $i$ in dimension $d$,
+\begin{align*}
+if (x_{i,d}(t+1) < min_d), x_{i,d}(t+1) &= min_d \\
+                           v_{i,d}(t+1) &= -0.5v_{i,d}(t+1) \\
+if (x_{i,d}(t+1) > min_d), x_{i,d}(t+1) &= max_d \\
+                           v_{i,d}(t+1) &= -0.5v_{i,d}(t+1) \end{align*} 
 
-\subsection{Random Topology}
+
+
+\subsection{The adaptive random topology} 
+The swarm topology defines ``who informs whom" to help distribute the information of optimum solution in the swarm.
+The random topology adopted in SPSO 2011 is updated under two circumstances~\cite{Clerc:2012:SPSO2011}:
+\begin{itemize}
+\item at the very beginning
+\item after an iteration with no improvement of the best known fitness value
+\end{itemize}
+
+A good topology design should follow two rules~\cite{Clerc:2007:randomTopology}:
+
 Describe random topology and when to update topology.
-The information links...  The adaptive random topology described in ~\cite{Clerc:2007:randomTopology} is formally equivalent to "Stocastic Star".
-
+The information links...  The adaptive random topology described in ~\cite{Clerc:2007:randomTopology} is formally equivalent to ``Stocastic Star".  
 
 
 The pseudo code defined in~\cite{Zambrano:2013:SPSO2011}.
