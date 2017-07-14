@@ -22,6 +22,8 @@ Describe our basic assumption that problems worth solving are hierarchical decom
 \section{Thesis Objectives}
 We propose a technique that helps identify {\em regions of interest} (ROI) to explore and \textit{allocate resources} according to remaining evaluations.
 
+
+
 First, describe why is it important to identify ROIs.
 Describe how subspace projection creates a \textit{well-defined boundary} that some algorithms need.
 Describe how subspace projection helps  solve \textit{inseparable problems} while enhance the ability to find optimium.
@@ -30,6 +32,14 @@ Second, describe how the proposed resources allocation benefits optimization.
 Describe different strategies one should take given different evaluations left.
 Describe how Multi-armed Bandit (MAB) algorithms are suitable for the scenario, instead of decision theory, reinforcement learning and Markov Decision Process.
 MAB learns models from outcomes while the actions do not change the state of the world.
+
+After identifying the potential uni-modals in the search space,
+we also need to determine the resource to invest in each promising region in order to find the global optimum.
+However, for a fixed amount of total evaluations, 
+spending more time searching on one hill implies 
+less attention on exploring other possible uni-modals in the search space.
+This is the common delimma between \textit{exploration} and 
+\textit{exploitation} for all real-valued optimization algorithms.
 
 
 \section{Roadmap}

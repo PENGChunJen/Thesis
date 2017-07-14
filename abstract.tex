@@ -18,11 +18,27 @@
 \end{abstractzh}
 
 \begin{abstracten}
-This thesis presents a benchmark for region of interest (ROI)
+This thesis presents a new technique for real-valued multi-modal optimization.
+Most of the real-world problems can be described as a composition of uni-modal subproblems.
+For real-valued optimization, we are interested in problems that are composed of \textit{observable} uni-modals.
+However, allocating resources to exploit different uni-modals leads to the 
+common delimma between \textit{exploration} and \textit{exploitation}.
+This thesis proposed some new techniques that aim to solve multi-modal problems more efficiently.
+A new technique combining hierarchical clustering and minimum description length (MDL) 
+is proposed to help identify potential uni-modals in the search space.
+Then a better defined region of interest (ROI) that contains a subproblem is required 
+using a (1+1)-Evolutionary Strategy to optimize a homogeneous linear transform matrix.
+Finally, a new multi-armed bandit technique, aiming to maximize the probability of aquiring the global optimium,
+is proposed to allocate resources for each uni-modal,
+We combined our new techniques with Covariance Matrix Adaptation Evolution Strategy (CMA-ES), 
+Standard Particle Swarm Optimization (SPSO) 2011, and Ant Colony Optimization for Continuous Domain (ACO$_R$), 
+and evaluate with the CEC2005 Special Session on Real-Parameter Optimization benchmark problems.
+
+
+
+
 detection. ROI detection has many useful applications and many
-algorithms have been proposed to automatically detect ROIs.
-Unfortunately, due to the lack of benchmarks, these methods were
-often tested on small data sets that are not available to others,
+algorithms have been proposed to automatically detect ROIs.  Unfortunately, due to the lack of benchmarks, these methods were often tested on small data sets that are not available to others,
 making fair comparisons of these methods difficult. Examples from
 many fields have shown that repeatable experiments using published
 benchmarks are crucial to the fast advancement of the fields. To
