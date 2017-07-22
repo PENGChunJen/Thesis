@@ -1,65 +1,47 @@
 \begin{abstractzh}
-本論文提出了一影像中使用者感興趣區域 (region of interest)
-偵測之資料集 (benchmark)。
-使用者感興趣區域偵測在許多應用中極為有用，
-過去雖然有許多使用者感興趣區域之自動偵測演算法被提出，
-然而由於缺乏公開資料集，
-這些方法往往只測試了各自的小量資料而難以互相比較。
-從其它領域可以發現，
-基於公開資料集的可重製實驗與該領域突飛猛進密切相關，
-因此本論文填補了此領域之不足，
-我們提出名為「Photoshoot」的遊戲來蒐集人們對於感興趣區域的標記，
-並以這些標記來建立資料集。
-透過這個遊戲，我們已蒐集大量使用者對於感興趣區域的標記，
-並結合這些資料成為使用者感興趣區域模型。
-我們利用這些模型來量化評估五個使用者感興趣區域偵測演算法，
-此資料集也可更進一步作為基於學習理論演算法的測試資料，
-因此使基於學習理論的偵測演算法成為可能。
+本論文提出了一新的實數多模態(multimodal)最佳化方法。
+大多數的現實問題都可以由多個單峰問題合成。
+而對於實數最佳化，我們較感興趣的是多模態且可被拆解成多個階層化的單峰問題。
+然而，一旦面對多模態問題，我們就必須面對利用性(exploitation)與探索性(exploration)的問題。
+本論文提出一解決多模態問題的技巧。
+此技巧結合了階層式聚合(hierarchically clustering)與最小描述長度(minimum description length)， 來辨識搜尋空間中可能的單峰模型。
+接著，我們使用一加一演化策略((1+1)-Evolutionary Strategy)來最佳化一齊次座標(homogeneous coordinate)上的線性轉換矩陣，
+並利用此矩陣將原搜尋空間投影到另一有良好邊界定義的子空間。
+此投影嘗試定義出只包含一單峰之感興趣區域(region of interest)。
+最後，我們提出一新的多臂吃角子老虎(multi-armed bandit)技術，
+來分配給各個子空間的資源，以最大化獲得全域最佳解的機率，
+我們將此結果與自適應共變異數矩陣演化策略(Covariance Matrix Adaptation Evolution Strategies, CMA-ES)、
+標準粒子群演算法(Standard Particle Swarm Optimization 2011)、
+與實數域蟻群演算法(Ant Colony Optimization for Continuous Domain, ACO$_R$)結合，
+並利用CEC 2005實數最佳化測試問題來比較結果。
 \end{abstractzh}
 
 \begin{abstracten}
-This thesis presents a new technique for real-valued multi-modal optimization.
+This thesis presents a new technique for real-valued multimodal optimization.
 Most of the real-world problems can be described as a composition of uni-modal subproblems.
-For real-valued optimization, we are interested in problems that are composed of \textit{observable} uni-modals.
+For real-valued optimization, we are interested in problems that are composed of \textit{multiple hierarchically decomposable} uni-modals.
 However, allocating resources to exploit different uni-modals leads to the 
 common delimma between \textit{exploration} and \textit{exploitation}.
-This thesis proposed some new techniques that aim to solve multi-modal problems more efficiently.
+This thesis proposed some new techniques that aim to solve multimodal problems more efficiently.
 A new technique combining hierarchical clustering and minimum description length (MDL) 
 is proposed to help identify potential uni-modals in the search space.
-Then a better defined region of interest (ROI) that contains a subproblem is required 
-using a (1+1)-Evolutionary Strategy to optimize a homogeneous linear transform matrix.
+Then, a linear transform matrix in homogeneous coordinate, optimized by the (1+1)-Evolutionary Strategy,
+projects the search space to a subspace with well-defined boundary.
+This projection aims to define a region of interest (ROI) that isolates a uni-modal subproblem.
 Finally, a new multi-armed bandit technique, aiming to maximize the probability of aquiring the global optimium,
-is proposed to allocate resources for each uni-modal,
+is proposed to allocate resources for each uni-modal.
 We combined our new techniques with Covariance Matrix Adaptation Evolution Strategy (CMA-ES), 
-Standard Particle Swarm Optimization (SPSO) 2011, and Ant Colony Optimization for Continuous Domain (ACO$_R$), 
-and evaluate with the CEC2005 Special Session on Real-Parameter Optimization benchmark problems.
-
-
-
-
-detection. ROI detection has many useful applications and many
-algorithms have been proposed to automatically detect ROIs.  Unfortunately, due to the lack of benchmarks, these methods were often tested on small data sets that are not available to others,
-making fair comparisons of these methods difficult. Examples from
-many fields have shown that repeatable experiments using published
-benchmarks are crucial to the fast advancement of the fields. To
-fill the gap, this thesis presents our design for a collaborative
-game, called Photoshoot, to collect human ROI annotations for
-constructing an ROI benchmark. With this game, we have gathered a
-large number of annotations and fused them into aggregated ROI
-models. We use these models to evaluate five ROI detection
-algorithms quantitatively. Furthermore, by using the benchmark as
-training data, learning-based ROI detection algorithms become
-viable.
+Standard Particle Swarm Optimization (SPSO) 2011, and Ant Colony Optimization for Continuous Domain (ACO$_R$).
+The results are evaluated with the CEC2005 Special Session on Real-Parameter Optimization benchmark problems.
 \end{abstracten}
 
 \begin{comment}
-\category{I2.10}{Computing Methodologies}{Artificial Intelligence --
-Vision and Scene Understanding} \category{H5.3}{Information
-Systems}{Information Interfaces and Presentation (HCI) -- Web-based
-Interaction.}
+\category{I2.10}{Computing Methodologies}
+{Artificial Intelligence -- Vision and Scene Understanding} 
+\category{H5.3}{Information Systems}
+{Information Interfaces and Presentation (HCI) -- Web-based Interaction.}
 
 \terms{Design, Human factors, Performance.}
 
-\keywords{Region of interest, Visual attention model, Web-based
-games, Benchmarks.}
+\keywords{Real-valued Optimization, Multimodal Optimization, Homogeneous Coordinates, Multi-armed Bandit Algorithm.}
 \end{comment}

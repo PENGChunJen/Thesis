@@ -1,40 +1,53 @@
 \chapter{Clustering Techniques}
 \label{chapter:clustering}
 
+%Describe our basic assumption of function decomposition.
+%Each subproblem should be composed of an observalbe uni-model.
 We are interested in solving real-valued multi-modal problems composed of observable unimodals.
 Given the case, it is easier to solve an isolated uni-modal within a subspace,
 than tackling the complete search space with the multi-modal problem.
 Therefore, the first thing for solving a multi-modal problem is to identify and isolate 
 the potential uni-modals within the given search space.
 
-We tried to isolate potential \textit{hills}, i.e. uni-modals, by clustering the initial samples points,
+%We wish to identify these uni-models through clustering techniques. 
+We tried to isolate potential \textit{hills}, i.e. uni-modals,
+by clustering the initial samples points,
 and consider each cluster as a multi-dimension normal distribution.
 Different clustering techniques are often applied to identify different characteristics of clusters.
-Here we proposed a \textit{hierarchical clustering} techniques,
-since we consider not only the density of the particles, 
+Here we proposed a \textit{hierarchical clustering} techniques to identify \textit{fitness hills},
+since we consider not only the density of the particles,
 but also the fitness values of different search points.
-We are more interested to focus on the particles with better fitness,
-than a dense cluster with less fitness. 
 Our basic assumption for the under lying uni-modal is a weighted normal distribution, 
 since we need to take fitness into account instead of viewing each point with the same weight.
+We tend to focus on the particles with better fitness,
+than a dense cluster with less fitness. 
 It is also alot easier to calculate the weighted mean vector and weighted covariance matrix in higher dimension. 
 
-Later, we applied the Minimum Description Length (MDL) for to reduce the number of clusters.
+Later, we applied the Minimum Description Length (MDL) to reduce the number of clusters.
 Although a complex Gaussian Mixture Modal is able to describe the sample distribution better,
-we believe that a more compact model, in terms of information entropy, is better when multiple models and describe the same distribution. 
+we believe that a more compact model, in terms of information entropy, is the better choice 
+when multiple models can describe the same distribution. 
 This also allows us to define a more stable subspace for further searching.
 
 
-Describe our basic assumption of function decomposition.
-Each subproblem should be composed of an observalbe uni-model.
-We wish to identify these uni-models through clustering techniques. 
-
-\section{K-Means clustering}
+\section{Cannonical Clustering Techniques}
 Describe how K-means clustering works and why it is popular
-
 Describe the limits for K-Means clustering, e.g. it cannot identify density nor unimodality. 
 
+
+\section{Heirarchical Clustering}
+Describe the advantage of considering fitness instead of just density.
+
+
+\section{Weighted Multivariate Normal Distribution}
+
+
 \section{Determine number of clusters}
+
+MDL~\cite{Rissanen:1984:Universal}.
+
+KMDL~\cite{Kyrgyzov:2007:KMDL}
+
 \subsection{Silhouette coefficient}
 Describe how silhouette score decides number of clusters 
 \subsection{Gap statistics}
@@ -43,7 +56,5 @@ Describe how gap statistics estimates number of clusters.
 Describe how Dip-test checks unimodality
 Describe skynny-dip clustering
 
-\section{Heirarchical Clustering}
-Describe the advantage of considering fitness instead of just density.
 
 
