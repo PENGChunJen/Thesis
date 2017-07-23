@@ -11,6 +11,12 @@ The simplest algorithm is (1+1)-ES.
 
 Here we describe the (1+1)-ES with one-fifth success rule with independent restarts.
 
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{one_plus_one_ES}
+\caption{The one fifth rule of (1+1)-ES.}\label{fig:one_plus_one_ES}
+\end{figure}
+
 The pseudo code of (1+1)-ES is given in Algorithm~\ref{algo:1+1ES}.
 
 Covariance Matrix Adaptation Evolution Strategy (CMA-ES) is an extended version fo CSA-ES with de-randomized adaptation of covariance matrix.
@@ -23,6 +29,11 @@ Describe how to update \textit{covariance matrix}.
 
 Describe \textit{step-size} control.
 
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{CMA_elements}
+\caption{Three major elements of CMA-ES.}\label{fig:CMA_elements}
+\end{figure}
 
 
 \begin{algorithm}%[t!]
@@ -226,6 +237,15 @@ A good topology design should follow two rules~\cite{Clerc:2007:randomTopology}:
 Describe random topology and when to update topology.
 The information links...  The adaptive random topology described in ~\cite{Clerc:2007:randomTopology} is formally equivalent to ``Stocastic Star".  
 
+\begin{figure}[!t] \centering
+\includegraphics[width=\textwidth]{SPSO_topology}
+\caption{Different topologies used by PSO.}\label{fig:SPSO_topology}
+\end{figure} 
+
+\begin{figure}[!t] \centering
+\includegraphics[width=\textwidth]{SPSO_prob_informant}
+\caption{Probability of for different numbers of informants in the random topology.}\label{fig:SPSO_prob_informant}
+\end{figure} 
 
 The pseudo code defined in~\cite{Zambrano:2013:SPSO2011}.
 The pseudo code is given in Algorithm~\ref{algo:SPSO2011}.
@@ -300,16 +320,22 @@ The fundamental idea underlying ACO$_{R}$ is the shift from using a discrete pro
 
 A enhanced Gaussian kernel PDF as shown in Figure~\ref{fig:ACOR_gaussianKernel}.
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{ACOR_distribution}
-\caption{(a) Discrete probability distribution $p(c_{ij}|s^{p})$. (b) Continuous probability density function $p(x|s^{p})$}\label{fig:ACOR_distribution}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[width=\textwidth]{ACOR_distribution}
+%\caption{(a) Discrete probability distribution $p(c_{ij}|s^{p})$. (b) Continuous probability density function $p(x|s^{p})$}\label{fig:ACOR_distribution}
+%\end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{ACOR_gaussianKernel}
 \caption{(a) Discrete probability distribution $p(c_{ij}|s^{p})$. (b) Continuous probability density function $p(x|s^{p})$}\label{fig:ACOR_gaussianKernel}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{ACOR_solution_archive}
+\caption{The solution archieve of ACO$_R$}\label{fig:ACOR_solution_archive}
 \end{figure}
 
 \begin{algorithm}%[t!]

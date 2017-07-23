@@ -54,7 +54,17 @@ the points on the border of clusters might belong to different clusters after ea
 This makes the clusters unstable and costs unnecessary evaluations and computation for redefining the borders of ROI after each update. 
 
 The other problem for using the K-Means clustering is that one needs to decide the number of clusters.
-Determining the number of clusters is also a highly studied subjects.
+Determining the number of clusters is also a highly studied subjects, 
+such as the silhouette coefficient~\cite{}, the Gap statistics~\cite{}, and the Dip-test~\cite{}.
+Describe how silhouette score decides number of clusters 
+Describe how gap statistics estimates number of clusters.
+Describe how Dip-test checks unimodality
+
+In the beginning particles should gather around the good solutions and gives a clear density signal
+However, most of these techniques consider only the spatial density of points.
+
+
+
 
 Figure~\ref{fig:Clustering_comparison} shows how K-Means fails to identify a uni-modal and results in four clusters due to density.
 We would like our clustering method to be capable of identifying the uni-modal and be able to center around the particle with the best fitness.
@@ -76,15 +86,17 @@ e.g. it cannot identify density nor unimodality.
 \caption{Comparing K-Means clustering with weighted Gaussian Distribution on CEC2005 F19 Problem}\label{fig:Clustering_comparison_F19}
 \end{figure}
 
+
 \section{Heirarchical Clustering}
 Describe the advantage of considering fitness instead of just density.
 
 
-\section{Determine number of clusters}
 
-\subsection{Silhouette coefficient}
+\section{Minimum description length and weighted multivariate normal distribution}
 
-\subsection{Minimum description length and weighted multivariate normal distribution}
+MDL~\cite{Rissanen:1984:Universal}.
+
+KMDL~\cite{Kyrgyzov:2007:KMDL}
 
 \begin{figure}
 \centering
@@ -99,17 +111,7 @@ Describe the advantage of considering fitness instead of just density.
 \end{figure}
 
 
-MDL~\cite{Rissanen:1984:Universal}.
 
-KMDL~\cite{Kyrgyzov:2007:KMDL}
-
-\subsection{Silhouette coefficient}
-Describe how silhouette score decides number of clusters 
-\subsection{Gap statistics}
-Describe how gap statistics estimates number of clusters.
-\subsection{Dip test}
-Describe how Dip-test checks unimodality
-Describe skynny-dip clustering
 
 
 

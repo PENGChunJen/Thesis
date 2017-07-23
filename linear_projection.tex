@@ -44,33 +44,42 @@ an affine transformation $f$ determines a linear transformation $\varphi$ that c
 In the following paragraph, we list some common affine transformation matrix in 2D.
 \begin{enumerate}
     \item Translation 
+            
+            Translation moves every point in the cluster by the same amount in a given direction.
+            It allows us to reallocate the center of ROI.
+
     \item Rotation 
     \item Scaling 
     \item Shear 
 \end{enumerate} 
 
-\subsection{Translation}
-\subsection{Rotation}
-\subsection{Scaling}
-\subsection{Shear}
-\subsection{Affine transformation matrix}
+General Affine Transformation
 
 
 
 
 
 
-\section{Projection}
+\section{Projective Transformation}
 
-\subsection{Basic Projection}
+Projective transformations are the most general linear transformations and require the use of homogeneous coordinates.
+Homogeneous coorinate is ...
 
-
-\subsection{Homogeneous Coordinate}
 Augmented Matrix
 
+Finally, \textit{recover} the projected point using \textit{homogeneous convention}, 
+On a $d$-dimensional space, we convert the projected position, a vector with $(d+1)$ variables, to a $d$ variable vector 
+by dividing first $d$ elements with the last element.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Affine_vs_Projective}
+\caption{Affine transformation and projective transformation comparison.}\label{fig:Affine_vs_Projective}
+\end{figure}
 
 
-\subsection{Perspective Projection}
+
+
 
 
 
@@ -174,14 +183,20 @@ we still need an optimization algorithm to optimize the projection matrix.
 The difficulty for \textit{hyperparameters optimization} is to balance between speed and optimization ability.
 We need the hyperparameters to define a subspace that contains the possible optimum solution while costing few computation time.
 
-We can simplify and stablelize the optimization process by giving a reasonable good initial solution.
-This allows the algorithm to start the search around a more prefered neighborhood.
+We can simplify and stablelize the optimization process by giving a fixed initial solution.
 Here, the initial solution is a simple dot product of a translation matrix and a scaling matrix. 
-The matrix defines a hypercube is bounded by the minimum and maximum value in each dimension of all positions in the cluster.
+The matrix defines a hypercube, which is bounded by the minimum and maximum value in each dimension of all positions in the cluster.
+This allows the algorithm to start the search around a more prefered neighborhood.
 
-
-We first tried CMA-ES.
+We first tried to use CMA-ES.
 
 Later, we utilize the (1+1)-ES, described in Algorithm~\ref{algo:1+1ES}.
 
-
+Finally, we did an approximation for the infeasible solutions that belong to the cluster yet being outside of ROI after the optimization.
+We normalize the distance between the infeasible solution and the center of ROI,
+to project it onto a hypershpere centering at $[0.5]^D$ and with radias $0.5$.
+This way, although the reconstructed position is not accurate on the original search space,
+it is still able to indicate the approximate fitness in that direction in the subspace.
+Also, our basic assumption is a unimodal hill that puts the best fitness point in the center.
+Therefore, marginal points should have lower fitness and should not spend more resources to exploit.
+It just needs to give us a hint of the gradient in that direction.
