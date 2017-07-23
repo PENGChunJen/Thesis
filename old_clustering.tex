@@ -30,7 +30,7 @@ when multiple models can describe the same distribution.
 This also allows us to define a more stable subspace for further searching.
 
 
-\section{K-Means Clustering}
+\section{K-Means Clustering Techniques}
 In this section, we first describe the K-Means clustering techniques and its limitation for identifying the fitness hills.
 K-Means clustering aims to partition $n$ observation data points into $k$ clusters.
 There are two main procedures for K-Means clustering: the \textit{assignment} step and the \textit{update} step.
@@ -45,7 +45,7 @@ The algorithm proceeds by alternating between these two steps until the means no
 Since there only exists a finite states of partitions, the algorithm must converge to a local optimum.
 However, different initial mean positions results in different clusters.
 
-One of the main problem for using the K-Means clustering to identify \textit{fitness hills} is that
+One of the main problem for using the K-Means clustering to identify \textif{fitness hills} is that
 it considers only the spatial density and does not utilize the fitness value of each particle.
 This results in different clusters each centering at a point that does not necessarily possess the best fitness in the neighborhood.
 Therefore, the K-Means clustering often results in unstable clusters depending on initial conditions, and is highly sensitive to particle density.
@@ -56,18 +56,16 @@ This makes the clusters unstable and costs unnecessary evaluations and computati
 The other problem for using the K-Means clustering is that one needs to decide the number of clusters.
 Determining the number of clusters is also a highly studied subjects.
 
-Figure~\ref{fig:Clustering_comparison} shows how K-Means fails to identify a uni-modal and results in four clusters due to density.
+%Figure~\ref{fig:Clustering_comparison} shows how K-Means fails to identify a uni-modal and results in four clusters due to density.
 We would like our clustering method to be capable of identifying the uni-modal and be able to center around the particle with the best fitness.
-Therefore, we adopted the weighted normal distribution as the underlying model. 
+
 
 
 Describe how K-means clustering works and why it is popular Describe the limits for K-Means clustering, 
 e.g. it cannot identify density nor unimodality.  
 
-\begin{figure} 
-\centering
-\includegraphics[width=\textwidth]{Clustering_comparison} 
-\caption{Comparing K-Means clustering with weighted Gaussian Distribution on CEC2005 F1 Problem}\label{fig:Clustering_comparison}
+\begin{figure} \centering
+\includegraphics[width=\textwidth]{Clustering_comparison} \caption{Comparing K-Means clustering with weighted Gaussian Distribution on CEC2005 F1 Problem}\label{fig:Clustering_comparison}
 \end{figure}
 
 \begin{figure}

@@ -12,9 +12,8 @@ One of the advantage for using projection matrix is that for a problem with $\el
 a linear projection matrix on homogeneous coordinate only requires $(\ell+1)^2$ hyperparameters to be optimized.
 Therefore, less hyperparameters are assigned than directly define each hyperplane borders or vertices.  
 This reduces the parameters that we need to optimize and results in less time consumption during model selection.
-We also use the (1+1)-Evolutionary Strategy ((1+1)-ES) to optimize the matrix.
-The (1+1)-ES is a fast and simple evolutionary strategy,
-that allows us to rapidly approximate a high dimensional projection matrix within given number of iterations.
+We also use the (1+1)-ES, a fast and simple evolutionary strategy, to optimize the matrix.
+It allows us to rapidly approximate a high dimensional projection matrix within given number of iterations.
 
 Furthermore, subspace projection also gives advantage for solving \textit{inseparable problems}.
 For variabels that are not independent, projection allows the algorithm
@@ -41,6 +40,14 @@ an affine transformation $f$ determines a linear transformation $\varphi$ that c
 \begin{displaymath}
 \overrightarrow{f(P)f(Q)} = \varphi \overrightarrow{(PQ)}
 \end{displaymath}
+
+In the following paragraph, we list some common affine transformation matrix in 2D.
+\begin{enumerate}
+    \item Translation 
+    \item Rotation 
+    \item Scaling 
+    \item Shear 
+\end{enumerate} 
 
 \subsection{Translation}
 \subsection{Rotation}
@@ -87,35 +94,91 @@ We will describe the desgin of our loss function and the advantage of using a (1
 
 The goal of the ROI is to seperate the search space into non-overlapping subspaces, 
 each containing an approximately normalized fitness hill.
-Therefore, we would like to keep all the particles that belong to this cluster in the boundary $[0,1]^D$, 
-while excluding all the particles that belong to other clusters.
-We would also like each underlying model for each subproblem to be a multivariate gaussian distribution with mean around the center $[0.5]^D$
-and the covariance matrix to be approximately $0.2I$, where $I$ is an identicle matrix.
-Finally, since the we project the particle positions in a homogeneous coordinate, 
-the correlations between reconstructed positions on the subspace might not be identicle to the original ones.
-We would like to minimize the transformation error.
-
 In our loss function, we considered the following features:
-\begin{itemize}
+\begin{enumerate}
     \item Distances to the boundary for the \textbf{points within the cluster} yet excluded in the ROI.
-    \item Distances to the boundary for the \textbf{points of other clusters} yet included in the ROI.
+    \item Distances to the boundary for the \textbf{random samples within other ROIs} yet included in the ROI.
+    \item Distances to the boundary for the \textbf{random samples} in the subspace that are outside of the original search space boundary.
     \item Distance of the weighted \textbf{mean} to the center of subspace $[0.5]^D$
     \item The Mean Absolute Error (MAE) for each element in the weighted \textbf{covariance matrix} to a scaled identicle matrix
     \item The sum of \textbf{reconstruction} error for each particle 
-\end{itemize} 
+\end{enumerate} 
 
-For a possible solution of the projection matrix $X = [x_1, x_2, ..., x_{(d+1)^2}]$ of a problem with $d$ variables, 
-we define the loss function $f$ as: 
-\begin{equation} 
-f(X) = D_should_be_in + D_should_be_out + D_center + MSE_covariance + 
-\end{equation}
+First, we would like to keep all the particles that belong to this cluster in the boundary $[0,1]^D$.
+It can easily be done by projecting all points within the cluster onto the subspace, 
+and check whether if any of the projected position is outside of the boundary $[0,1]^D$.
+
+Second, we would like to avoid ROIs from overlapping by adopting the Monte Carlo method for region collision detection. 
+When optimizing one ROI, we randomly generate a given amount of samples within the subspace for all the other ROIs.
+Then, we use the inverse projection matrix of each other ROIs to project these sample points back to the original search space.
+After that, we use the projection matrix of the ROI that we are optimizing to project all the exterior samples onto the subspace.
+This way, we can easily discover which exterior samples are within the $[0, 1]^D$ boundary.
+Figure~\ref{fig:Sample_projection} shows a screen shot of the red ROI before and after optimizing the projection matrix of the red ROI.
+We randomly generates 200 samples within the green and blue ROI and tries to exclude them in the red ROI.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Sample_projection}
+\caption{Optimization of projection matrix.}\label{fig:Sample_projection}
+\end{figure}
+
+Third, we also use the Monte Carlo method described before to make sure that the ROI does not exceed the boundaries of the orignal subspace.
+We randomly generate samples from the subspace and inverse project it back to the search space to make sure that all points are within boundaries.
+If not, we would like to minimize the distance of sample points to the nearest border.
+
+Forth, we would also like each underlying model for each subproblem 
+to be a multivariate gaussian distribution with mean around the center $[0.5]^D$.
+If the algorithm searches near the boundary, it indicates that ROI should be updated since the optimum solution might be outside of the border.
+Placing the optimum solution at the center of the search space creates a more stable model for the algorithm to search.
+This allows a thorough search around the center, and decreases the frequency of ROI update.
+Therefore, we calculate the weighted mean of the points within the cluster on the subspace.
+Then we minimize the distance of weighted mean to the center.  
+
+Fifth, we would like the weighted covariance matrix to be approximately $0.2I$, where $I$ is an identicle matrix.
+This enables the projection matrix to rotate, scale, and shear a fitness hill.
+The normalization preprocess is a common technique to make future optimization easier.
+Therefore, we calculate the MAE between the weighted covariance matrix and $0.2I$.  
+
+Finally, since the we project the particle positions in a homogeneous coordinate,
+the correlations between reconstructed positions on the subspace might not be identical to the original ones.
+We would like to minimize the transformation error while keeping the ROI within the original boundaries.
+Therefore, for each possible matrix solutoin, we use it to project all points in the corresponding cluster onto a subsapce.
+Later, we use the inverse matrix to project all the points back to the original search space to get the reconstructed positions.
+Then, we calculate the MAE of all points in all dimensions between the original position and the reconstructed positions.
+
+
+Given a possible solution of the projection matrix $X = [x_1, x_2, ..., x_{(d+1)^2}]$ for a problem with $d$ variables.
+Let the corresponding projection matrix be $\textbf{A}$ with shape $(d+1) \times (d+1)$.
+We define the linear projection mapping any position $\vec{x}$ to the subspace as $T$, then
+\begin{displaymath}
+T(\vec{x}) = \textbf{A}\vec{x} 
+\end{displaymath}
+
+
+matrix $A$, we define the loss function $f$ as: 
+
+\begin{align*}
+f(X)                &= D_{include} + D_{exclude} + D_{boundary} + D_{center} + D_{covariance} + D_{reconstruction} \\ D_{include}         &= \\
+D_{exclude}         &= \\ 
+D_{boundary}        &= \\ 
+D_{center}          &= \\ 
+D_{covariance}      &= \\ 
+D_{reconstruction}  &= \\ 
+\end{align*}
 
 
 \subsection{Optimization Algorithms}
 
-Describe the difficulty of finding a fast yet powerful algorithm for \textit{hyperparameters optimization}.
+With the loss function defined in the previous section, 
+we still need an optimization algorithm to optimize the projection matrix.
+The difficulty for \textit{hyperparameters optimization} is to balance between speed and optimization ability.
+We need the hyperparameters to define a subspace that contains the possible optimum solution while costing few computation time.
 
-Initialize with a translation + scaling matrix.
+We can simplify and stablelize the optimization process by giving a reasonable good initial solution.
+This allows the algorithm to start the search around a more prefered neighborhood.
+Here, the initial solution is a simple dot product of a translation matrix and a scaling matrix. 
+The matrix defines a hypercube is bounded by the minimum and maximum value in each dimension of all positions in the cluster.
+
 
 We first tried CMA-ES.
 
