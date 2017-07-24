@@ -2,59 +2,75 @@
 \label{c:intro}
 
 % Background, Motivation and Relevant work
-Attention plays an important role in human vision. For example, when
-we look at an image, our eye movements comprise a succession of {\em
-fixations} (repetitive positioning of eyes to parts of the image)
-and {\em saccades} (rapid eye jump). Those parts of the image that
-cause eye fixations and capture primary attention are called {\em
-regions of interest} (ROIs). Studies in visual attention and eye
-movement have shown that humans generally only attend to a few ROIs.
-Detecting these visually attentive regions in images is challenging
-but useful in many multimedia applications, such as automatic
-thumbnail cropping, object recognition, content-based image
-retrieval, adaptive image compression and automatic browsing in
-small-screen devices.
+Multimodal problems that contain more than one region or more than one local optimum are common in the real world.
+{\em Rastrigin function}, a hierachical problem which is composed of a larger hill and multiple smaller hills are also well-known in real-valued optimization.
+In order to tackle these multimodal problems with a limited amount of resources, 
+one needs to decide how much to invest for searching a better hill, 
+while still maintain enough of exploitation on each potential hill.
 
-Describe the common dilemma between exploration and exploitation for real-valued optimization algorithms.
-Describe our basic assumption that problems worth solving are hierarchical decomposable~\cite{herbsimon:}.
+The difficult part is that searching for a new hill and exploiting the best hill often require opposite searching behaviors.
+For a fixed amount of total evaluations, spending more time searching on one hill implies 
+less attention on exploring other possible unimodals in the search space.
+This is the common dilemma between {\em exploration} and {\em exploitation} for real-valued optimization algorithms.
+Also, during different phases of optimization, 
+the ratio between exploring new hills and exploiting the current best hill should be altered.
+Exploration is more important in the beginning, while exploitation is more required in the end.
+What makes this problem even harder is that in order to decrease the number of total evaluations, 
+the size of the population are often limited in the real-valed optimization algorithms.
+This means that as the number of hills to invest increases, the number of particles on each hill decreases.
+This weakens the exploitation ability on each hill, making it less likely to identify new potential regions on each hill.
+
+We are more interested in hierarchically decomposable problems.
+With a certain amount of hints, we should be able to focus on one of the many potential hills, 
+and identify when to invest more on certain hills to iteratively discover more smaller hills.
+Also, we would like to only focus on some regions instead of the whole search spaces, in order to gain performance.
+This requires detection of promising areas, and search space splitting techniques.
+Moreover, after identifying certain interesting regions, we also need to decide how to allocate our resources.
+Given the abilities described above, 
+we can pay more attention on the promising regions and 
+iteratively break down a difficult multimodal problem into smaller and easier unimodal problems.
 
 % Thesis Objective
 \section{Thesis Objectives}
-We propose a technique that helps identify {\em regions of interest} (ROI) to explore and \textit{allocate resources} according to remaining evaluations.
+We propose some techniques to break down multimodal problems into several unimodal problems in smaller non-overlapping subspaces.
+We believe that solving one unimodal problem on a smaller subspace is easier than tackling the complete search space as a whole.
+This technique can \textbf{identify potential unimodal},
+\textbf{define a region of interest} to exploit, 
+and \textbf{allocate resources} according to remaining evaluations.
 
+Identifying a \textit{unimodal} depends on the sampling frequency and the underlying model.
+Clustering is a common way for discovering potentail unimodals.
+We adopt the hierarchical clustering technique to discover hills in the fitness landscape.
+We also use weighted normal distribution as the underlying consumption for unimodal, and trim overfitting models with minimum description length.
 
+After identifying the unimodals by clustering, we can split the search space into different regions of interest with linear projection.
+We use different projection matrices to project the original search space onto several subspaces with well-defined boundaries.
+We also optimize the porjection matrix so that each region would have minimum overlapping with others.
+Searching in the smaller subspace enhances the probability of finding optimium.
+The well-defined boundaries are also needed for some algorithms.
+The projection might also rotate or shear the original search space, making some inseparable problems easier to solve.
 
-First, describe why is it important to identify ROIs.
-Describe how subspace projection creates a \textit{well-defined boundary} that some algorithms need.
-Describe how subspace projection helps  solve \textit{inseparable problems} while enhance the ability to find optimium.
-
-Second, describe how the proposed resources allocation benefits optimization.
-Describe different strategies one should take given different evaluations left.
-Describe how Multi-armed Bandit (MAB) algorithms are suitable for the scenario, instead of decision theory, reinforcement learning and Markov Decision Process.
-MAB learns models from outcomes while the actions do not change the state of the world.
-
-After identifying the potential uni-modals in the search space,
-we also need to determine the resource to invest in each promising region in order to find the global optimum.
-However, for a fixed amount of total evaluations, 
-spending more time searching on one hill implies 
-less attention on exploring other possible uni-modals in the search space.
-This is the common delimma between \textit{exploration} and 
-\textit{exploitation} for all real-valued optimization algorithms.
+With multiple subspace to search, we propose a new Multi-armed Bandit (MAB) technique 
+that optimize the resource allocation to get the greatest probability of obtaining the global optimum.
+Multi-armed Bandit algorithms are suitable for this scenario, 
+since it learns models from outcomes while the actions do not change the state of the world.
+When there are still plenty of evaluations left, we should prefer exploration over exploitation and search equally on all subspaces.
+However, when few evaluations remain, we should focus on the current best hill 
+and try to exploit it to get the best fitness with the remaining evaluations.  
 
 
 \section{Roadmap}
-This thesis is composed of seven chapters.
+This thesis is composed of eight chapters.
+
+\textbf{Chapter~\ref{chapter:algos}} presents three optimization algorithms that are used for comparisons.
+We introduce 
+the Covariance Matrix Adaptation Evolutionary Strategy (CMA-ES),
+the Standard Particle Swarm Optimization, and
+the Ant Colony Optimization for Continous Domain.
+These three algorithms each have different characteristics due to different underlying models.
 
 
-\textbf{Chapter~\ref{chapter:algos}} presents three optimization algorithms that are adopted for comparisons. 
-These three algorithms each have different characteristics. 
-The Covariance Matrix Adaptation Evolutionary Strategy.
-The Standard Particle Swarm Optimization.
-The Ant Colony Optimization for Continous Domain.
-
-
-\textbf{Chapter~\ref{chapter:clustering}} presents some clustering techniques that guides the construction of ROIs and later becomes the initial points for algorithms in each arm.
-
+\textbf{Chapter~\ref{chapter:clustering}} presents some clustering techniques that guides the construction of ROIs and later becomes the initial points for algorithms in each arm.  
 
 \textbf{Chapter~\ref{chapter:projection}} first describes four basic affine transformation: translation, rotation, scaling and shearing.
 Then the projective transformation and homogeneous coordinate are presented.

@@ -48,13 +48,48 @@ In the following paragraph, we list some common affine transformation matrix in 
             Translation moves every point in the cluster by the same amount in a given direction.
             It allows us to reallocate the center of ROI.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Translation}
+\caption{Translation in 2D}\label{fig:Translation}
+\end{figure}
+
+
     \item Rotation 
+
+\begin{figure}[H]
+\centering
+%\includegraphics[width=\textwidth]{Rotation}
+\includegraphics[]{Rotation}
+\caption{Rotation in 2D}\label{fig:Rotation}
+\end{figure}
+
     \item Scaling 
-    \item Shear 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Scaling}
+\caption{Scaling in 2D}\label{fig:Scaling}
+\end{figure}
+
+    \item Shearing 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Shearing}
+\caption{Shearing in 2D}\label{fig:Shearing}
+\end{figure}
+
 \end{enumerate} 
 
-General Affine Transformation
 
+General affine transformation
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Affine}
+\caption{General affine transformation in 2D}\label{fig:Affine}
+\end{figure}
 
 
 
@@ -112,6 +147,8 @@ In our loss function, we considered the following features:
     \item The Mean Absolute Error (MAE) for each element in the weighted \textbf{covariance matrix} to a scaled identicle matrix
     \item The sum of \textbf{reconstruction} error for each particle 
 \end{enumerate} 
+We add up all the errors mentioned above and try to minimize that error. 
+Following part explains the reason for considering each features.
 
 First, we would like to keep all the particles that belong to this cluster in the boundary $[0,1]^D$.
 It can easily be done by projecting all points within the cluster onto the subspace, 
@@ -156,24 +193,24 @@ Later, we use the inverse matrix to project all the points back to the original 
 Then, we calculate the MAE of all points in all dimensions between the original position and the reconstructed positions.
 
 
-Given a possible solution of the projection matrix $X = [x_1, x_2, ..., x_{(d+1)^2}]$ for a problem with $d$ variables.
-Let the corresponding projection matrix be $\textbf{A}$ with shape $(d+1) \times (d+1)$.
-We define the linear projection mapping any position $\vec{x}$ to the subspace as $T$, then
-\begin{displaymath}
-T(\vec{x}) = \textbf{A}\vec{x} 
-\end{displaymath}
+%Given a possible solution of the projection matrix $X = [x_1, x_2, ..., x_{(d+1)^2}]$ for a problem with $d$ variables.
+%Let the corresponding projection matrix be $\textbf{A}$ with shape $(d+1) \times (d+1)$.
+%We define the linear projection mapping any position $\vec{x}$ to the subspace as $T$, then
+%\begin{displaymath}
+%T(\vec{x}) = \textbf{A}\vec{x} 
+%\end{displaymath}
 
 
-matrix $A$, we define the loss function $f$ as: 
+%matrix $A$, we define the loss function $f$ as: 
 
-\begin{align*}
-f(X)                &= D_{include} + D_{exclude} + D_{boundary} + D_{center} + D_{covariance} + D_{reconstruction} \\ D_{include}         &= \\
-D_{exclude}         &= \\ 
-D_{boundary}        &= \\ 
-D_{center}          &= \\ 
-D_{covariance}      &= \\ 
-D_{reconstruction}  &= \\ 
-\end{align*}
+%\begin{align*}
+%f(X)                &= D_{include} + D_{exclude} + D_{boundary} + D_{center} + D_{covariance} + D_{reconstruction} \\ D_{include}         &= \\
+%D_{exclude}         &= \\ 
+%D_{boundary}        &= \\ 
+%D_{center}          &= \\ 
+%D_{covariance}      &= \\ 
+%D_{reconstruction}  &= \\ 
+%\end{align*}
 
 
 \subsection{Optimization Algorithms}
