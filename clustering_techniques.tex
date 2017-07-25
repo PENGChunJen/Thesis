@@ -56,10 +56,10 @@ This makes the clusters unstable and costs unnecessary evaluations and computati
 
 The other problem for using the K-Means clustering is that one needs to \textbf{decide the number of clusters}.
 Determining the number of clusters is also a highly studied subjects.
-We breifly discuss three common estimation methods that we have tried, 
+We briefly discuss three common estimation methods that we have tried, 
 the \textit{silhouette coefficient}, the \textit{gap statistics} and the \textit{dip test} in the following paragraph.
 
-The silhouette coefficient~\cite{Rousseeuw:1987:silhouettes} measures how cohesive an object is to its own cluster and how seperate it is to the other clusters. Ranging from -1 to 1, the silhouette coefficient with a higher value indicates it is more likely to belong to its own cluster.
+The silhouette coefficient~\cite{Rousseeuw:1987:silhouettes} measures how cohesive an object is to its own cluster and how separated it is to the other clusters. Ranging from -1 to 1, the silhouette coefficient with a higher value indicates it is more likely to belong to its own cluster.
 The gap statistics~\cite{Tibshirani:2001:gap} compares the change in within-cluster dispersion with that of an reference null distribution.
 It calculates the gap statistics for different number of clusters and select the one with the maximum gap statistics.
 The Hartigans' dip test~\cite{Hartigan:1985:dip} uses the empirical cumulative distribution function (ECDF) to measure the maximum difference between multimodal samples and the unimodal samples. It calculates maximum deviation of the sample ECDF from the unimodal CDF and check if the difference is statistically significant.
@@ -89,10 +89,10 @@ and be able to center around the particle with the best fitness.
 
 Figure~\ref{fig:Clustering_comparison_F11} shows another example of how K-Means fails to identify the right multimodals.
 Since K-Means only consider the density, it is hard to recognize the dense hills in the landscape. 
-This initial clusters leads to more unnecassy evaluations for merging and reidentifying the hills.
+This initial clusters leads to more unnecessary evaluations for merging and re-identifying the hills.
 However, we can see that on the right, our technique successfully recognize almost all the hills in the problem.
 It also helps to locate the local optimum solutions approximately at the center.
-This gives alot of advantage for the algorithms to search, since the task becomes exploiting a single hill.
+This gives lost of advantages for the algorithms to search, since the task becomes exploiting a single hill.
 Therefore, later we adopted the weighted normal distribution as the underlying model. 
 
 
@@ -110,7 +110,7 @@ If it is the best particle in the neighborhood, it is very likely to be at the a
 We then create trees with the directed graph, 
 where each tree represents a cluster with a potential fitness hill.
 The best position within this cluster is indicated by the root node.  
-This way, the fitness signal guides the construciton of clusters, 
+This way, the fitness signal guides the construction of clusters, 
 so that this method is able to identify more \textit{fitness hills} than the K-Means clustering.
 Moreover, we do not need to provide the estimate number of clusters, 
 since the agglomerative clustering method \textit{intrinsically identifies hills} 
@@ -144,7 +144,7 @@ Reclustering after a few iterations shall give us a better signal about where to
 
 \section{Minimum Description Length} 
 The Minimum Description Length (MDL) principle was introduced by Rissanen in 1978~\cite{Rissanen:1978:MDL}.
-It adopts the idea of Occams's razor by selecting the codec that gives the shortest codelength of the data.
+It adopts the idea of Occams's razor by selecting the codec that gives the shortest code length of the data.
 It provides a natural safeguard against overfitting, 
 since it considers not only the goodness of the model, 
 but also the complexity of the data to give the hypothesis.
@@ -180,7 +180,7 @@ P(X_i|\Theta) = \sum_{j=1}^J \alpha_j P_j ( X_i | \Theta_j )
 \begin{equation}
 \alpha_j = n_j / I
 \end{equation}
-where $\alpha_j$ is the prior probaility that $X_i$ belongs to the $j$-th model, 
+where $\alpha_j$ is the prior probability that $X_i$ belongs to the $j$-th model, 
 and $n_j$ denotes the number of samples in cluster $j$.  
 
 Therefore, the probability of observing sample $X_i$ in cluster $j$ can be further described by the $j$-th weighted Gaussain distribution:
