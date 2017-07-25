@@ -1,5 +1,5 @@
 \chapter{Linear Projection}
-\label{chapter:projection}
+\label{chapter:projection} 
 
 We would like to define a region of interest that contains only one uni-model for exploitation.
 Also, some algorithms, e.g. SPSO, requires a well-defined hypercube search space with fixed-value constraints in each dimension.
@@ -31,8 +31,6 @@ Finally, we give details of how we design the cost function and how we utilize t
 \caption{Projecting inseparable problems onto subspace.}\label{fig:Projected_ROI}
 \end{figure}
 
-
-
 \section{Affine Transformation}
 In geometry, an affine transformation preserves points, straight lines and planes.
 For two affine spaces $A$ and $B$ and any pair of points $P, Q \in A$,
@@ -41,51 +39,42 @@ an affine transformation $f$ determines a linear transformation $\varphi$ that c
 \overrightarrow{f(P)f(Q)} = \varphi \overrightarrow{(PQ)}
 \end{displaymath}
 
-In the following paragraph, we list some common affine transformation matrix in 2D.
+Here, we list some common 2D affine transformation matrix in Figure~\ref{fig:Affine_simple}.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Affine_simple}
+\caption{Some common affine transformation}\label{fig:Affine_simple}
+\end{figure}
+
 \begin{enumerate}
-    \item Translation 
-            
+    \item \textbf{Translation}
+
             Translation moves every point in the cluster by the same amount in a given direction.
-            It allows us to reallocate the center of ROI.
+            It allows us to reallocate the center of ROI to the positions with the best fitness.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=5in]{Rotation}
-%\includegraphics[width=\textwidth]{Translation}
-\caption{Translation in 2D}\label{fig:Translation}
-\end{figure}
+    \item \textbf{Rotation}
 
+            Rotation is a common method to make a problem inseperable, by creating dependencies among variables.
+            Therefore, using a rotation matrix to rotate the problem allows us to alter the problem characteristics.
+            In higher dimensions, rotating abouth different axis requires different form of matrix.
+            Here we only demonstrate a simple two dimensional case in Figure~\ref{fig:Affine_simple}.
 
-    \item Rotation 
+    \item \textbf{Scaling}
 
-\begin{figure}[H]
-\centering
-%\includegraphics[width=\textwidth]{Rotation}
-\includegraphics[width=4.5in]{Rotation}
-\caption{Rotation in 2D}\label{fig:Rotation}
-\end{figure}
+            Scaling transformation can stretch or shrink a given search space.
+            Since it changes the lengths and angles, scaling is not an Euclidean transformation.
+            In search space projection, it allows us to enlarge certain areas that we are interested in,
+            and shink some area that we tend to ignore on the subspace.
 
-    \item Scaling 
+    \item \textbf{Shearing}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=4in]{Rotation}
-%\includegraphics[width=\textwidth]{Scaling}
-\caption{Scaling in 2D}\label{fig:Scaling}
-\end{figure}
-
-    \item Shearing 
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{Shearing}
-\caption{Shearing in 2D}\label{fig:Shearing}
-\end{figure}
+            Shearing transform acts like ``pushing'' the search space in a direction parallel to a certain plane or axis.
+            It changes the lengths and angles of certain area on the subspace.
+            This transformation also allows us to expend certain interesting areas on subspace for a more thorough search.
 
 \end{enumerate} 
 
-
-General affine transformation
 
 \begin{figure}[H]
 \centering
@@ -93,30 +82,63 @@ General affine transformation
 \caption{General affine transformation in 2D}\label{fig:Affine}
 \end{figure}
 
+The general affine transformation can be expressed as the form in Figure~\ref{fig:Affine}.
+All the common affine transformation matrix mentioned above, including translation, rotation, scaling and shearing can fit into this form.
+The general affine transformation can be seen as the matrix product of several affine transformation matices.
+Although the affine transformation does not preserve the lengths and angles of certain shape, it does not alter the degree of a polynomial.
+That means parallel lines and planes are transformed to parallel lines and planes, 
+and intersecting lines and planes are also trnasformed into intersecting lines and planes.
+It preserved certian geometric characteristics, which is benefitial for us to do searching on subspace.
 
 
-
-
-\section{Projective Transformation}
-
-Projective transformations are the most general linear transformations and require the use of homogeneous coordinates.
-Homogeneous coorinate is ...
-
-Augmented Matrix
-
-Finally, \textit{recover} the projected point using \textit{homogeneous convention}, 
-On a $d$-dimensional space, we convert the projected position, a vector with $(d+1)$ variables, to a $d$ variable vector 
-by dividing first $d$ elements with the last element.
+However, the affine transformation can only creat a hyperparallelepid ROI, as shown in Figure~\ref{fig:Affine_vs_Projective}
+The parallelepid shape is sometimes not flexible enough to define a non-overlapping ROI that matches the shape of the fitness landscape.
+In order to aquire a more flexible quadrilateral ROI, we need the projective transformation.
+Projective transformation is more expressive than affine transformation since the last row does not have to be 0, 0, and 1.
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{Affine_vs_Projective}
 \caption{Affine transformation and projective transformation comparison.}\label{fig:Affine_vs_Projective}
-\end{figure}
+\end{figure} 
 
 
+\section{Projective Transformation}
 
+Projective transformations are the most general linear transformations and require the use of \textit{homogeneous coordinates}.
+The \textit{homogeneous coorinate} is also called \textit{projective coordinates}, 
+since it is a system of coordinates widely adopted in projective geometry.
+Given a point $(x,y)$ on the Euclidean plane, 
+than $(xZ, yZ, Z)$ is called a set of homogeneous coordinates for the point, for any non-zero real number $Z$.
+One of the great adventage of homogeneous coordinate is that the points, 
+including the ones at infinity, can be represented with simplier, finite coordinates.
+That is, when $Z$ is $0$, the homogeneous coordiates of the point is defined at infinity.
 
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Projective_matrix}
+\caption{Projective transformation matrix.}\label{fig:Projective_matrix}
+\end{figure} 
+
+Therefore, as shown in Figure~\ref{fig:Projective_matrix}, 
+for given a position $(x,y)$ on the original search space, 
+we get a projected homogeneous coordinate $(x'', y'')$ on the subsapce.  
+We can generalize this to any $d$-dimensional space.
+The \textit{homogeneous convention} is to convert the projected position, a vector with $(d+1)$ variables, to a $d$ variable vector 
+by dividing first $d$ elements with the last element.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Inverse_transform}
+\caption{Comparison between inverse affine transform and inverse projective transformation.}\label{fig:Inverse_transform}
+\end{figure} 
+
+However, unlike the affine transformation, the projective transformation does not guarantee inverse transform.
+The projection matrix does not guarantee a non-zero matrix determinant.
+Also, after inverse transform, 
+there could be an error $(e_x, e_y)$ that deviates from the original position $(x, y)$, as shown in Figure~\ref{fig:Inverse_transform}.
+Therefore, we need to \textit{optimize} the projection matrix in order to aquire a more suitable ROI, 
+as well as small reconstruction errors for each samples.
 
 
 
@@ -227,11 +249,13 @@ Here, the initial solution is a simple dot product of a translation matrix and a
 The matrix defines a hypercube, which is bounded by the minimum and maximum value in each dimension of all positions in the cluster.
 This allows the algorithm to start the search around a more prefered neighborhood.
 
-We first tried to use CMA-ES.
+We first tried CMA-ES to optimize the projection matrix.
+However, we found that it cost too much time to optimize the projection matrix with $961$ variables in the $30$-D problem
+Later, we utilize the (1+1)-ES described in Algorithm~\ref{algo:1+1ES}.
+We would like to reduce the computation time by giving the (1+1)-ES only one hundred iterations for each run of three random restarts.
+(1+1)-ES works well with one of the result shown in Figure~\ref{fig:Sample_projection}
 
-Later, we utilize the (1+1)-ES, described in Algorithm~\ref{algo:1+1ES}.
-
-Finally, we did an approximation for the infeasible solutions that belong to the cluster yet being outside of ROI after the optimization.
+Finally, the infeasible solutions that belong to the cluster yet being outside of ROI after the optimization are repaired with the following steps.
 We normalize the distance between the infeasible solution and the center of ROI,
 to project it onto a hypershpere centering at $[0.5]^D$ and with radias $0.5$.
 This way, although the reconstructed position is not accurate on the original search space,
@@ -239,3 +263,5 @@ it is still able to indicate the approximate fitness in that direction in the su
 Also, our basic assumption is a unimodal hill that puts the best fitness point in the center.
 Therefore, marginal points should have lower fitness and should not spend more resources to exploit.
 It just needs to give us a hint of the gradient in that direction.
+
+
