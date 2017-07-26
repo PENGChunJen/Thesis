@@ -54,7 +54,7 @@ The \textit{zero-regret strategy} are guaranteed to converge to an optimal strat
 
 
 
-\section{Some common MAB Algorithm}
+\section{Bandit Algorithms Overview}
 
 The $\epsilon$-greedy strategy, first proposed by Watkins~\cite{Watkins:1989:eta}, 
 is the simplest and one of the most widly used strategy to solve the MAB problem.
@@ -63,8 +63,41 @@ the $\epsilon$-greedy strategy chooses a random lever with a probability $\epsil
 and chooses the lever with the highest estimated mean with a probability $1 - \epsilon$.
 It is also known as \textit{semi-uniform} method since it implies a uniform probability of exploration among a set levers.
 
-The Price of Knowledge and Estimated Reward (POKER) strategy considers three ideas: pricing uncertainty, exploiting the lever distribution and taking into account the horizon
+There are two variants of the $\epsilon$-first strategy: the $\epsilon$-first strategy and the $\epsilon$-decreasing strategy.
+The $\epsilon$-first strategy does pure exploration in the $\epsilon T$ first rounds for a given $T \in \mathbb{N}$.
+Then for the remaining $(1 - \epsilon ) T$, it does pure exploitation by pulling the lever with the highest estimated mean.
+Another approach is the $\epsilon$-decreasing strategy.
+The $\epsilon$ greedy strategy is sub-optimal,
+since the factor $\epsilon$ prevents the strategy from getting arbitrarily close to the optimal lever.
+Therefore, the $\epsilon$-decreasing strategy adopts a decreasing $\epsilon$ 
+for getting arbitrarily close to the optimal strategy asymptotically~\cite{Vermorel:2005:MAB}.
+By carefully choosing the $\epsilon$, the $\epsilon$-decreasing strategy can achieve zero regret.
 
+The \textit{SoftMax strategy}, also known as the Boltzmann Exploration, is first proposed in~\cite{Luce:1959:softmax}.
+It chooses the $k$-th lever with probability
+\begin{displaymath}
+p_k = \frac{ e^{ \hat{ \mu_k } / \tau } }{ \sum_{i=1}^{n} e^{ \hat{ \mu_i } / \tau } },
+\end{displaymath}
+where $\hat{\mu_i}$ is the estimated reward mean of the $i$-th lever,
+and $\tau \in \mathbb{R}_+$ is the \textit{temperature} parameter.
+
+
+The \textit{Interval Estimation strategy} is first proposed in~\cite{Kaelbling:1993:interval_estimation}.
+It estimates the \textit{optimistic reward} of each lever within a certain confidence interval,
+and greedily choose the lever with the highest optimistic mean.
+The optimistic reward estimation asymptotically matches the true reward mean as the number of choosing that lever increases.
+The optimistic rewards of levers that are not frequently pulled are over-valued, 
+and it leads to their exploration as the Interval Estimation strategy greedily choose the lever with the highest optimistic mean.
+
+The Price of Knowledge and Estimated Reward (POKER) strategy~\cite{Vermorel:2005:MAB}
+considers three ideas: pricing uncertainty, exploiting the lever distribution and taking into account the horizon
+The \textit{pricing uncertainty} is to assign a ``value of information'' to the knowledge aquired by pulling a particular lever.
+It is also referred as ``exploration bonuses'' in bandit literatures that helps balancing exploration and exploitation.
+The idea behind \textit{exploiting the lever distribution} is that
+the properties of unobserved levers could be estimated from the observed levers.
+The \textit{horizon} is the number of rounds remain to be played.
+Therefore, the ratio between exploration and exploitation should depend on the horizon.
+\textit{Taking the horizon into account} can also help to estimate the \textit{price} of the knowledge acquired in POKER.
 
 \section{The New Bandit Technique}
 
