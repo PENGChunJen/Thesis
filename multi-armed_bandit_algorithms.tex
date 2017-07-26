@@ -56,10 +56,72 @@ The \textit{zero-regret strategy} are guaranteed to converge to an optimal strat
 
 \section{Some common MAB Algorithm}
 
+The $\epsilon$-greedy strategy, first proposed by Watkins~\cite{Watkins:1989:eta}, is a simple and widly used strategy to solve the MAB problem.
 
 The Price of Knowledge and Estimated Reward (POKER) strategy considers three ideas: pricing uncertainty, exploiting the lever distribution and taking into account the horizon
 
 
 \section{The New Bandit Technique}
+
+We propose a new bandit technique that aims to maximize the probability of aquiring the best rank in the history.
+We only focus on ranks instead of real-valued fitness to generalize the case.
+
+Let $r$ be the probability of not being able to aquire the best point.
+Let $m_i$ be the one of the possible models in the arm.
+Let $D$ be the model of all the observed data.
+The we define the probability of not being able to aquire the best point given a set of observed data as:
+\begin{equation}
+P(r|D) = \sum_{i} P(r|D, m_i)P(m_i|D) = \sum_{i}P(r|m_i)P(m_i|D) 
+\end{equation}\label{equation:bandit}
+Therefore, we would like find a remain evaluation allocation that gives a minimum probability of not being able to aquire the best point.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Bandit_arm}
+\caption{Probability of regret.}\label{fig:Bandit_arm}
+\end{figure} 
+
+In order to calculate $P(r|D)$, we need to calculate all possible models for a arm with given rank, 
+total number of points in the search space, and the number of remain evaluations, 
+as shown in Figure~\ref{fig:Bandit_arm}.
+The indigo area represents the observed model $D$, 
+while the light blue area represents all the possible models given the number of remain evaluations.
+It means that if we invest the two remain evaluations on arm 1, 
+we might discover two better positions with higher ranks,
+or two worse positions that gives fitness worse than the current rank $2$ particle.
+That is why there are two possible positions on the top and two on the bottom of each arm.
+If the aquired fitness is between the current best and worst particle, 
+than the rank would only exchange with another particle in one of the arms,
+so no more ``holes'' than the current ranks are needed.
+We can find $12$ possible models that matches the current observation, i.e. rank $1$ is included.
+Therefore, only $4$ out of the $12$ models are possible to aquire the best rank.
+We assume the model is uniformly distributed, that is, aquiring different ranks share the same possibility.
+We also assume that all models have the same probability to be chosen with the observed data model $D$.
+We can then calculate the probability of not being able to aquire the best rank in the clusters.
+To demonstrate the idea, we consider the right most blue model that contains the best and the worst possible ranks in Figure~\ref{fig:Bandit_arm}.
+The probability of not aquiring the best model for that specific model $m_i$ is $P(r|m_i) = 5/6$,
+while the probability for choosing that model is $P(m_i|D) = 1/12$.
+Similarly, we can calculate the probability of regret for all models.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{Bandit_regret}
+\caption{Probability of regret for all allocation combinations.}\label{fig:Bandit_regret}
+\end{figure} 
+Given all the models and their corresponding probability of not aquiring the best rank, 
+we can use Equation~\ref{equation:bandit} to calculate the total probability of regret given a set of remain evaluations allocation.
+For example, if we decide to invest both of the remaining evaluations on the first arm,
+then the probability of not aquiring the best model for the right most model would be $P(r|m_i) = (5/6)^2$,
+while the probability for choosing that model is still $P(m_i|D) = 1/12$.
+Therefore, we can calculate the probability of regret as illustrated in Figure~\ref{fig:Bandit_regret}.
+After calculate the probability of regret all possible combinations, i.e. [2,0], [1,1], [0,2], 
+we select the evaluation allocation model with the minimum regret.
+In this case, it is to invest all the remaining evaluations on the first cluster.
+This result satisfies our assumption that in the end with few evaluations left, 
+one should focus on exploiting the current best hill.
+If today there are still lots of evaluations left, 
+this technique gives an even evaluation allocation that only slightly favors the current best arm.
+This also satisfies our assumption that in the beginning, we should explore evenly between all possible clusters.
 
 
