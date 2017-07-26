@@ -16,12 +16,12 @@ We also use the (1+1)-ES, a fast and simple evolutionary strategy, to optimize t
 It allows us to rapidly approximate a high dimensional projection matrix within given number of iterations.
 
 Furthermore, subspace projection also gives advantage for solving \textit{inseparable problems}.
-For variabels that are not independent, projection allows the algorithm
+For variables that are not independent, projection allows the algorithm
 to solve an easier, rotated and sheared problem on subspace, as shown in Figure~\ref{fig:Projected_ROI}.
-The homogeneous projection matrix seperates the original ROI into less overlapped ROI, 
-which reduces redundant search and sometimes enlarges the crutial regions.
+The homogeneous projection matrix separates the original ROI into less overlapped ROI, 
+which reduces redundant search and sometimes enlarges the crucial regions.
 
-In the following sections, we first describe the cannonical affine transformation.
+In the following sections, we first describe the canonical affine transformation.
 Then we discuss how the projection matrix allows linear projection in a homogeneous coordinate.
 Finally, we give details of how we design the cost function and how we utilize the (1+1)-ES to optimize the projection matrix.
 
@@ -55,9 +55,9 @@ Here, we list some common 2D affine transformation matrix in Figure~\ref{fig:Aff
 
     \item \textbf{Rotation}
 
-            Rotation is a common method to make a problem inseperable, by creating dependencies among variables.
+            Rotation is a common method to make a problem inseparable, by creating dependencies among variables.
             Therefore, using a rotation matrix to rotate the problem allows us to alter the problem characteristics.
-            In higher dimensions, rotating abouth different axis requires different form of matrix.
+            In higher dimensions, rotating about different axis requires different form of matrix.
             Here we only demonstrate a simple two dimensional case in Figure~\ref{fig:Affine_simple}.
 
     \item \textbf{Scaling}
@@ -84,16 +84,16 @@ Here, we list some common 2D affine transformation matrix in Figure~\ref{fig:Aff
 
 The general affine transformation can be expressed as the form in Figure~\ref{fig:Affine}.
 All the common affine transformation matrix mentioned above, including translation, rotation, scaling and shearing can fit into this form.
-The general affine transformation can be seen as the matrix product of several affine transformation matices.
+The general affine transformation can be seen as the matrix product of several affine transformation matrices.
 Although the affine transformation does not preserve the lengths and angles of certain shape, it does not alter the degree of a polynomial.
 That means parallel lines and planes are transformed to parallel lines and planes, 
-and intersecting lines and planes are also trnasformed into intersecting lines and planes.
-It preserved certian geometric characteristics, which is benefitial for us to do searching on subspace.
+and intersecting lines and planes are also transformed into intersecting lines and planes.
+It preserved certain geometric characteristics, which is beneficial for us to do searching on subspace.
 
 
-However, the affine transformation can only creat a hyperparallelepid ROI, as shown in Figure~\ref{fig:Affine_vs_Projective}
-The parallelepid shape is sometimes not flexible enough to define a non-overlapping ROI that matches the shape of the fitness landscape.
-In order to aquire a more flexible quadrilateral ROI, we need the projective transformation.
+However, the affine transformation can only create a hyperparallelepid ROI, as shown in Figure~\ref{fig:Affine_vs_Projective}
+The parallelogram shape is sometimes not flexible enough to define a non-overlapping ROI that matches the shape of the fitness landscape.
+In order to acquire a more flexible quadrilateral ROI, we need the projective transformation.
 Projective transformation is more expressive than affine transformation since the last row does not have to be 0, 0, and 1.
 
 \begin{figure}
@@ -106,13 +106,13 @@ Projective transformation is more expressive than affine transformation since th
 \section{Projective Transformation}
 
 Projective transformations are the most general linear transformations and require the use of \textit{homogeneous coordinates}.
-The \textit{homogeneous coorinate} is also called \textit{projective coordinates}, 
+The \textit{homogeneous coordinate} is also called \textit{projective coordinates}, 
 since it is a system of coordinates widely adopted in projective geometry.
 Given a point $(x,y)$ on the Euclidean plane, 
 than $(xZ, yZ, Z)$ is called a set of homogeneous coordinates for the point, for any non-zero real number $Z$.
-One of the great adventage of homogeneous coordinate is that the points, 
-including the ones at infinity, can be represented with simplier, finite coordinates.
-That is, when $Z$ is $0$, the homogeneous coordiates of the point is defined at infinity.
+One of the great advantage of homogeneous coordinate is that the points, 
+including the ones at infinity, can be represented with simpler, finite coordinates.
+That is, when $Z$ is $0$, the homogeneous coordinates of the point is defined at infinity.
 
 \begin{figure}
 \centering
@@ -137,7 +137,7 @@ However, unlike the affine transformation, the projective transformation does no
 The projection matrix does not guarantee a non-zero matrix determinant.
 Also, after inverse transform, 
 there could be an error $(e_x, e_y)$ that deviates from the original position $(x, y)$, as shown in Figure~\ref{fig:Inverse_transform}.
-Therefore, we need to \textit{optimize} the projection matrix in order to aquire a more suitable ROI, 
+Therefore, we need to \textit{optimize} the projection matrix in order to acquire a more suitable ROI, 
 as well as small reconstruction errors for each samples.
 
 
@@ -152,15 +152,15 @@ In order to obtain a nice ROI for a problem with $D$ variables,
 we need to optimize the $(D+1)^2$ parameters in the projection matrix with a loss function.
 The loss function should cost little computational time and should suggest the right direction for optimization, 
 in order to match the restrictions of a well-defined ROI.
-Also, the optimization only needs to define a reasonably well ROI for the alogirthms to search.  
+Also, the optimization only needs to define a reasonably well ROI for the algorithms to search.  
 In the later iterations, the matrix update procedure allows us to define a more accurate ROI with a better insight of the uni-modal subproblem.
-In our case, it is acceptable to sacrefice a bit of accuracy for computational time in hyperparameters tuning.  
-We will describe the desgin of our loss function and the advantage of using a (1+1)-ES to optimize the matrix in the following sections.  
+In our case, it is acceptable to sacrifice a bit of accuracy for computational time in hyperparameters tuning.  
+We will describe the design of our loss function and the advantage of using a (1+1)-ES to optimize the matrix in the following sections.  
 
 
 \subsection{Loss function}
 
-The goal of the ROI is to seperate the search space into non-overlapping subspaces, 
+The goal of the ROI is to separate the search space into non-overlapping subspaces, 
 each containing an approximately normalized fitness hill.
 In our loss function, we considered the following features:
 \begin{enumerate}
@@ -168,7 +168,7 @@ In our loss function, we considered the following features:
     \item Distances to the boundary for the \textbf{random samples within other ROIs} yet included in the ROI.
     \item Distances to the boundary for the \textbf{random samples} in the subspace that are outside of the original search space boundary.
     \item Distance of the weighted \textbf{mean} to the center of subspace $[0.5]^D$
-    \item The Mean Absolute Error (MAE) for each element in the weighted \textbf{covariance matrix} to a scaled identicle matrix
+    \item The Mean Absolute Error (MAE) for each element in the weighted \textbf{covariance matrix} to a scaled identical matrix
     \item The sum of \textbf{reconstruction} error for each particle 
 \end{enumerate} 
 We add up all the errors mentioned above and try to minimize that error. 
@@ -197,14 +197,14 @@ We randomly generate samples from the subspace and inverse project it back to th
 If not, we would like to minimize the distance of sample points to the nearest border.
 
 Forth, we would also like each underlying model for each subproblem 
-to be a multivariate gaussian distribution with mean around the center $[0.5]^D$.
+to be a multivariate Gaussian distribution with mean around the center $[0.5]^D$.
 If the algorithm searches near the boundary, it indicates that ROI should be updated since the optimum solution might be outside of the border.
 Placing the optimum solution at the center of the search space creates a more stable model for the algorithm to search.
 This allows a thorough search around the center, and decreases the frequency of ROI update.
 Therefore, we calculate the weighted mean of the points within the cluster on the subspace.
 Then we minimize the distance of weighted mean to the center.  
 
-Fifth, we would like the weighted covariance matrix to be approximately $0.2I$, where $I$ is an identicle matrix.
+Fifth, we would like the weighted covariance matrix to be approximately $0.2I$, where $I$ is an identical matrix.
 This enables the projection matrix to rotate, scale, and shear a fitness hill.
 The normalization preprocess is a common technique to make future optimization easier.
 Therefore, we calculate the MAE between the weighted covariance matrix and $0.2I$.  
@@ -212,7 +212,7 @@ Therefore, we calculate the MAE between the weighted covariance matrix and $0.2I
 Finally, since the we project the particle positions in a homogeneous coordinate,
 the correlations between reconstructed positions on the subspace might not be identical to the original ones.
 We would like to minimize the transformation error while keeping the ROI within the original boundaries.
-Therefore, for each possible matrix solutoin, we use it to project all points in the corresponding cluster onto a subsapce.
+Therefore, for each possible matrix solution, we use it to project all points in the corresponding cluster onto a subsapce.
 Later, we use the inverse matrix to project all the points back to the original search space to get the reconstructed positions.
 Then, we calculate the MAE of all points in all dimensions between the original position and the reconstructed positions.
 
@@ -244,10 +244,10 @@ we still need an optimization algorithm to optimize the projection matrix.
 The difficulty for \textit{hyperparameters optimization} is to balance between speed and optimization ability.
 We need the hyperparameters to define a subspace that contains the possible optimum solution while costing few computation time.
 
-We can simplify and stablelize the optimization process by giving a fixed initial solution.
+We can simplify and stabilize the optimization process by giving a fixed initial solution.
 Here, the initial solution is a simple dot product of a translation matrix and a scaling matrix. 
 The matrix defines a hypercube, which is bounded by the minimum and maximum value in each dimension of all positions in the cluster.
-This allows the algorithm to start the search around a more prefered neighborhood.
+This allows the algorithm to start the search around a more preferred neighborhood.
 
 We first tried CMA-ES to optimize the projection matrix.
 However, we found that it cost too much time to optimize the projection matrix with $961$ variables in the $30$-D problem
@@ -257,7 +257,7 @@ We would like to reduce the computation time by giving the (1+1)-ES only one hun
 
 Finally, the infeasible solutions that belong to the cluster yet being outside of ROI after the optimization are repaired with the following steps.
 We normalize the distance between the infeasible solution and the center of ROI,
-to project it onto a hypershpere centering at $[0.5]^D$ and with radias $0.5$.
+to project it onto a hypershpere centering at $[0.5]^D$ and with radius $0.5$.
 This way, although the reconstructed position is not accurate on the original search space,
 it is still able to indicate the approximate fitness in that direction in the subspace.
 Also, our basic assumption is a unimodal hill that puts the best fitness point in the center.

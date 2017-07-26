@@ -31,7 +31,7 @@ Finally, after clustering, the number samples in one cluster might be more or le
 Therefore, we need to enable the algorithms to replace particles during optimization.
 
 The new multimodal optimization technique starts with $100D$ samples within the given boundaries of a $D$-dimensional problem.
-We use selection pressure 2 to select particles with better fitness to indentify potential unimodals in the search space.
+We use selection pressure 2 to select particles with better fitness to identify potential unimodals in the search space.
 We use the hierarchical clustering technique and the MDL method mentioned in Chapter~\ref{chapter:clustering} to determine the clusters.
 Then, we define ROIs for each of these clusters with projection matrices, 
 which are optimized by (1+1)-ES, as described in Chapter~\ref{chapter:projection}.
@@ -42,7 +42,7 @@ Then we can use the new multi-armed bandit technique to determine resource alloc
 After each iteration, we need to check if the ROI of the latest pulled arm needs to be modified.
 We also check if the current cluster is possible to split into smaller clusters, or if any two existing clusters should be merged together.
 We'll go through the details of \textit{reclustering} in the following paragraph.
-The algorithm terminates if the error reaches a predefined accurarcy, or if the number of maximum evaluations is reached.
+The algorithm terminates if the error reaches a predefined accuracy, or if the number of maximum evaluations is reached.
 
 
 %The pseudocode of our new algorithm is given in Algorithm~\ref{algo:new_bandit}
@@ -112,7 +112,7 @@ Then we project all the sampling points to one particular subspace that needs to
 and try to exclude the samples from other clusters out of the feasible region $[0,1]^D$
 The projection matrices are optimized one-by-one, so the order might effect the optimization results.
 However, the initial clustering techniques provide a cluster approximate to a multivariate Gaussian distribution.
-Therefore, the clusters are more likely to be in a ``round'' shape, that can be easily fit into a parallelepid.  
+Therefore, the clusters are more likely to be in a ``round'' shape, that can be easily fit into a quadrilateral.  
 
 
 With the optimized ROIs and the samples in each clusters, 
@@ -130,7 +130,7 @@ Then we add them into the clusters and initiate the algorithm on the subspace.
 
 \section{Remain Evaluations Allocation and Recluster}
 
-In order to determine which arm to pull, we need to calculate the best remain evaluation allocation, as descirbed in Chapter~\ref{chapter:MAB}.
+In order to determine which arm to pull, we need to calculate the best remain evaluation allocation, as described in Chapter~\ref{chapter:MAB}.
 We normalize the allocation vector and add it to a $k$-length record vector, where $k$ is the total number of arms/clusters.  
 During each iteration, we select the best arm, i.e. the arm that gives the highest value in the record, to update.
 We than minus the record value of that arm with 1, and ask the algorithm of the best arm to update one particle.
@@ -146,14 +146,14 @@ Z = ( \bar{X} - \mu_0 )^T (\frac{\Sigma}{n})^{-1} ( \bar{X} - \mu_0 ) = n( \bar{
 \end{displaymath}
 is used that follows $ \chi^{2}(D)$-distribution under $H_0$.
 This is a generalization of the $z$-test, also known as $u$-test.
-We use this statistic test to examine if the new samples still comes from the same underlying multivaraite normal distribution the ROI is constructed on.
+We use this statistic test to examine if the new samples still comes from the same underlying multivariate normal distribution the ROI is constructed on.
 If the new samples is rejected by the statistic test that they do not come from the underlying distribution, 
 we update the projection matrix of this specific arm to reallocate the ROI.
 
 Whenever the ROI is updated, we also check if number of clusters should alter.
 This process is called \textit{recluster}.
 We first need to check if the cluster in the current best arm can be split into multiple clusters 
-with the hierarchical clustering and MDL techniques descirbed in~\ref{chapter:clustering}.  
+with the hierarchical clustering and MDL techniques described in~\ref{chapter:clustering}.  
 Then, we check if any two clusters in the search space can be merged together 
 using simply the MDL method mentioned in Chapter~\ref{chapter:clustering}.  
 This is a stable way to avoid ``cracking'' at the borders of different clusters.

@@ -9,7 +9,7 @@ since the algorithm has no prior knowledge about the problem characteristics or 
 That means the gradient information might not be useful or even not available, so hill-climbing algorithms do not work.
 The problem may be non-convex, multimodal, noisy and discontinuous.
 In order to solve these kinds of problems, different algorithms have different assumptions about the problem structure.
-They also use different stocastic models and update methods to try to converge to the global optimum as fast as possible.
+They also use different stochastic models and update methods to try to converge to the global optimum as fast as possible.
 These algorithms are often used for parameter and model calibration.  
 The following section describes three kinds of milestone evolutionary algorithms 
 that are commonly used as the baseline for real-valued optimization.
@@ -33,7 +33,7 @@ The covaraince matrix determines the shape of the distribution ellipsoid.
 \end{figure}
 
 \subsection{(1+1)-ES}
-One of the simpliest Evolutionary Strategy is \textbf{(1+1)-ES}.
+One of the simplest Evolutionary Strategy is \textbf{(1+1)-ES}.
 It samples one offspring $x$ from parent $m$ according to the equation described above.
 If the offspring $x$ is better than $m$, it replaces $m$ to be the new mean of the next sampling distribution.
 It also follows the \textit{one-fifth success rule} as illustrated in Figure~\ref{fig:one_plus_one_ES}.
@@ -100,7 +100,7 @@ The cumulative step-size adaptation measures the pathway of the mean vector in t
 Adapting the step-size according to the \textit{evolution path} enables translating more efficiently to a desired location.
 Later, it also allows perpendicular around the desired region.
 The \textit{covariance matrix} indicates the shape of the normal distribution model.
-Adapting the covaraince matrix allows us to search in a region that is more coherent to the fitness landscape, 
+Adapting the covariance matrix allows us to search in a region that is more coherent to the fitness landscape, 
 This adaptation follows a natural gradient towards the direction of optimum solution.
 It can also learn a rotated representation of the problem and be coordinate independent. 
 By adjusting these three parameters, shown in Figure~\ref{fig:CMA_elements}, CMA-ES is extremely powerful on solving unimodal problems.
@@ -117,7 +117,7 @@ The default population size $\lambda$ for a $D$-dimension problem, described in~
 \lambda = 4 + \lfloor 3 \log(D) \rfloor 
 \end{displaymath}
 However, recent research suggest that it is benefitial to gradually increase the population size after random restart~\cite{Auger:2005:IPOP_CMAES}.
-This parameterless adaptation enables few evaluations consumption for easy problems, 
+This parameter-less adaptation enables few evaluations consumption for easy problems, 
 yet is also able to solve more difficult problems with a larger population size later.
 
 
@@ -135,14 +135,14 @@ The neighborhood of a particle is a set of information links defined by the \tex
 PSO iteratively updates the swarm topology, the velocities, and the positions of each particle until the global optimum solution is found.
 
 
-Throughout the years, numerous varients of PSO have been proposed to improve performance.
+Throughout the years, numerous variants of PSO have been proposed to improve performance.
 As a result, a \textit{standard} PSO, composed of clear principals, is needed as the baseline for comparison.
 Standard PSO (SPSO) provides a well defined version that follows the common principals of PSO design.
 It is intended to be a milestone with simple and clear implementation for future comparison. %, instead of the best algorithm on the market.
 So far, there have been three successive versions of standard PSO: SPSO 2006, SPSO 2007, and SPSO 2011.
-The underlying principals of these three algorithms are generally the same as all PSO varients.
+The underlying principals of these three algorithms are generally the same as all PSO variants.
 The exact formula and implementation are slightly different due to latest theoretical progress.
-A detailed description of SPSO 2011~\cite{Zambrano:2013:SPSO2011} is given in the following paragrahs.
+A detailed description of SPSO 2011~\cite{Zambrano:2013:SPSO2011} is given in the following paragraphs.
 
 \subsection{Initialization of the swarm}
 
@@ -162,7 +162,7 @@ At time $t$, each particle in the swarm possesses the following vectors with $D$
 \end{itemize}
 
 Let $U(min_d, max_d)$ be a random number drawn from a uniform distribution within $[min_d, max_d]$, 
-and $N_i(t)$ be a set of neighbours of particle $i$ at time $t$ defined by the swarm topology.
+and $N_i(t)$ be a set of neighbors of particle $i$ at time $t$ defined by the swarm topology.
 In SPSO 2011~\cite{Clerc:2012:SPSO2011}, each particle is initialized with a random position and velocity defined as following:
 \begin{align*}
 x_i(0) &= U(min_d, max_d) \\
@@ -200,7 +200,7 @@ The velocity of particle $i$ at time $t+1$ can be described as a combination of 
 \begin{displaymath}
 v_i(t+1) = w v_i(t) + \alpha (p_i(t) - x_i(t)) + \beta (l_i(t) - x_i(t)),
 \end{displaymath}
-where $w$ mimics the momemtum of the particle, and $\alpha$, $\beta$ describes how successive actions are effected by the personal previous best position and the neighborhood previous best position.
+where $w$ mimics the momentum of the particle, and $\alpha$, $\beta$ describes how successive actions are effected by the personal previous best position and the neighborhood previous best position.
 
 %In SPSO 2006 and SPSO 2007, the velocity update equation is applied dimension by dimension as follows:
 %\begin{align*}
@@ -268,7 +268,7 @@ w = \frac{1}{2\ln(2)} \simeq 0.721
 
 As mentioned before, the search space is defined as a hyperparallelepid with confinement $[min_d, max_d]$ in each dimension $d$.
 Therefore, after calculating the new velocities and positions of particles, we have to go through confinement check to make sure all particles stay inside the search space.
-There are mutliple options to handle confinement in SPSO 2011.
+There are multiple options to handle confinement in SPSO 2011.
 The following method described in~\cite{Clerc:2012:SPSO2011} treat boundary as ``wall", so that all particles bounce back with half of previous velocity after they reach the border.
 For the new position $x_{i,d}(t+1)$ of particle $i$ in dimension $d$,
 \begin{align*}
@@ -302,7 +302,7 @@ There should also exist a non-zero probability for a particle to be informed by 
 
 In order to construct a random topology that satisfy the desirable features mentioned above,
 Clerc proposed a method~\cite{Clerc:2007:randomTopology} that results in 
-a distribution of the sum of $n-1$ independent binary Bernouilli variables, shown in Figure~\ref{fig:SPSO_prob_informant}.
+a distribution of the sum of $n-1$ independent binary Bernoulli variables, shown in Figure~\ref{fig:SPSO_prob_informant}.
 We use the distribution $K=3$, meaning that each particle tells three other particles about their previous best fitness and position.
 %The adaptive random topology is formally equivalent to ``Stocastic Star".  
 \begin{figure}[!t] \centering
@@ -322,14 +322,14 @@ We use the distribution $K=3$, meaning that each particle tells three other part
 
 Ant Colony optimization (ACO) is first proposed by Dorigo~\cite{Dorigo:1999:ACO}
 to solve combinatorial optimization problems, including scheduling, routing, and timetabling.
-These problems aim to find optimal \textit{combinations} or \textit{permutations} of finit sets of available components.
+These problems aim to find optimal \textit{combinations} or \textit{permutations} of finite sets of available components.
 Inspired by the foraging behavior of natural ants, ACO mimics the pheromone deposition of ants along the trail to a food source.
 The deposited pheromone, which indicates the quantity and quality of the food, 
 creates an indirect communication among ants and enables them to find the shortest paths.
 %The pseudo code of ACO is given in Algorithm~\ref{algo:ACO}.
-Two major procedures: \textit{solution construction} and \textit{phermone update}, are detailed in the following paragraph.
+Two major procedures: \textit{solution construction} and \textit{pheromone update}, are detailed in the following paragraph.
 
-\subsection{Discrete solution construction and phermone update}
+\subsection{Discrete solution construction and pheromone update}
 
 \begin{figure}
 \centering
@@ -339,7 +339,7 @@ Two major procedures: \textit{solution construction} and \textit{phermone update
 
 
 For \textit{solution construction}, 
-we first consider a search space $\boldsymbol{S}$ defined over a finit set of all possible \textit{solution components}, 
+we first consider a search space $\boldsymbol{S}$ defined over a finite set of all possible \textit{solution components}, 
 denoted by $\boldsymbol{C}$.
 Each solution component, denoted by $c_{ij}$, is a decision variable $X_i$ instantiated with value $v^{j}_{i} \in \boldsymbol{D}_i = \{ v^{1}_{i}, ..., v^{|\boldsymbol{D}_i|}_{i}\}$.
 To construct a new solution, an artificial ants starts with an empty partial solution $s^{p} = \emptyset$.
@@ -351,21 +351,21 @@ p(c_{ij}|s^p) = \frac{\tau^{\alpha}_{ij} \cdot \eta(c_{ij})^{\beta}}
                      {\sum_{c_{i\ell}\in N(s^{p})} \tau^{\alpha}_{i\ell} \cdot \eta(c_{i\ell})^{\beta} },  \forall c_{ij} \in N(s^{p}),
 \end{displaymath}
 where $\tau_{ij}$ is the pheromone value associated with component $c_{ij}$, and $\eta(\cdot)$ is a weighting function. 
-$\alpha$ and $\beta$ are positive parameters which determine the relation between phermone and heuristic information.
+$\alpha$ and $\beta$ are positive parameters which determine the relation between pheromone and heuristic information.
 
-The \textit{pheromone update}, also known as phermone evaporation, acts as solution selection.
-It increases the phermone values associated with promising solutions and decreases the phermone values associated to the bad ones.
-This is achieved by increaseing the phermone levels of more prefered solutions by $\Delta \tau$.
+The \textit{pheromone update}, also known as pheromone evaporation, acts as solution selection.
+It increases the pheromone values associated with promising solutions and decreases the pheromone values associated to the bad ones.
+This is achieved by increasing the pheromone levels of more preferred solutions by $\Delta \tau$.
 Let $\rho \in (0,1]$ be the \textit{evaporation rate}.
-If the phermone value is associated with a chosen good solution $s_{ch}$, the phermone value is updated as following:
+If the pheromone value is associated with a chosen good solution $s_{ch}$, the pheromone value is updated as following:
 \begin{displaymath}
 \tau_{ij} = (1 - \rho) \tau_{ij} + \rho \Delta \tau,
 \end{displaymath}
-while the other unrelated phermone values are updated as:
+while the other unrelated pheromone values are updated as:
 \begin{displaymath}
 \tau_{ij} = (1 - \rho) \tau_{ij}.
 \end{displaymath}
-Thus, the discrete phermone model shown in Figure~\ref{fig:ACOR_gaussianKernel}(a) can be updated to emphasize the good solutions.
+Thus, the discrete pheromone model shown in Figure~\ref{fig:ACOR_gaussianKernel}(a) can be updated to emphasize the good solutions.
 
 
 \subsection{Continuous solution construction and phermone update}
@@ -376,10 +376,10 @@ Thus, the discrete phermone model shown in Figure~\ref{fig:ACOR_gaussianKernel}(
 \caption{The solution archieve of ACO$_R$}\label{fig:ACOR_solution_archive}
 \end{figure}
 
-Over the years, multiple approaches of extending the ACO on continous domain have been given.
+Over the years, multiple approaches of extending the ACO on continuous domain have been given.
 One of the most successful version is ACO$_{R}$, proposed by Socha and Dorigo in 2008~\cite{Socha:2008:ACOR}.
 It extends ACO to the continuous domain without making any major conceptual change to its structure.
-The fundamental idea underlying ACO$_{R}$ is to substitue the discrete probability distribution with a continuous PDF in each dimension, demonstrated in Figure~\ref{fig:ACOR_gaussianKernel}. 
+The fundamental idea underlying ACO$_{R}$ is to substitute the discrete probability distribution with a continuous PDF in each dimension, demonstrated in Figure~\ref{fig:ACOR_gaussianKernel}. 
 ACO$_R$ keeps a solution archive of \textbf{top-k solutions} it has seen so far, shown in Figure~\ref{fig:ACOR_solution_archive}.
 All the solutions are sorted(ties are broken randomly) according to their fitness $f(s)$, 
 so that the best solution stays at the top of the archive.
@@ -400,19 +400,19 @@ $k$ is the \textit{size of the solution archive}, which works like the memory of
 It may not be smaller than the number of dimensions.
 $q$ represents the \textit{locality} of the search process, i.e. how often should we not pick the best solution in the archive.
 It controls exploration so that give a higher value of $q$ leads to slower yet more robust convergence.
-$\xi > 0$ represents the \textit{speed of convergence} that has effect similar to the \textit{phermone evaporation} rate in ACO.
+$\xi > 0$ represents the \textit{speed of convergence} that has effect similar to the \textit{pheromone evaporation} rate in ACO.
 It works like selection and enhance the good solutions in the archive.
 
 The initial solution construction process proceed as following.
-After evaluating $k$ randomly generates solutions, they ared stored along with their fitnesses and weights in the solution archive.
-The weights are caluated according to the equation in Figure~\ref{fig:ACOR_solution_archive}.
+After evaluating $k$ randomly generates solutions, they are stored along with their fitnesses and weights in the solution archive.
+The weights are calculated according to the equation in Figure~\ref{fig:ACOR_solution_archive}.
 Then the solution archive is sorted horizontally according to the fitness so that the best solution $s_1$ is on the top
 
 For general \textit{solution construction}, we first define $m$ as the number of ants used in an iteration for sampling.
 During each iteration, $m$ new solutions are constructed dimension by dimension by sampling the $i$-th dimension Gaussian kernel $G^i$
 A more detailed and efficient process of sampling the Gaussian kernel PDF is described in~\cite{Socha:2008:ACOR}.
 
-\textit{Phermone update} is accomplised by adding the new samples, their fitness, and the corresponding weight into the archive.
+\textit{Pheromone update} is accomplished by adding the new samples, their fitness, and the corresponding weight into the archive.
 Then, the solution archive is sorted according to the fitness and we only keep the top-k solutions in the archive.
 This selection process ensures only the best solutions are kept in the archive.
 Therefore, future samples will be constructed near these best solutions and guide the ants toward the optimum.

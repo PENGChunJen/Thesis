@@ -10,7 +10,7 @@ Here, we propose that different strategies should be taken according to \textit{
 Generally, we would like to allow more exploration in the beginning when there are abundant evaluations left.
 Then, we would like to gradually increase the portion of exploitation behavior.
 When there are very few evaluations left, we should concentrate on exploiting the current best hill.
-Therefore, instead of letting the algorithms handle both eploration and exploitation, we propose a bandit technique to help manage the exploration, and leave the simplier subproblems for the alogrithms to exploit.
+Therefore, instead of letting the algorithms handle both exploration and exploitation, we propose a bandit technique to help manage the exploration, and leave the simpler subproblems for the algorithms to exploit.
 
 Multi-armed Bandit (MAB) Algorithms are suitable for this scenario, 
 since it learns model from outcomes and the actions it takes do not change the state of the world.
@@ -20,7 +20,7 @@ However, our goal is a little bit different since we focus more about obtaining 
 Unlike canonical MAB algorithms that minimize regrets, we wish to maximize the probability of gaining the maximum rank.
 
 In the following sections, we'll first describe the MAB problem.
-Then, we breifly introduce some MAB algorithms 
+Then, we briefly introduce some MAB algorithms 
 that were described in the review which Vermorel et. al. made on MAB algorithms~\cite{Vermorel:2005:MAB}.
 Finally, we propose a new bandit technique that aims to maximize the probability of gaining the maximum rank.
 
@@ -31,11 +31,11 @@ Multi-aremed Bandit (MAB) Problem was originally described by Robins in 1985~\ci
 In this problem, a gambler has to decide which machine to play in a row of slot machines, a.k.a one-armed bandits, and how often to play it.
 When the lever is pulled, each machine provides a reward according to a probability distribution.
 Therefore, the gambler iteratively plays one lever at each round and observes the probability of reward for each arms.
-Here, the gambler is also facing the \textit{exploration vs. exploitation} tradeoff.
+Here, the gambler is also facing the \textit{exploration vs. exploitation} trade-off.
 The problem of determining the best strategy for the gambler is called the Multi-armed Bandit problem.
 
 
-The MAB problem can be more formally descirbed as 
+The MAB problem can be more formally described as 
 an agent deciding which one of the $K \in \mathbb{N}_+$ arms to pull at time $t$ to receive the maximum reward.
 The $K$ arms can be seen as a set of real distributions $B = \{ R_1, ..., R_K \} $.
 Let $\mu_1, ..., \mu_K$ be the mean of rewards for each arm, and $\mu^* = \max_{k} \{ \mu_k \}$ be the highest reward mean.
@@ -57,7 +57,7 @@ The \textit{zero-regret strategy} are guaranteed to converge to an optimal strat
 \section{Bandit Algorithms Overview}
 
 The $\epsilon$-greedy strategy, first proposed by Watkins~\cite{Watkins:1989:eta}, 
-is the simplest and one of the most widly used strategy to solve the MAB problem.
+is the simplest and one of the most widely used strategy to solve the MAB problem.
 Given an $\epsilon \in (0,1)$,
 the $\epsilon$-greedy strategy chooses a random lever with a probability $\epsilon$, 
 and chooses the lever with the highest estimated mean with a probability $1 - \epsilon$.
@@ -91,7 +91,7 @@ and it leads to their exploration as the Interval Estimation strategy greedily c
 
 The Price of Knowledge and Estimated Reward (POKER) strategy~\cite{Vermorel:2005:MAB}
 considers three ideas: pricing uncertainty, exploiting the lever distribution and taking into account the horizon
-The \textit{pricing uncertainty} is to assign a ``value of information'' to the knowledge aquired by pulling a particular lever.
+The \textit{pricing uncertainty} is to assign a ``value of information'' to the knowledge acquired by pulling a particular lever.
 It is also referred as ``exploration bonuses'' in bandit literatures that helps balancing exploration and exploitation.
 The idea behind \textit{exploiting the lever distribution} is that
 the properties of unobserved levers could be estimated from the observed levers.
@@ -101,13 +101,13 @@ Therefore, the ratio between exploration and exploitation should depend on the h
 
 \section{The New Bandit Technique}
 
-We propose a new bandit technique that aims to maximize the probability of aquiring the best rank in the history.
+We propose a new bandit technique that aims to maximize the probability of acquiring the best rank in the history.
 We only focus on ranks instead of real-valued fitness to generalize the case.
 
-Let $r$ be the probability of not being able to aquire the best point.
+Let $r$ be the probability of not being able to acquire the best point.
 Let $m_i$ be the one of the possible models in the arm.
 Let $D$ be the model of all the observed data.
-The we define the probability of not being able to aquire the best point given a set of observed data as:
+The we define the probability of not being able to acquire the best point given a set of observed data as:
 \begin{equation}
 P(r|D) = \sum_{i} P(r|D, m_i)P(m_i|D) = \sum_{i}P(r|m_i)P(m_i|D) 
 \end{equation}\label{equation:bandit}
@@ -128,16 +128,16 @@ It means that if we invest the two remain evaluations on arm 1,
 we might discover two better positions with higher ranks,
 or two worse positions that gives fitness worse than the current rank $2$ particle.
 That is why there are two possible positions on the top and two on the bottom of each arm.
-If the aquired fitness is between the current best and worst particle, 
+If the acquired fitness is between the current best and worst particle, 
 than the rank would only exchange with another particle in one of the arms,
 so no more ``holes'' than the current ranks are needed.
 We can find $12$ possible models that matches the current observation, i.e. rank $1$ is included.
-Therefore, only $4$ out of the $12$ models are possible to aquire the best rank.
-We assume the model is uniformly distributed, that is, aquiring different ranks share the same possibility.
+Therefore, only $4$ out of the $12$ models are possible to acquire the best rank.
+We assume the model is uniformly distributed, that is, acquiring different ranks share the same possibility.
 We also assume that all models have the same probability to be chosen with the observed data model $D$.
-We can then calculate the probability of not being able to aquire the best rank in the clusters.
+We can then calculate the probability of not being able to acquire the best rank in the clusters.
 To demonstrate the idea, we consider the right most blue model that contains the best and the worst possible ranks in Figure~\ref{fig:Bandit_arm}.
-The probability of not aquiring the best model for that specific model $m_i$ is $P(r|m_i) = 5/6$,
+The probability of not acquiring the best model for that specific model $m_i$ is $P(r|m_i) = 5/6$,
 while the probability for choosing that model is $P(m_i|D) = 1/12$.
 Similarly, we can calculate the probability of regret for all models.
 
@@ -147,10 +147,10 @@ Similarly, we can calculate the probability of regret for all models.
 \includegraphics[width=\textwidth]{Bandit_regret}
 \caption{Probability of regret for all allocation combinations.}\label{fig:Bandit_regret}
 \end{figure} 
-Given all the models and their corresponding probability of not aquiring the best rank, 
+Given all the models and their corresponding probability of not acquiring the best rank, 
 we can use Equation~\ref{equation:bandit} to calculate the total probability of regret given a set of remain evaluations allocation.
 For example, if we decide to invest both of the remaining evaluations on the first arm,
-then the probability of not aquiring the best model for the right most model would be $P(r|m_i) = (5/6)^2$,
+then the probability of not acquiring the best model for the right most model would be $P(r|m_i) = (5/6)^2$,
 while the probability for choosing that model is still $P(m_i|D) = 1/12$.
 Therefore, we can calculate the probability of regret as illustrated in Figure~\ref{fig:Bandit_regret}.
 After calculate the probability of regret all possible combinations, i.e. [2,0], [1,1], [0,2], 

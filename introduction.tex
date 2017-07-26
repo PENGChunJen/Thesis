@@ -16,11 +16,11 @@ Also, during different phases of optimization,
 the ratio between exploring new hills and exploiting the current best hill should be altered.
 Exploration is more important in the beginning, while exploitation is more required in the end.
 What makes this problem even harder is that in order to decrease the number of total evaluations, 
-the size of the population are often limited in the real-valed optimization algorithms.
+the size of the population are often limited in the real-valued optimization algorithms.
 This means that as the number of hills to invest increases, the number of particles on each hill decreases.
 This weakens the exploitation ability on each hill, making it less likely to identify new potential regions on each hill.
 
-We are more interested in hierarchically decomposable problems.
+We are more interested in hierarchically disposable problems.
 With a certain amount of hints, we should be able to focus on one of the many potential hills, 
 and identify when to invest more on certain hills to iteratively discover more smaller hills.
 Also, we would like to only focus on some regions instead of the whole search spaces, in order to gain performance.
@@ -39,14 +39,14 @@ This technique can \textbf{identify potential unimodal},
 and \textbf{allocate resources} according to remaining evaluations.
 
 Identifying a \textit{unimodal} depends on the sampling frequency and the underlying model.
-Clustering is a common way for discovering potentail unimodals.
+Clustering is a common way for discovering potential unimodals.
 We adopt the hierarchical clustering technique to discover hills in the fitness landscape.
 We also use weighted normal distribution as the underlying consumption for unimodal, and trim overfitting models with minimum description length.
 
 After identifying the unimodals by clustering, we can split the search space into different regions of interest with linear projection.
 We use different projection matrices to project the original search space onto several subspaces with well-defined boundaries.
-We also optimize the porjection matrix so that each region would have minimum overlapping with others.
-Searching in the smaller subspace enhances the probability of finding optimium.
+We also optimize the projection matrix so that each region would have minimum overlapping with others.
+Searching in the smaller subspace enhances the probability of finding optimum.
 The well-defined boundaries are also needed for some algorithms.
 The projection might also rotate or shear the original search space, making some inseparable problems easier to solve.
 
@@ -82,14 +82,14 @@ Finally, we give details about how we optimize our projection matrix in order to
 
 \textbf{Chapter~\ref{chapter:MAB}} first describes the Multi-armed Bandit Algorithm, 
 A brief introduction of some common MAB algorithms are also given.
-Then we present our new bandit techniques, that focus on aquiring the best rank in the cluster.
+Then we present our new bandit techniques, that focus on acquiring the best rank in the cluster.
 
 
 \textbf{Chapter~\ref{chapter:new_bandit}} gives details of our new technique.
 It first describes the framework of the new technique.
 Then a detailed process of initialization and unimodal detection is given.
 The implementation detail of how to optimize the ROI and how to initialize arms are given.
-Later, we discuss about how to decide which arm to pull in order to match the time-variant remain resouce allocation.
+Later, we discuss about how to decide which arm to pull in order to match the time-variant remain resource allocation.
 
 \textbf{Chapter~\ref{chapter:experiments}} introduces the CEC 2005 benchmark problems that we used for experiment.
 Then we give details about the experiment setup for different algorithms and the termination criteria.
