@@ -28,8 +28,8 @@ Finally, we propose a new bandit technique that aims to maximize the probability
 \section{The Multi-armed Bandit Problem}
 
 Multi-aremed Bandit (MAB) Problem was originally described by Robins in 1985~\cite{Robbins:1985:MAB}.
-In this problem, a gambler has to decide which machine and how often to play in a row of slot machines, a.k.a one-armed bandits. 
-When played, each machine provides a reward according to a probability distribution.
+In this problem, a gambler has to decide which machine to play in a row of slot machines, a.k.a one-armed bandits, and how often to play it.
+When the lever is pulled, each machine provides a reward according to a probability distribution.
 Therefore, the gambler iteratively plays one lever at each round and observes the probability of reward for each arms.
 Here, the gambler is also facing the \textit{exploration vs. exploitation} tradeoff.
 The problem of determining the best strategy for the gambler is called the Multi-armed Bandit problem.
@@ -37,7 +37,7 @@ The problem of determining the best strategy for the gambler is called the Multi
 
 The MAB problem can be more formally descirbed as 
 an agent deciding which one of the $K \in \mathbb{N}_+$ arms to pull at time $t$ to receive the maximum reward.
-The $K$ arms can be seen as a set of real distributions $B = {R_1, ..., R_K}$.
+The $K$ arms can be seen as a set of real distributions $B = \{ R_1, ..., R_K \} $.
 Let $\mu_1, ..., \mu_K$ be the mean of rewards for each arm, and $\mu^* = \max_{k} \{ \mu_k \}$ be the highest reward mean.
 The \textit{regret} $\rho$ after $T$ rounds is defined as
 \begin{displaymath}
@@ -56,7 +56,12 @@ The \textit{zero-regret strategy} are guaranteed to converge to an optimal strat
 
 \section{Some common MAB Algorithm}
 
-The $\epsilon$-greedy strategy, first proposed by Watkins~\cite{Watkins:1989:eta}, is a simple and widly used strategy to solve the MAB problem.
+The $\epsilon$-greedy strategy, first proposed by Watkins~\cite{Watkins:1989:eta}, 
+is the simplest and one of the most widly used strategy to solve the MAB problem.
+Given an $\epsilon \in (0,1)$,
+the $\epsilon$-greedy strategy chooses a random lever with a probability $\epsilon$, 
+and chooses the lever with the highest estimated mean with a probability $1 - \epsilon$.
+It is also known as \textit{semi-uniform} method since it implies a uniform probability of exploration among a set levers.
 
 The Price of Knowledge and Estimated Reward (POKER) strategy considers three ideas: pricing uncertainty, exploiting the lever distribution and taking into account the horizon
 
