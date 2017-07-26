@@ -68,24 +68,32 @@ the Covariance Matrix Adaptation Evolutionary Strategy (CMA-ES),
 the Standard Particle Swarm Optimization, and
 the Ant Colony Optimization for Continous Domain.
 These three algorithms each have different characteristics due to different underlying models.
+We get a glimpse of how some common real-valued algorithms tackle multimodal problems. 
 
 
-\textbf{Chapter~\ref{chapter:clustering}} presents some clustering techniques that guides the construction of ROIs and later becomes the initial points for algorithms in each arm.  
+\textbf{Chapter~\ref{chapter:clustering}} first discuss our experience on using K-Means to identify unimodals.
+Later, a more successful attempt of using the hierarchical clustering is presented.
+Finally, we give details about Minimal Description Length and how it trims down number of clusters.
 
 \textbf{Chapter~\ref{chapter:projection}} first describes four basic affine transformation: translation, rotation, scaling and shearing.
 Then the projective transformation and homogeneous coordinate are presented.
+Finally, we give details about how we optimize our projection matrix in order to obtain ROIs with minimal-overlapping.
 
 
 \textbf{Chapter~\ref{chapter:MAB}} first describes the Multi-armed Bandit Algorithm, 
-followed by a brief introduction of some common MAB algorithms, including ...
-Then we present our new bandit techniques.
-Tranditional bandit algorithms focus on minimizing regret, while our new bandit focus on the probability of getting a rank 1 result.
+A brief introduction of some common MAB algorithms are also given.
+Then we present our new bandit techniques, that focus on aquiring the best rank in the cluster.
 
 
-\textbf{Chapter~\ref{chapter:new_bandit}} gives details of our new algorithms.
-First, the framework and pseudo code are given.
-Then a detailed process of initialization is given in ...
-% talk about ROI, what it is, why it is important
+\textbf{Chapter~\ref{chapter:new_bandit}} gives details of our new technique.
+It first describes the framework of the new technique.
+Then a detailed process of initialization and unimodal detection is given.
+The implementation detail of how to optimize the ROI and how to initialize arms are given.
+Later, we discuss about how to decide which arm to pull in order to match the time-variant remain resouce allocation.
+
+\textbf{Chapter~\ref{chapter:experiments}} introduces the CEC 2005 benchmark problems that we used for experiment.
+Then we give details about the experiment setup for different algorithms and the termination criteria.
+The results are shown in figures and tables that shows the error after the same amount of evaluations.
 
 \textbf{Chapter~\ref{chapter:conclusion}} summarizes this thesis. 
 The conclusion and contributions are also given.

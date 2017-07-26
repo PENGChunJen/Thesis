@@ -1,0 +1,36 @@
+\chapter{Conclusion}
+\label{chapter:conclusion}
+
+In this thesis, we proposed a new multimodal optimization technique that aims to break down the multimodal problem into unimodal problems.
+
+We proposed a unimodal detection technique to find potential \textit{fitness hills} in a real-valued multimodal problem 
+by hierarchical clustering and Minimum Descriptioni Length.
+It depicts the underlying \textit{fitness hills} better than K-Means.
+Also unlike K-Means which needs to collaborate with other methods to determine the number of clusters,
+our technique intrinsically detects the number of potential unimodals.
+
+We also proposed a method to seperate the search space into smaller subspaces in order to enhance performance.
+We use linear projection matrix to project the search space to a subspace with well-defined boundaries for feasible solutions.
+Therefore, the algorithm only needs to search within a hypercube, constrined by $[0,1]$ in all dimensions.
+This technique is perferable for algorithms that requires a box-shape boundaries.
+It also creates ROIs on the original search space that isolates the unimodals.
+We also use the (1+1)-ES to optimize the projection matrix so that the ROIs have minimal-overlapping, thus enhance the searching efficiency.
+By cracking down the original search space into multiple non-overlapping subspace, 
+alogrithms now only have to search a smaller portion of the landscape which ideally consists of only one unimodal.
+
+Furthermore, we proposed a new Multi-armed Bandit techniques that optimize the resource allocation.
+
+Weakness:
+Potentially more NFE on unimodals and moving regions.
+Sometimes still unstable.
+Requires a better clustering techniques to identify underlying unimodals.
+
+
+Future work:
+A linkage tree attemp to create clusters.
+A better way to delete arms
+Non-linear transformation
+
+
+
+

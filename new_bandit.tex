@@ -1,53 +1,82 @@
 \chapter{The New Multimodal Optimization Technique}
 \label{chapter:new_bandit}
 
-In this chapter, we illustrate the proposed algorithm step-by-step. 
+In this chapter, we illustrate the proposed multimodal optimization technique step-by-step. 
+We first give the framework of the new multimodal optimization technique.
+Then we go through details about initialization and unimodal identification.
+We also discuss more about the implementation of optimizing projection matrix that defines the ROI.
+After that, we explain how to use the proposed multi-armed bandit technique during the optimization.
+Finally, we give details about the reclustering criteria, and some of the constraints of our techniques.
 
-Overview of real-valued optimization
 
-\section{Framework of the New Bandit Algorithm}
+\section{Framework of the New Multimodal Optimization Technique}
 
-The goal is to identify the ROI for exploitation and maintain exploration through resource allocation.
-
+The goal for our new technique is to identify the potential unimodals in the search space,
+define the ROIs for each unimodal for exploitation,
+and balance between exploration and exploitation through resource allocation.
+First, we need to modify the algorithms to meet some requirements of our technique.
 Each algorithm needs to be modified to satisfy the following conditions:
 \begin{enumerate}
-    \item Update one individual at a time 
-    \item The algorithm can be projected onto a subspace and continue iterating
-    \item Replace one individual with a given position and fitness
+    \item Able to update one individual at a time 
+    \item Able to replace one individual with a given position and fitness
+    \item The algorithm can be projected onto a subspace and continue iterating 
 \end{enumerate}
 
-The pseudocode of our new algorithm is given in Algorithm~\ref{algo:new_bandit}
+Since we consider resource allocation by pulling one arm at a time, 
+we need to modify the implementation of algorithms to allow updating one particle at a time.
+Also, since we are defining the ROIs by projection, we need the same algorithm to continue after the ROI has changed.
+That means, given an updated projection matrix, 
+we need to project all the necessary parameters for the algorithms onto to another subspace.
+Finally, after clustering, the number samples in one cluster might be more or less than the swarm size required by the algorithm.
+Therefore, we need to enable the algorithms to replace particles during optimization.
 
-\begin{algorithm}%[t!]
-\caption{Framework of the new Bandit Algorithm}\label{algo:new_banidt}
+The new multimodal optimization technique starts with $100D$ samples within the given boundaries of a $D$-dimensional problem.
+We use selection pressure 2 to select particles with better fitness to indentify potential unimodals in the search space.
+We use the hierarchical clustering technique and the MDL method mentioned in Chapter~\ref{chapter:clustering} to determine the clusters.
+Then, we define ROIs for each of these clusters with projection matrices, 
+which are optimized by (1+1)-ES, as described in Chapter~\ref{chapter:projection}.
+After that, we initiate a designated algorithm for each arm on the subspace, initialized with the projected samples in each cluster.
+The arms are composed of a projection matrix, which defines the ROI, 
+and an algorithm that is modified to allow projection, replacement, and update one particle procedures.
+Then we can use the new multi-armed bandit technique to determine resource allocation, i.e. which arm to pull. 
+After each iteration, we need to check if the ROI of the latest pulled arm needs to be modified.
+We also check if the current cluster is possible to split into smaller clusters, or if any two existing clusters should be merged together.
+We'll go through the details of \textit{reclustering} in the following paragraph.
+The algorithm terminates if the error reaches a predefined accurarcy, or if the number of maximum evaluations is reached.
 
-$\boldsymbol{X}_{n}$: solution of the $n^{th}$ iteration, $\sigma_n$: step size of the $n^{th}$ iteration, \\
-$N(\boldsymbol{0}, \boldsymbol{I})$: multivariant normal distribution with mean vector $\boldsymbol{0}$ \\ 
-and identical covariance matrix $\boldsymbol{I}$.
 
-\BlankLine
-\SetKwInOut{Input}{input} \SetKwInOut{Output}{output}
-\Input{ $f$: evaluation function }
-\Output{ $X_{n+1}$: best solution }
+%The pseudocode of our new algorithm is given in Algorithm~\ref{algo:new_bandit}
 
-\BlankLine
-Initialize $\boldsymbol{X}_0, \sigma_0$ \\
-\While{ termination criterion not met } {
+%\begin{algorithm}%[t!]
+%\caption{Framework of the new Bandit Algorithm}\label{algo:new_banidt}
 
-    $\widetilde{\boldsymbol{X}}_n = \boldsymbol{X}_n + \sigma_n N(\boldsymbol{0}, \boldsymbol{I})$  \\
+%$\boldsymbol{X}_{n}$: solution of the $n^{th}$ iteration, $\sigma_n$: step size of the $n^{th}$ iteration, \\
+%$N(\boldsymbol{0}, \boldsymbol{I})$: multivariant normal distribution with mean vector $\boldsymbol{0}$ \\ 
+%and identical covariance matrix $\boldsymbol{I}$.
 
-    \eIf{ $f(\widetilde{\boldsymbol{X}}_n) \leq f(\boldsymbol{X}_n) $}{
-        $\boldsymbol{X}_{n+1} = \widetilde{\boldsymbol{X}}_n$ \\
-        $\sigma_{n+1} = 1.5 \sigma_n$
-    }{
-        $\boldsymbol{X}_{n+1} = \boldsymbol{X}_n$ \\
-        $\sigma_{n+1} = 1.5^{-1/4}\sigma_n$
-    }
-}
-
-\Return $\boldsymbol{X}_{n+1}$
-
-\end{algorithm}
+%\BlankLine
+%\SetKwInOut{Input}{input} \SetKwInOut{Output}{output}
+%\Input{ $f$: evaluation function }
+%\Output{ $X_{n+1}$: best solution }
+%
+%\BlankLine
+%Initialize $\boldsymbol{X}_0, \sigma_0$ \\
+%\While{ termination criterion not met } {
+%
+%    $\widetilde{\boldsymbol{X}}_n = \boldsymbol{X}_n + \sigma_n N(\boldsymbol{0}, \boldsymbol{I})$  \\
+%
+%    \eIf{ $f(\widetilde{\boldsymbol{X}}_n) \leq f(\boldsymbol{X}_n) $}{
+%        $\boldsymbol{X}_{n+1} = \widetilde{\boldsymbol{X}}_n$ \\
+%        $\sigma_{n+1} = 1.5 \sigma_n$
+%    }{
+%        $\boldsymbol{X}_{n+1} = \boldsymbol{X}_n$ \\
+%        $\sigma_{n+1} = 1.5^{-1/4}\sigma_n$
+%    }
+%}
+%
+%\Return $\boldsymbol{X}_{n+1}$
+%
+%\end{algorithm}
 
 
 
@@ -55,42 +84,79 @@ Initialize $\boldsymbol{X}_0, \sigma_0$ \\
 
 \section{Initialization and Unimodal Identification}
 
-For a problem with $D$ dimension, initialize with $100D$ points.
+In the initialization process, we try to identify the unimodals on the given fitness landscape.
+In order to obtain a better resolution, we need a sample size that is large enough, and we need to perform selection after random initilization.
+A larger samples size ensures the sampling frequency is high enough to find hills with certain magnitude and width.
+We can always discover smaller hills later after the algorithms update the particles.
+Yet, it is better to find the right region to search in the first place to reduce unnecessary evaluations.
+The selection eliminates some noise for us to further identify the interesting regions.
 
-Keep only top $50\%$ of points for unimodal identification. 
-Use clustering techniques mentioned in Chapter~\ref{chapter:clustering}.
-
-Iteratively add $10D$ points until estimated cluster number is identical.
-
-With a given cluster number $k$, do K-Means clustering.
-
-
-
-
-
-\section{Define Region of Interest}
-
-Each arm is composed of an algorithm and a projection matrix.
-Initial matrix is set as a tight hyperbox that contains all points in the given cluster.
-Optimize matrix one-by-one.
-Resize each cluster to match the required population for each algorithm.
-Start algorithm with given initial positions and fitnesses.
+We start by randomly sample $100D$ points in the given search space of a $D$ dimensional problem. 
+Then we select half of the particles with better fitness to get an indication of where the \textit{fitness hills} might be.
+After that, we use the selected particles to identify potential unimodals,
+using the clustering technique mentioned in Chapter~\ref{chapter:clustering}.
+We first perform a hierarchical clustering to consider not only the spatial density, but also the fitness gradients.
+It captures the characteristics of the landscape better than K-Means clustering, as explained in Chapter~\ref{chapter:clustering}.
+Later we trim down the number of clusters by MDL along with the underlying multivariate Gaussian model.
 
 
 
+\section{Define Region of Interest and Construct Arms}
+
+After locating the possible unimodals with the clusters, we can define the ROIs for each cluster 
+by projecting the original search space onto a subspace that is only feasible within $[0,1]^D$.
+We optimize each projection matrix with the (1+1)-ES and the loss function described in Chapter~\ref{chapter:projection} 
+We use the Monte Carlo method to avoid overlapping in higher dimension.
+That means, we randomly sample $100D$ points in each subspace $[0,1]^D$ and project them back to the original search space.
+Then we project all the sampling points to one particular subspace that needs to be optimized, 
+and try to exclude the samples from other clusters out of the feasible region $[0,1]^D$
+The projection matrices are optimized one-by-one, so the order might effect the optimization results.
+However, the initial clustering techniques provide a cluster approximate to a multivariate Gaussian distribution.
+Therefore, the clusters are more likely to be in a ``round'' shape, that can be easily fit into a parallelepid.  
 
 
-\section{Remain Evaluations Allocation}
+With the optimized ROIs and the samples in each clusters, 
+we can initiate the arms for the new multi-armed bandit technique mentioned in Chapter~\ref{chapter:MAB}
+Each arm is composed of a \textbf{projection matrix}, that defines the ROI on the original search space,
+the mean $\mu$ and covariance matrix $\Sigma$ of the underlying Gaussian model,
+and a \textbf{designated algorithm} with population size $n$, that performs optimization on the subspace.
+Notice that whenever an evaluation is needed for the algorithm, we project the position on the subspace back to the original space for evaluation.
+Therefore, the algorithm always conduct on the subspace without knowing the original search space.
+In order to initiate the algorithm, we need to modify the number of particles in each cluster to meet the required population.
+For clusters with samples more than $n$, we select the top-n particles with the best fitness.
+For clusters with samples less than $n$, we sample uniformly random points on the $[0,1]^D$ subspace and inverse project it with the projection matrix back to the original search space to evaluate their fitness.
+Then we add them into the clusters and initiate the algorithm on the subspace.
 
-Calcualte remain evaluations allocatoin and normalize the value to 0~1.
-Add newly calculated allocatoin to record.
-Choose arm the argmax allocation to pull, i.e. update one individual.
-Max arm allocation -1.
 
+\section{Remain Evaluations Allocation and Recluster}
 
+In order to determine which arm to pull, we need to calculate the best remain evaluation allocation, as descirbed in Chapter~\ref{chapter:MAB}.
+We normalize the allocation vector and add it to a $k$-length record vector, where $k$ is the total number of arms/clusters.  
+During each iteration, we select the best arm, i.e. the arm that gives the highest value in the record, to update.
+We than minus the record value of that arm with 1, and ask the algorithm of the best arm to update one particle.
+Then we recalculate the remain evaluation allocation and add it into the record again.
+This way, the number of times each arm has been pulled should be asymptotically close to the time-variant resource allocation.
 
+Right after each update, we check whether if we need to update the projection matrix to place the best point at the center of the ROI.
+This is done by a statistic test, which compares the weighted mean of the new samples against the original underlying multivariate normal model.
+Given a set of samples $X_1, ..., X_n \sim N_{D}(\mu, \Sigma)$ coming from a $D$-dimensional normal distribution with $\mu$ and $\Sigma$ known. 
+For testing $H_0: \mu = \mu_0$ versus $H_1: \mu \neq \mu_0$, the statistic
+\begin{displaymath}
+Z = ( \bar{X} - \mu_0 )^T (\frac{\Sigma}{n})^{-1} ( \bar{X} - \mu_0 ) = n( \bar{X} - \mu_0 )^T \Sigma^{-1} ( \bar{X} - \mu_0 )
+\end{displaymath}
+is used that follows $ \chi^{2}(D)$-distribution under $H_0$.
+This is a generalization of the $z$-test, also known as $u$-test.
+We use this statistic test to examine if the new samples still comes from the same underlying multivaraite normal distribution the ROI is constructed on.
+If the new samples is rejected by the statistic test that they do not come from the underlying distribution, 
+we update the projection matrix of this specific arm to reallocate the ROI.
 
-
-\section{Recluster}
+Whenever the ROI is updated, we also check if number of clusters should alter.
+This process is called \textit{recluster}.
+We first need to check if the cluster in the current best arm can be split into multiple clusters 
+with the hierarchical clustering and MDL techniques descirbed in~\ref{chapter:clustering}.  
+Then, we check if any two clusters in the search space can be merged together 
+using simply the MDL method mentioned in Chapter~\ref{chapter:clustering}.  
+This is a stable way to avoid ``cracking'' at the borders of different clusters.
+Also, whenever the recluster occurs, we reinitialize the record vector, since the clusters might be different from the last setup.
 
 
