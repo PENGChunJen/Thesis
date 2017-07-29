@@ -2,22 +2,22 @@
 \label{chapter:clustering}
 
 %Describe our basic assumption of function decomposition.
-%Each subproblem should be composed of an observalbe uni-model.
+%Each subproblem should be composed of an observalbe unimodel.
 We are interested in solving real-valued multimodal problems composed of observable unimodals.
 Given the case, it is easier to solve an isolated unimodal within a subspace,
 than tackling the complete search space with the multimodal problem.
 Therefore, the first thing for solving a multimodal problem is to \textbf{identify} and \textbf{isolate}
-the potential uni-modals within the given search space.
+the potential unimodals within the given search space.
 
-%We wish to identify these uni-models through clustering techniques. 
-We tried to isolate potential \textit{fitness hills}, i.e. uni-modals,
+%We wish to identify these unimodels through clustering techniques. 
+We tried to isolate potential \textit{fitness hills}, \textit{i.e.} unimodals,
 by \textbf{clustering} the initial samples points,
 and consider each cluster as a multi-dimension normal distribution.
 Different clustering techniques are often applied to identify different characteristics of clusters.
 Here we proposed a \textit{hierarchical clustering} techniques to identify \textit{fitness hills},
 since we consider not only the density of the particles,
 but also the fitness values of different search points.
-Our basic assumption for the under lying uni-modal is a weighted normal distribution, 
+Our basic assumption for the under lying unimodal is a weighted normal distribution, 
 since we need to take fitness into account instead of viewing each point with the same weight.
 We tend to focus on the particles with better fitness,
 than a dense cluster with less fitness. 
@@ -38,7 +38,7 @@ There are two main procedures for K-Means clustering: the \textit{assignment} st
 During the \textit{assignment} step, an initial set of $k$ means positions are given.
 Then, each data point is assigned to the cluster with the \textit{nearest mean}.
 The assignment to the \textit{nearest mean} can be formally described 
-as creating clusters whose mean yields the least within-cluster sum of squares (WCSS), i.e. the sum of squared Euclidean distance.
+as creating clusters whose mean yields the least within-cluster sum of squares (WCSS), textit{i.e.} the sum of squared Euclidean distance.
 During the \textit{update} step, the new centroids of each new clusters are calculated and assigned as the new means.
 This can be also be described as minimizing the WCSS.
 The algorithm proceeds by alternating between these two steps until the means no longer change.
@@ -57,12 +57,15 @@ This makes the clusters unstable and costs unnecessary evaluations and computati
 The other problem for using the K-Means clustering is that one needs to \textbf{decide the number of clusters}.
 Determining the number of clusters is also a highly studied subjects.
 We briefly discuss three common estimation methods that we have tried, 
-the \textit{silhouette coefficient}, the \textit{gap statistics} and the \textit{dip test} in the following paragraph.
+the \textit{silhouette coefficient}~\cite{Rousseeuw:1987:silhouettes}
+, the \textit{gap statistics}~\cite{Tibshirani:2001:gap}
+, and the \textit{Hartigans' dip test}~\cite{Hartigan:1985:dip}
+in the following paragraph.
 
-The silhouette coefficient~\cite{Rousseeuw:1987:silhouettes} measures how cohesive an object is to its own cluster and how separated it is to the other clusters. Ranging from -1 to 1, the silhouette coefficient with a higher value indicates it is more likely to belong to its own cluster.
-The gap statistics~\cite{Tibshirani:2001:gap} compares the change in within-cluster dispersion with that of an reference null distribution.
+The \textit{silhouette coefficient} measures how cohesive an object is to its own cluster and how separated it is to the other clusters. Ranging from -1 to 1, the silhouette coefficient with a higher value indicates it is more likely to belong to its own cluster.
+The \textit{gap statistics} compares the change in within-cluster dispersion with that of an reference null distribution.
 It calculates the gap statistics for different number of clusters and select the one with the maximum gap statistics.
-The Hartigans' dip test~\cite{Hartigan:1985:dip} uses the empirical cumulative distribution function (ECDF) to measure the maximum difference between multimodal samples and the unimodal samples. It calculates maximum deviation of the sample ECDF from the unimodal CDF and check if the difference is statistically significant.
+The \textit{Hartigans' dip test} uses the empirical cumulative distribution function (ECDF) to measure the maximum difference between multimodal samples and the unimodal samples. It calculates maximum deviation of the sample ECDF from the unimodal CDF and check if the difference is statistically significant.
 
 
 We wish that as the algorithms proceed, particles should gather around the good solutions and gives a clear density signal.
@@ -78,7 +81,7 @@ This increases the density in that specific region, and creates an artificial cl
 
 Figure~\ref{fig:Clustering_comparison} shows how K-Means fails to identify a unimodal and results in four clusters due to density.
 A more preferable clustering result is shown on the right in Figure~\ref{fig:Clustering_comparison}.
-We would like our clustering method to be capable of identifying the uni-modal 
+We would like our clustering method to be capable of identifying the unimodal 
 and be able to center around the particle with the best fitness.
 
 \begin{figure}
@@ -113,19 +116,19 @@ The best position within this cluster is indicated by the root node.
 This way, the fitness signal guides the construction of clusters, 
 so that this method is able to identify more \textit{fitness hills} than the K-Means clustering.
 Moreover, we do not need to provide the estimate number of clusters, 
-since the agglomerative clustering method \textit{intrinsically identifies hills} 
+since the agglomerative clustering method \textit{intrinsically} identifies \textit{fitness hills}.
 These characteristics solves some fundamental problems that we faced when using the K-Means clustering along with different number-of-clusters-estimation techniques.
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{MDL_comparison_F19}
-\caption{Before and after Minimal Description Length trimming on CEC2005 F19 Problem}\label{fig:MDL_comparison_F19}
+\caption{Before and after applying Minimal Description Length on CEC2005 F19 Problem}\label{fig:MDL_comparison_F19}
 \end{figure}
 
 \begin{figure} 
 \centering
 \includegraphics[width=\textwidth]{MDL_comparison}
-\caption{Before and after Minimal Description Length trimming on CEC2005 F1 Problem}\label{fig:MDL_comparison}
+\caption{Before and after applying Minimal Description Length on CEC2005 F1 Problem}\label{fig:MDL_comparison}
 \end{figure}
 
 We can see that for a multimodal problem depicted in Figure~\ref{fig:MDL_comparison_F19}(a), 
@@ -137,7 +140,7 @@ This indicates that the using the Euclidean distance as the distance metric is n
 
 In order to solve this problem, we assume the underlying hills are composed of multivariate normal distribution.
 Given the distribution and a sample position, we can use the \textit{Manhanoblis distance} to serve as a more expressive metric.
-We would also like to trim down the number of clusters in the beginning, since we believe that the problems are composed of hierarchical hills.
+We would also like to determine the number of clusters in the beginning, since we believe that the problems are composed of hierarchical hills.
 We do not need to invest so much resources in so many regions during the initialization.
 Reclustering after a few iterations shall give us a better signal about where to focus.
 
@@ -155,18 +158,18 @@ The MDL considers both \textit{data description accuracy} and \textit{model desc
 \subsection{Data description accuracy}
 
 Since we would like to take the fitness into account, we use the weighted Gaussian distribution as the underlying model.
-For a cluster with $N$ particles, each particle $X_i$ has a rank $r_i$ between 1 and N (ties are broken randomly) that corresponds to the fitness.
+For a cluster with $N$ particles, each particle $X_i$ has a rank $r_i$ between $1$ and $N$ (ties are broken randomly) that corresponds to the fitness.
 The weight $\omega_i$ can be defined as:
 \begin{equation}
-\omega_i = \log(N+0.5) - \log(r_i)
+\omega_i = \log(N+0.5) - \log(r_i).
 \end{equation}
 
 The mean $\mu$ and covariance matrix $\Sigma$ in a weighted Gaussian distribution $N$ can be denoted as:
 \begin{equation}
-\mu = \frac{1}{\sum_{i=1}^N \omega_i} \sum_{i = 1}^{N} \omega_i X_i
+\mu = \frac{1}{\sum_{i=1}^N \omega_i} \sum_{i = 1}^{N} \omega_i X_i,
 \end{equation}
 \begin{equation}
-\Sigma = \frac{1}{\sum_{i=1}^N \omega_i} \sum_{i = 1}^{N} \omega_i (X_i - \mu)^T (X_i - \mu)
+\Sigma = \frac{1}{\sum_{i=1}^N \omega_i} \sum_{i = 1}^{N} \omega_i (X_i - \mu)^T (X_i - \mu).
 \end{equation}
 
 
@@ -175,10 +178,10 @@ Each sample is a $D$-dimensional vector $X_i = \{X_{i1}, ..., X_{iD}\}$.
 The class-probability of observing sample $X_i$ in class $j$, described by a parameter set $\Theta_j$, can be denoted as $P_j(X_i|\Theta_j)$.
 The probability of observing the sample $X_i$ in a finite mixture model with $J$ components can be denoted as:
 \begin{equation}
-P(X_i|\Theta) = \sum_{j=1}^J \alpha_j P_j ( X_i | \Theta_j )
+P(X_i|\Theta) = \sum_{j=1}^J \alpha_j P_j ( X_i | \Theta_j ),
 \end{equation}
 \begin{equation}
-\alpha_j = n_j / I
+\alpha_j = n_j / I,
 \end{equation}
 where $\alpha_j$ is the prior probability that $X_i$ belongs to the $j$-th model, 
 and $n_j$ denotes the number of samples in cluster $j$.  
@@ -186,15 +189,29 @@ and $n_j$ denotes the number of samples in cluster $j$.
 Therefore, the probability of observing sample $X_i$ in cluster $j$ can be further described by the $j$-th weighted Gaussain distribution:
 
 \begin{equation}
-P(X_i|\Theta_j) = N(X_i | \mu_j, \Sigma_j)
+P(X_i|\Theta_j) = N(X_i | \mu_j, \Sigma_j).
 \end{equation}
 
 With the assumption that the data instance $X_i$ are independently distributed, 
 the joint data probability is the product of the individual instance probabilities:
 \begin{equation}
-P(X|\Theta) = \prod_{i=1}^{I} \sum_{j=1}^{J} \alpha_j P_j(X_i | \Theta_j)
+P(X|\Theta) = \prod_{i=1}^{I} \sum_{j=1}^{J} \alpha_j P_j(X_i | \Theta_j).
 \end{equation}
 
+However, we would like to give a higher weight for the data with better fitness.
+The weight for the $i$-th particle that belongs to the $j$-th model with rank $r_{ij}$ within the $j$-th cluster is:
+\begin{equation}
+\omega_{ij} = \log(n_j+0.5) - \log(r_{ij}),
+\end{equation}
+and the normalized weight is: 
+\begin{equation}
+w_{ij} = \frac{\omega_{ij}}{\sum_{i = 1}^{n_j}\omega_{ij}},
+\end{equation}
+
+the data description accuracy can be descrived as a weighted sum of individual log-likelihoods:
+\begin{equation}
+\log(P(X|\Theta)) = \sum_{j=1}^{J}( n_j(\log(\alpha_j) + \sum_{i=1}^{n_j} w_{ij} \log(P_j(X_i | \Theta_j))) ).
+\end{equation}
 
 
 \subsection{Model description efficiency}
@@ -210,20 +227,20 @@ The free parameters in the Gaussian mixture model are:
 
 Therefore, the total number of free parameters is
 \begin{equation}
-\mathbb{K} = J - 1 + J(D + D(D+1)/2) = J(D^2 + 3D + 2)/2 -1
+\mathbb{K} = J - 1 + J(D + D(D+1)/2) = J(D^2 + 3D + 2)/2 -1.
 \end{equation}
 
 
 Combining the \textit{data description accuracy} and \textit{model description efficiency}, 
 the MDL defined in~\cite{Rissanen:1984:Universal} is denoted as:
 \begin{equation}
-\min_{\mathbb{K}, \Theta} - \log (P(X|\Theta)) + \frac{1}{2}\mathbb{K}\log(I)
+\min_{\mathbb{K}, \Theta} - \log (P(X|\Theta)) + \frac{1}{2}\mathbb{K}\log(I).
 \end{equation}\label{equation:MDL}
 
 
-\subsection{Trimming model with MDL}
+\subsection{Determining model with MDL}
 As mentioned before, we need to solve the problem of having too many ``ripple'' clusters on the margin area.
-Here we would like to use the MDL Equation to calculate model efficiency, and trim down unnecessary clusters.
+Here we would like to use the MDL Equation to calculate model efficiency, and merge overfitting clusters.
 Therefore, after identifying potential unimodals with hierarchical clustering in Section~\ref{section:hierarchical},
 we use Equation~\ref{equation:MDL} to calculate model efficiency.
 We created multiple weighted Gaussian distribution according to the hierarchical clusters, 
@@ -231,7 +248,7 @@ as shown in Figure~\ref{fig:MDL_comparison}(a) and Figure~\ref{fig:MDL_compariso
 Then we try all combinations of merging two clusters and calculate the corresponding MDL.
 Therefore, we compare the MDL score between the original hierarchical clusters and the new clusters with the minimal MDL score.
 If the MDL score of the new model is smaller than the previous model, we repeat the same procedure and keep merging.
-This trimming procedure terminates when there is only one cluster remain, or when the minimum MDL score of all possible new modals is larger than the MDL score of the previous model.
+This procedure terminates when there is only one cluster remain, or when the minimum MDL score of all possible new modals is larger than the MDL score of the previous model.
 Then we get fewer yet still expressive clusters, 
 shown in Figure~\ref{fig:MDL_comparison}(b) and Figure~\ref{fig:MDL_comparison_F19}(b).
 

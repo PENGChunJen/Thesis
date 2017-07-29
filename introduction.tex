@@ -3,26 +3,26 @@
 
 % Background, Motivation and Relevant work
 Multimodal problems that contain more than one region or more than one local optimum are common in the real world.
-{\em Rastrigin function}, a hierachical problem which is composed of a larger hill and multiple smaller hills are also well-known in real-valued optimization.
+{\em Rastrigin function}, a hierachical problem which is composed of a larger unimodal and multiple smaller unimodals are also well-known in real-valued optimization.
 In order to tackle these multimodal problems with a limited amount of resources, 
-one needs to decide how much to invest for searching a better hill, 
-while still maintain enough of exploitation on each potential hill.
+one needs to decide how much to invest for searching a better unimodal, 
+while still maintain enough of exploitation on each potential unimodal.
 
-The difficult part is that searching for a new hill and exploiting the best hill often require opposite searching behaviors.
-For a fixed amount of total evaluations, spending more time searching on one hill implies 
+The difficult part is that searching for a new unimodal and exploiting the best unimodal often require opposite searching behaviors.
+For a fixed amount of total evaluations, spending more time searching on one unimodal implies 
 less attention on exploring other possible unimodals in the search space.
 This is the common dilemma between {\em exploration} and {\em exploitation} for real-valued optimization algorithms.
 Also, during different phases of optimization, 
-the ratio between exploring new hills and exploiting the current best hill should be altered.
+the ratio between exploring new unimodals and exploiting the current best unimodal should be altered.
 Exploration is more important in the beginning, while exploitation is more required in the end.
 What makes this problem even harder is that in order to decrease the number of total evaluations, 
 the size of the population are often limited in the real-valued optimization algorithms.
-This means that as the number of hills to invest increases, the number of particles on each hill decreases.
-This weakens the exploitation ability on each hill, making it less likely to identify new potential regions on each hill.
+This means that as the number of unimodals to invest increases, the number of particles on each unimodal decreases.
+This weakens the exploitation ability on each unimodal, making it less likely to identify new potential regions on each unimodal.
 
-We are more interested in hierarchically disposable problems.
-With a certain amount of hints, we should be able to focus on one of the many potential hills, 
-and identify when to invest more on certain hills to iteratively discover more smaller hills.
+We are more interested in hierarchically decomposable problems.
+With a certain amount of hints, we should be able to focus on one of the many potential unimodals, 
+and identify when to invest more on certain unimodals to iteratively discover more smaller unimodals.
 Also, we would like to only focus on some regions instead of the whole search spaces, in order to gain performance.
 This requires detection of promising areas, and search space splitting techniques.
 Moreover, after identifying certain interesting regions, we also need to decide how to allocate our resources.
@@ -40,8 +40,8 @@ and \textbf{allocate resources} according to remaining evaluations.
 
 Identifying a \textit{unimodal} depends on the sampling frequency and the underlying model.
 Clustering is a common way for discovering potential unimodals.
-We adopt the hierarchical clustering technique to discover hills in the fitness landscape.
-We also use weighted normal distribution as the underlying consumption for unimodal, and trim overfitting models with minimum description length.
+We adopt the hierarchical clustering technique to discover unimodals in the fitness landscape.
+We also use weighted normal distribution as the underlying consumption for unimodal, and reject overfitting models with minimum description length.
 
 After identifying the unimodals by clustering, we can split the search space into different regions of interest with linear projection.
 We use different projection matrices to project the original search space onto several subspaces with well-defined boundaries.
@@ -55,7 +55,7 @@ that optimize the resource allocation to get the greatest probability of obtaini
 Multi-armed Bandit algorithms are suitable for this scenario, 
 since it learns models from outcomes while the actions do not change the state of the world.
 When there are still plenty of evaluations left, we should prefer exploration over exploitation and search equally on all subspaces.
-However, when few evaluations remain, we should focus on the current best hill 
+However, when few evaluations remain, we should focus on the current best unimodal 
 and try to exploit it to get the best fitness with the remaining evaluations.  
 
 
@@ -65,15 +65,15 @@ This thesis is composed of eight chapters.
 \textbf{Chapter~\ref{chapter:algos}} presents three optimization algorithms that are used for comparisons.
 We introduce 
 the Covariance Matrix Adaptation Evolutionary Strategy (CMA-ES),
-the Standard Particle Swarm Optimization, and
-the Ant Colony Optimization for Continous Domain.
+the Standard Particle Swarm Optimization (SPSO), and
+the Ant Colony Optimization for Continous Domain (ACO$_R$).
 These three algorithms each have different characteristics due to different underlying models.
 We get a glimpse of how some common real-valued algorithms tackle multimodal problems. 
 
 
 \textbf{Chapter~\ref{chapter:clustering}} first discuss our experience on using K-Means to identify unimodals.
 Later, a more successful attempt of using the hierarchical clustering is presented.
-Finally, we give details about Minimal Description Length and how it trims down number of clusters.
+Finally, we give details about Minimal Description Length and how it reduces number of clusters.
 
 \textbf{Chapter~\ref{chapter:projection}} first describes four basic affine transformation: translation, rotation, scaling and shearing.
 Then the projective transformation and homogeneous coordinate are presented.
@@ -93,7 +93,7 @@ Later, we discuss about how to decide which arm to pull in order to match the ti
 
 \textbf{Chapter~\ref{chapter:experiments}} introduces the CEC 2005 benchmark problems that we used for experiment.
 Then we give details about the experiment setup for different algorithms and the termination criteria.
-The results are shown in figures and tables that shows the error after the same amount of evaluations.
+The results are shown in figures that indicates the error after the same amount of evaluations.
 
 \textbf{Chapter~\ref{chapter:conclusion}} summarizes this thesis. 
 The conclusion and contributions are also given.

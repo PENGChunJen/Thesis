@@ -2,12 +2,12 @@
 \label{chapter:experiments}
 
 We use 25 benchmark problems from the CEC 2005 Special Session on Real-Parameter Optimization to test the performance of our new techniques.
-The CEC 2005 benchmark problems are composed of both standard test problems e.g. Sphere, Schwefel's, Rosenbrock's, Rastrigin's, etc.,
+The CEC 2005 benchmark problems are composed of both standard test problems \textit{e.g.} Sphere, Schwefel's, Rosenbrock's, Rastrigin's, etc.,
 and some hybrid problems.
 We tested the CMA-ES, PSO, and ACO$_R$ algorithms with and without our new techniques.
 The results show that our technique reduces the average error of CMA-ES and ACO$_R$ on some multimodal problems.  
 
-\section{CEC2005 25 benchmark problems}
+\section{CEC2005 25 Benchmark Problems}
 
 The CEC 2005 Special Session on Real-Paramter Optimization~\cite{Suganthan:2005:benchmark} aims to evaluate different algorithms in a more systematic manner by specifying a common termination criterion, size of problems, linkages/rotation, etc.
 It consists of 25 minimization problems with $2, 10, 30, 50$ dimensions.
@@ -34,8 +34,8 @@ Although the default population for CMA-ES in $D$-dimension is set to be $4 + \l
 we found out that we a larger population for the MDL to not merge every particles into one cluster.
 Therefore, we set the population size as 30 for CMA-ES.
 The initial mean is set to be the center between max bounds and min bounds in every dimension.
-The initial sigma is set to be one sixth of the maximum length between max bounds and min bounds in each dimension. 
-It is suggested to let the global optimum be within three sigma~\cite{Hansen:2006:CMA_ES_review}.
+The initial step-size is set to be one sixth of the maximum length between max bounds and min bounds in each dimension. 
+It is suggested to let the global optimum be within three standard deviation~\cite{Hansen:2006:CMA_ES_review}.
 
 As for the SPSO 2011, there are currently no official Python implementation, 
 so we created our own Python implementation according to the tutorials~\cite{Clerc:2012:SPSO2011},
@@ -85,7 +85,7 @@ since the underlying model is a multivariate Gaussian and it converges very fast
 As expected, our methods to cost slightly more evaluations than the original algorithms on unimodal functions,
 since we sample more points in the beginning. 
 Also, although our clustering methods recognize unimodals in most of the times,
-it is not good at handling narrow valleys, e.g. Problem 3, 
+it is not good at handling narrow valleys, \textit{e.g.} Problem 3, 
 and starts to split into multiple clusters once falls into the valley with small gradient.
 This multiplication gets worse since the smaller the ROI becomes, the less gradient info there is.
 Thus, the clustering methods would try its best to generate ``hills'' from the plane with almost no gradient.

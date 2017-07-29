@@ -37,7 +37,7 @@ One of the simplest Evolutionary Strategy is \textbf{(1+1)-ES}.
 It samples one offspring $x$ from parent $m$ according to the equation described above.
 If the offspring $x$ is better than $m$, it replaces $m$ to be the new mean of the next sampling distribution.
 It also follows the \textit{one-fifth success rule} as illustrated in Figure~\ref{fig:one_plus_one_ES}.
-The one-fifth success rule increases the step-size by $1.5$ if the current sample is not better than the previous best sample, i.e. the mean $m$.
+The one-fifth success rule increases the step-size by $1.5$ if the current sample is not better than the previous best sample, \textit{i.e.} the mean $m$.
 We believe the best solution, denoted as the flag in Figure~\ref{fig:one_plus_one_ES}(a), 
 should be somewhere outside of our current distribution and we should increase step-size to explore more search space.
 The one-fifth success rule decreases the step-size by $1.5^{-1/4}$ if the current sample is better than the previous best sample.
@@ -114,7 +114,7 @@ By adjusting these three parameters, shown in Figure~\ref{fig:CMA_elements}, CMA
 CMA-ES adopts a small \textit{population size} to reduce function evaluations and increase the frequency of updating the underlying models.
 The default population size $\lambda$ for a $D$-dimension problem, described in~\cite{Hansen:2006:CMA_ES_review}, is
 \begin{displaymath}
-\lambda = 4 + \lfloor 3 \log(D) \rfloor 
+\lambda = 4 + \lfloor 3 \log(D) \rfloor .
 \end{displaymath}
 However, recent research suggest that it is benefitial to gradually increase the population size after random restart~\cite{Auger:2005:IPOP_CMAES}.
 This parameter-less adaptation enables few evaluations consumption for easy problems, 
@@ -147,11 +147,11 @@ A detailed description of SPSO 2011~\cite{Zambrano:2013:SPSO2011} is given in th
 \subsection{Initialization of the swarm}
 
 For a search space $E$ with a given dimension $D$, $E$ is confined by a set of minimum and maximum bounds in each dimension.
-The hyperparallelepid search space $E$ can be formally defined as the Euclidean product of $D$ real intervals~\cite{Clerc:2012:SPSO2011}.
+The hyperparallelepid search space $E$ can be formally defined as the Euclidean product of $D$ real intervals~\cite{Clerc:2012:SPSO2011}:
 \begin{displaymath}
-E = \bigotimes_{d=1}^{D}[min_d, max_d]
+E = \bigotimes_{d=1}^{D}[min_d, max_d].
 \end{displaymath}
-For each position $x$ within the multi-dimensional search space $E$, there exists a corresponding numerical value $f(x)$, i.e. \textit{fitness}.
+For each position $x$ within the multi-dimensional search space $E$, there exists a corresponding numerical value $f(x)$, \textit{i.e.} \textit{fitness}.
 A swarm is composed of particles, which explore different positions in the search space to find the best corresponding fitness value.
 At time $t$, each particle in the swarm possesses the following vectors with $D$ coordinate:
 \begin{itemize}
@@ -165,10 +165,10 @@ Let $U(min_d, max_d)$ be a random number drawn from a uniform distribution withi
 and $N_i(t)$ be a set of neighbors of particle $i$ at time $t$ defined by the swarm topology.
 In SPSO 2011~\cite{Clerc:2012:SPSO2011}, each particle is initialized with a random position and velocity defined as following:
 \begin{align*}
-x_i(0) &= U(min_d, max_d) \\
-v_i(0) &= U(min_d - x_{i,d}(0), max_d - x_{i,d}(0)) \\
-p_i(0) &= x_i(0) \\ 
-l_i(0) &= argmin_{j \in N_i(0)}(f(p_j(0)))
+x_i(0) &= U(min_d, max_d), \\
+v_i(0) &= U(min_d - x_{i,d}(0), max_d - x_{i,d}(0)), \\
+p_i(0) &= x_i(0), \\ 
+l_i(0) &= argmin_{j \in N_i(0)}(f(p_j(0))).
 \end{align*}
 
 
@@ -239,30 +239,30 @@ H_i(G_i, ||G_i - x_i||),
 with center $G_i$ and radius $||G_i - x_i||$.
 When the personal best $p_i(t)$ is not the neighborhood previous best $l_i(t)$, the center $G_i$ is defined as:
 \begin{displaymath}
-G_i = \frac{1}{3} (x_i + (x_i + c(p_i - x_i)) + (x_i + c(l_i - x_i))) = x_i + \frac{c}{3}(p_i + l_i - 2x_i) 
+G_i = \frac{1}{3} (x_i + (x_i + c(p_i - x_i)) + (x_i + c(l_i - x_i))) = x_i + \frac{c}{3}(p_i + l_i - 2x_i).
 \end{displaymath}
-If the personal best is the best in the neighborhood, i.e. $p_i(t) = l_i(t)$, the center $G_i$ is defined as:
+If the personal best is the best in the neighborhood, \textit{i.e.} $p_i(t) = l_i(t)$, the center $G_i$ is defined as:
 \begin{displaymath}
-G_i = \frac{1}{2} (x_i + (x_i + c(p_i - x_i))) = x_i + \frac{c}{2}(p_i - x_i)
+G_i = \frac{1}{2} (x_i + (x_i + c(p_i - x_i))) = x_i + \frac{c}{2}(p_i - x_i).
 \end{displaymath}
 In both cases, the acceleration constant $c$ is:
 \begin{displaymath}
-c = \frac{1}{2} + \ln(2) \simeq 1.193
+c = \frac{1}{2} + \ln(2) \simeq 1.193.
 \end{displaymath}
 
-As shown in Figure~\ref{fig:SPSO_2011}, a random sample $x^{'}_{i}$ is drawn from the hypershpere with uniform random direction and uniform radius.
+As shown in Figure~\ref{fig:SPSO_2011}, a random sample $x^{'}_{i}$ is drawn from the hypershpere with uniform random direction and uniform radius:
 \begin{displaymath}
-r = U(0, ||G_i - x_i||)
+r = U(0, ||G_i - x_i||).
 \end{displaymath} 
 
 Therefore, the velocity update equation and new position of SPSO 2011 is defined as:
 \begin{align*}
-v_i(t+1) &= wv_i(t) + x_{i}^{'}(t) - x_i(t) \\
-x_i(t+1) &= x_i(t) + v_i(t+1) = wv_i(t) + x_{i}^{'}(t) 
+v_i(t+1) &= wv_i(t) + x_{i}^{'}(t) - x_i(t), \\
+x_i(t+1) &= x_i(t) + v_i(t+1) = wv_i(t) + x_{i}^{'}(t),
 \end{align*} 
 where the inertia weight is also:
 \begin{displaymath}
-w = \frac{1}{2\ln(2)} \simeq 0.721
+w = \frac{1}{2\ln(2)} \simeq 0.721.
 \end{displaymath} 
 
 
@@ -272,10 +272,10 @@ There are multiple options to handle confinement in SPSO 2011.
 The following method described in~\cite{Clerc:2012:SPSO2011} treat boundary as ``wall", so that all particles bounce back with half of previous velocity after they reach the border.
 For the new position $x_{i,d}(t+1)$ of particle $i$ in dimension $d$,
 \begin{align*}
-if (x_{i,d}(t+1) < min_d), x_{i,d}(t+1) &= min_d \\
-                           v_{i,d}(t+1) &= -0.5v_{i,d}(t+1) \\
-if (x_{i,d}(t+1) > min_d), x_{i,d}(t+1) &= max_d \\
-                           v_{i,d}(t+1) &= -0.5v_{i,d}(t+1) \end{align*} 
+if (x_{i,d}(t+1) < min_d), x_{i,d}(t+1) &= min_d, \\
+                           v_{i,d}(t+1) &= -0.5v_{i,d}(t+1). \\
+if (x_{i,d}(t+1) > min_d), x_{i,d}(t+1) &= max_d, \\
+                           v_{i,d}(t+1) &= -0.5v_{i,d}(t+1). \end{align*} 
 
 
 \begin{figure}[!t] \centering
@@ -386,7 +386,7 @@ so that the best solution stays at the top of the archive.
 For the $i$-th dimension, a Gaussian kernel PDF $G^i(x)$ is constructed with multiple weighted normal distributions $g_j^i(x)$: 
 \begin{displaymath}
 G^i(x) = \sum_{j = 1}^{k}\omega_{\ell}g_{\ell}^{i}(x) = 
-\sum_{\ell = 1}^{k}\omega_{\ell} \frac{1}{\sigma_{\ell}^{i}\sqrt{2\pi}} e^{-\frac{ (x-\mu^i)^2 }{2 {\sigma^i_\ell}^2}}
+\sum_{\ell = 1}^{k}\omega_{\ell} \frac{1}{\sigma_{\ell}^{i}\sqrt{2\pi}} e^{-\frac{ (x-\mu^i)^2 }{2 {\sigma^i_\ell}^2}}.
 \end{displaymath}
 Such a PDF is easy to sample and provides a better flexibility to describe the landscape.
 Three elements decide the shape of the Gaussian kernel:
@@ -398,7 +398,7 @@ Three elements decide the shape of the Gaussian kernel:
 Following are some parameters used by ACO$_R$ that also effects the Gaussian kernel construction.
 $k$ is the \textit{size of the solution archive}, which works like the memory of the swarm.
 It may not be smaller than the number of dimensions.
-$q$ represents the \textit{locality} of the search process, i.e. how often should we not pick the best solution in the archive.
+$q$ represents the \textit{locality} of the search process, \textit{i.e.} how often should we not pick the best solution in the archive.
 It controls exploration so that give a higher value of $q$ leads to slower yet more robust convergence.
 $\xi > 0$ represents the \textit{speed of convergence} that has effect similar to the \textit{pheromone evaporation} rate in ACO.
 It works like selection and enhance the good solutions in the archive.

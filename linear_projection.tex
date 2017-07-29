@@ -1,8 +1,8 @@
 \chapter{Linear Projection}
 \label{chapter:projection} 
 
-We would like to define a region of interest that contains only one uni-model for exploitation.
-Also, some algorithms, e.g. SPSO, requires a well-defined hypercube search space with fixed-value constraints in each dimension.
+We would like to define a region of interest that contains only one unimodel for exploitation.
+Also, some algorithms, \textit{e.g.} SPSO, requires a well-defined hypercube search space with fixed-value constraints in each dimension.
 Defining the projection onto subspace can be described as a model selection.
 In our case, this process does not require high accuracy, yet has a strict demand on time consumption.
 Combining the requirements, we use a linear projection matrix to project the original search space 
@@ -36,7 +36,7 @@ In geometry, an affine transformation preserves points, straight lines and plane
 For two affine spaces $A$ and $B$ and any pair of points $P, Q \in A$,
 an affine transformation $f$ determines a linear transformation $\varphi$ that can formally defined as:
 \begin{displaymath}
-\overrightarrow{f(P)f(Q)} = \varphi \overrightarrow{(PQ)}
+\overrightarrow{f(P)f(Q)} = \varphi \overrightarrow{(PQ)}.
 \end{displaymath}
 
 Here, we list some common 2D affine transformation matrix in Figure~\ref{fig:Affine_simple}.
@@ -146,14 +146,14 @@ as well as small reconstruction errors for each samples.
 
 \section{Optimization for Projection Matrix}
 
-After identifying different clusters of samples, which represents a uni-modal, 
+After identifying different clusters of samples, which represents a unimodal, 
 we would like to further define a reasonably good ROI.
 In order to obtain a nice ROI for a problem with $D$ variables, 
 we need to optimize the $(D+1)^2$ parameters in the projection matrix with a loss function.
 The loss function should cost little computational time and should suggest the right direction for optimization, 
 in order to match the restrictions of a well-defined ROI.
 Also, the optimization only needs to define a reasonably well ROI for the algorithms to search.  
-In the later iterations, the matrix update procedure allows us to define a more accurate ROI with a better insight of the uni-modal subproblem.
+In the later iterations, the matrix update procedure allows us to define a more accurate ROI with a better insight of the unimodal subproblem.
 In our case, it is acceptable to sacrifice a bit of accuracy for computational time in hyperparameters tuning.  
 We will describe the design of our loss function and the advantage of using a (1+1)-ES to optimize the matrix in the following sections.  
 
@@ -168,7 +168,7 @@ In our loss function, we considered the following features:
     \item Distances to the boundary for the \textbf{random samples within other ROIs} yet included in the ROI.
     \item Distances to the boundary for the \textbf{random samples} in the subspace that are outside of the original search space boundary.
     \item Distance of the weighted \textbf{mean} to the center of subspace $[0.5]^D$
-    \item The Mean Absolute Error (MAE) for each element in the weighted \textbf{covariance matrix} to a scaled identical matrix
+    \item The difference for each element in the weighted \textbf{covariance matrix} to a scaled identical matrix
     \item The sum of \textbf{reconstruction} error for each particle 
 \end{enumerate} 
 We add up all the errors mentioned above and try to minimize that error. 
@@ -189,7 +189,7 @@ We randomly generates 200 samples within the green and blue ROI and tries to exc
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{Sample_projection}
-\caption{Optimization of projection matrix.}\label{fig:Sample_projection}
+\caption{Snapshot of optimization for the projection matrix of the red ROI.}\label{fig:Sample_projection}
 \end{figure}
 
 Third, we also use the Monte Carlo method described before to make sure that the ROI does not exceed the boundaries of the orignal subspace.
@@ -207,14 +207,14 @@ Then we minimize the distance of weighted mean to the center.
 Fifth, we would like the weighted covariance matrix to be approximately $0.2I$, where $I$ is an identical matrix.
 This enables the projection matrix to rotate, scale, and shear a fitness hill.
 The normalization preprocess is a common technique to make future optimization easier.
-Therefore, we calculate the MAE between the weighted covariance matrix and $0.2I$.  
+Therefore, we calculate the difference for each element in the weighted covariance matrix and $0.2I$.  
 
 Finally, since the we project the particle positions in a homogeneous coordinate,
 the correlations between reconstructed positions on the subspace might not be identical to the original ones.
 We would like to minimize the transformation error while keeping the ROI within the original boundaries.
 Therefore, for each possible matrix solution, we use it to project all points in the corresponding cluster onto a subsapce.
 Later, we use the inverse matrix to project all the points back to the original search space to get the reconstructed positions.
-Then, we calculate the MAE of all points in all dimensions between the original position and the reconstructed positions.
+Then, we calculate the distance of all points in all dimensions between the original position and the reconstructed positions.
 
 
 %Given a possible solution of the projection matrix $X = [x_1, x_2, ..., x_{(d+1)^2}]$ for a problem with $d$ variables.
@@ -237,7 +237,7 @@ Then, we calculate the MAE of all points in all dimensions between the original 
 %\end{align*}
 
 
-\subsection{Optimization Algorithms}
+\subsection{Optimization algorithms}
 
 With the loss function defined in the previous section, 
 we still need an optimization algorithm to optimize the projection matrix.

@@ -18,18 +18,18 @@
 
 \begin{abstracten}
 This thesis presents a new technique for real-valued multimodal optimization.
-Most of the real-world problems can be described as a composition of uni-modal subproblems.
-For real-valued optimization, we are interested in problems that are composed of \textit{multiple hierarchically decomposable} uni-modals.
-However, allocating resources to exploit different uni-modals leads to the 
+Most of the real-world problems can be described as a composition of unimodal subproblems.
+For real-valued optimization, we are interested in problems that are composed of \textit{multiple hierarchically decomposable} unimodals.
+However, allocating resources to exploit different unimodals leads to the 
 common dilemma between \textit{exploration} and \textit{exploitation}.
 This thesis proposed some new techniques that aim to solve multimodal problems more efficiently.
 A new technique combining hierarchical clustering and minimum description length (MDL) 
-is proposed to help identify potential uni-modals in the search space.
+is proposed to help identify potential unimodals in the search space.
 Then, a linear transform matrix in homogeneous coordinate, optimized by the (1+1)-Evolutionary Strategy,
 projects the search space to a subspace with well-defined boundary.
-This projection aims to define a region of interest (ROI) that isolates a uni-modal subproblem.
+This projection aims to define a region of interest (ROI) that isolates a unimodal subproblem.
 Finally, a new multi-armed bandit technique, aiming to maximize the probability of acquiring the global optimum,
-is proposed to allocate resources for each uni-modal.
+is proposed to allocate resources for each unimodal.
 We combined our new techniques with Covariance Matrix Adaptation Evolution Strategy (CMA-ES), 
 Standard Particle Swarm Optimization (SPSO) 2011, and Ant Colony Optimization for Continuous Domain (ACO$_R$).
 The results are evaluated with the CEC2005 Special Session on Real-Parameter Optimization benchmark problems.

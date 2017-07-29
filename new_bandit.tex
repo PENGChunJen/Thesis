@@ -38,7 +38,7 @@ which are optimized by (1+1)-ES, as described in Chapter~\ref{chapter:projection
 After that, we initiate a designated algorithm for each arm on the subspace, initialized with the projected samples in each cluster.
 The arms are composed of a projection matrix, which defines the ROI, 
 and an algorithm that is modified to allow projection, replacement, and update one particle procedures.
-Then we can use the new multi-armed bandit technique to determine resource allocation, i.e. which arm to pull. 
+Then we can use the new multi-armed bandit technique to determine resource allocation, \textit{i.e.} which arm to pull. 
 After each iteration, we need to check if the ROI of the latest pulled arm needs to be modified.
 We also check if the current cluster is possible to split into smaller clusters, or if any two existing clusters should be merged together.
 We'll go through the details of \textit{reclustering} in the following paragraph.
@@ -97,7 +97,7 @@ After that, we use the selected particles to identify potential unimodals,
 using the clustering technique mentioned in Chapter~\ref{chapter:clustering}.
 We first perform a hierarchical clustering to consider not only the spatial density, but also the fitness gradients.
 It captures the characteristics of the landscape better than K-Means clustering, as explained in Chapter~\ref{chapter:clustering}.
-Later we trim down the number of clusters by MDL along with the underlying multivariate Gaussian model.
+Later we determine the number of clusters by MDL along with the underlying multivariate Gaussian model.
 
 
 
@@ -132,7 +132,7 @@ Then we add them into the clusters and initiate the algorithm on the subspace.
 
 In order to determine which arm to pull, we need to calculate the best remain evaluation allocation, as described in Chapter~\ref{chapter:MAB}.
 We normalize the allocation vector and add it to a $k$-length record vector, where $k$ is the total number of arms/clusters.  
-During each iteration, we select the best arm, i.e. the arm that gives the highest value in the record, to update.
+During each iteration, we select the best arm, \textit{i.e.} the arm that gives the highest value in the record, to update.
 We than minus the record value of that arm with 1, and ask the algorithm of the best arm to update one particle.
 Then we recalculate the remain evaluation allocation and add it into the record again.
 This way, the number of times each arm has been pulled should be asymptotically close to the time-variant resource allocation.
@@ -142,7 +142,7 @@ This is done by a statistic test, which compares the weighted mean of the new sa
 Given a set of samples $X_1, ..., X_n \sim N_{D}(\mu, \Sigma)$ coming from a $D$-dimensional normal distribution with $\mu$ and $\Sigma$ known. 
 For testing $H_0: \mu = \mu_0$ versus $H_1: \mu \neq \mu_0$, the statistic
 \begin{displaymath}
-Z = ( \bar{X} - \mu_0 )^T (\frac{\Sigma}{n})^{-1} ( \bar{X} - \mu_0 ) = n( \bar{X} - \mu_0 )^T \Sigma^{-1} ( \bar{X} - \mu_0 )
+Z = ( \bar{X} - \mu_0 )^T (\frac{\Sigma}{n})^{-1} ( \bar{X} - \mu_0 ) = n( \bar{X} - \mu_0 )^T \Sigma^{-1} ( \bar{X} - \mu_0 ),
 \end{displaymath}
 is used that follows $ \chi^{2}(D)$-distribution under $H_0$.
 This is a generalization of the $z$-test, also known as $u$-test.
