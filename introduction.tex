@@ -9,7 +9,7 @@ one needs to decide how much to invest for searching a better unimodal,
 while still maintain enough of exploitation on each potential unimodal.
 
 The difficult part is that searching for a new unimodal and exploiting the best unimodal often require opposite searching behaviors.
-For a fixed amount of total evaluations, spending more time searching on one unimodal implies 
+For a fixed number of total evaluations, spending more time searching on one unimodal implies 
 less attention on exploring other possible unimodals in the search space.
 This is the common dilemma between {\em exploration} and {\em exploitation} for real-valued optimization algorithms.
 Also, during different phases of optimization, 
@@ -32,27 +32,27 @@ iteratively break down a difficult multimodal problem into smaller and easier un
 
 % Thesis Objective
 \section{Thesis Objectives}
-We propose some techniques to break down multimodal problems into several unimodal problems in smaller non-overlapping subspaces.
-We believe that solving one unimodal problem on a smaller subspace is easier than tackling the complete search space as a whole.
-This technique can \textbf{identify potential unimodal},
-\textbf{define a region of interest} to exploit, 
-and \textbf{allocate resources} according to remaining evaluations.
+This thesis proposes some techniques to break down multimodal problems into several unimodal problems in smaller non-overlapping subspaces.
+It is under the consumption that solving one unimodal problem on a smaller subspace is easier than tackling the complete search space as a whole.
+The techniques allow \textbf{identifing potential unimodals},
+\textbf{defining a region of interest} to exploit, 
+and \textbf{allocating resources} according to remaining evaluations.
 
 Identifying a \textit{unimodal} depends on the sampling frequency and the underlying model.
 Clustering is a common way for discovering potential unimodals.
-We adopt the hierarchical clustering technique to discover unimodals in the fitness landscape.
-We also use weighted normal distribution as the underlying consumption for unimodal, and reject overfitting models with minimum description length.
+The hierarchical clustering technique is used to discover unimodals in the fitness landscape.
+The weighted normal distribution is adopted as the underlying consumption for unimodal, and reject overfitting models with minimum description length.
 
-After identifying the unimodals by clustering, we can split the search space into different regions of interest with linear projection.
-We use different projection matrices to project the original search space onto several subspaces with well-defined boundaries.
-We also optimize the projection matrix so that each region would have minimum overlapping with others.
-Searching in the smaller subspace enhances the probability of finding optimum.
+After identifying the unimodals by clustering, the search space is split into different regions of interest with linear projection.
+Different projection matrices are assigned to project the original search space onto several subspaces with well-defined boundaries.
+The projection matrices are also optimized so that each region would have minimum overlapping with others.
+Searching in the smaller subspace enhances the probability of finding the optimum.
 The well-defined boundaries are also needed for some algorithms.
 The projection might also rotate or shear the original search space, making some inseparable problems easier to solve.
 
-With multiple subspace to search, we propose a new Multi-armed Bandit (MAB) technique 
-that optimize the resource allocation to get the greatest probability of obtaining the global optimum.
-Multi-armed Bandit algorithms are suitable for this scenario, 
+With multiple subspace to search, a new Multi-armed Bandit (MAB) technique is proposed
+that optimize the resource allocation to get the greatest probability of obtaining a particle with the best rank.
+Multi-armed bandit algorithms are suitable for this scenario, 
 since it learns models from outcomes while the actions do not change the state of the world.
 When there are still plenty of evaluations left, we should prefer exploration over exploitation and search equally on all subspaces.
 However, when few evaluations remain, we should focus on the current best unimodal 
@@ -71,11 +71,11 @@ These three algorithms each have different characteristics due to different unde
 We get a glimpse of how some common real-valued algorithms tackle multimodal problems. 
 
 
-\textbf{Chapter~\ref{chapter:clustering}} first discuss our experience on using K-Means to identify unimodals.
+\textbf{Chapter~\ref{chapter:clustering}} first discusses our experience on using K-Means to identify unimodals.
 Later, a more successful attempt of using the hierarchical clustering is presented.
 Finally, we give details about Minimal Description Length and how it reduces number of clusters.
 
-\textbf{Chapter~\ref{chapter:projection}} first describes four basic affine transformation: translation, rotation, scaling and shearing.
+\textbf{Chapter~\ref{chapter:projection}} illustrates four basic affine transformation: translation, rotation, scaling and shearing.
 Then the projective transformation and homogeneous coordinate are presented.
 Finally, we give details about how we optimize our projection matrix in order to obtain ROIs with minimal-overlapping.
 

@@ -12,7 +12,7 @@ Then, we would like to gradually increase the portion of exploitation behavior.
 When there are very few evaluations left, we should concentrate on exploiting the current best hill.
 Therefore, instead of letting the algorithms handle both exploration and exploitation, we propose a bandit technique to help manage the exploration, and leave the simpler subproblems for the algorithms to exploit.
 
-Multi-armed Bandit (MAB) Algorithms are suitable for this scenario, 
+Multi-armed Bandit (MAB) algorithms are suitable for this scenario, 
 since it learns model from outcomes and the actions it takes do not change the state of the world.
 Moreover, the decisions that it makes help discover more knowledge which can improve future decisions.
 This matches our description for exploring fitness landscape in real-valued optimization.
@@ -27,7 +27,7 @@ Finally, we propose a new bandit technique that aims to maximize the probability
 
 \section{The Multi-armed Bandit Problem}
 
-Multi-aremed Bandit (MAB) Problem was originally described by Robins in 1985~\cite{Robbins:1985:MAB}.
+The MAB problem was originally described by Robins in 1985~\cite{Robbins:1985:MAB}.
 In this problem, a gambler has to decide which machine to play in a row of slot machines, a.k.a one-armed bandits, and how often to play it.
 When the lever is pulled, each machine provides a reward according to a probability distribution.
 Therefore, the gambler iteratively plays one lever at each round and observes the probability of reward for each arms.
@@ -73,7 +73,7 @@ Therefore, the $\epsilon$-decreasing strategy adopts a decreasing $\epsilon$
 for getting arbitrarily close to the optimal strategy asymptotically~\cite{Vermorel:2005:MAB}.
 By carefully choosing the $\epsilon$, the $\epsilon$-decreasing strategy can achieve zero regret.
 
-The \textit{SoftMax strategy}, also known as the Boltzmann Exploration, is first proposed in~\cite{Luce:1959:softmax}.
+The \textit{SoftMax strategy}, also known as the \textit{Boltzmann exploration}, is first proposed in~\cite{Luce:1959:softmax}.
 It chooses the $k$-th lever with probability
 \begin{displaymath}
 p_k = \frac{ e^{ \hat{ \mu_k } / \tau } }{ \sum_{i=1}^{n} e^{ \hat{ \mu_i } / \tau } },
@@ -82,7 +82,7 @@ where $\hat{\mu_i}$ is the estimated reward mean of the $i$-th lever,
 and $\tau \in \mathbb{R}_+$ is the \textit{temperature} parameter.
 
 
-The \textit{Interval Estimation strategy} is first proposed in~\cite{Kaelbling:1993:interval_estimation}.
+The \textit{interval estimation strategy} is first proposed in~\cite{Kaelbling:1993:interval_estimation}.
 It estimates the \textit{optimistic reward} of each lever within a certain confidence interval,
 and greedily choose the lever with the highest optimistic mean.
 The optimistic reward estimation asymptotically matches the true reward mean as the number of choosing that lever increases.

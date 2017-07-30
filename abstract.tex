@@ -10,9 +10,9 @@
 此投影嘗試定義出只包含一單峰之感興趣區域(region of interest)。
 最後，我們提出一新的多臂吃角子老虎(multi-armed bandit)技術，
 來分配給各個子空間的資源，以最大化獲得全域最佳解的機率，
-我們將此結果與自適應共變異數矩陣演化策略(Covariance Matrix Adaptation Evolution Strategies, CMA-ES)、
+我們將此結果與自適應共變異數矩陣演化策略(Covariance Matrix Adaptation Evolution Strategies)、
 標準粒子群演算法(Standard Particle Swarm Optimization 2011)、
-與實數域蟻群演算法(Ant Colony Optimization for Continuous Domain, ACO$_R$)結合，
+與實數域蟻群演算法(Ant Colony Optimization for Continuous Domain)結合，
 並利用CEC 2005實數最佳化測試問題來比較結果。
 \end{abstractzh}
 
@@ -22,26 +22,26 @@ Most of the real-world problems can be described as a composition of unimodal su
 For real-valued optimization, we are interested in problems that are composed of \textit{multiple hierarchically decomposable} unimodals.
 However, allocating resources to exploit different unimodals leads to the 
 common dilemma between \textit{exploration} and \textit{exploitation}.
-This thesis proposed some new techniques that aim to solve multimodal problems more efficiently.
-A new technique combining hierarchical clustering and minimum description length (MDL) 
+This thesis propose some new techniques that aim to solve multimodal problems more efficiently.
+A new technique combining hierarchical clustering and minimum description length
 is proposed to help identify potential unimodals in the search space.
 Then, a linear transform matrix in homogeneous coordinate, optimized by the (1+1)-Evolutionary Strategy,
 projects the search space to a subspace with well-defined boundary.
-This projection aims to define a region of interest (ROI) that isolates a unimodal subproblem.
+This projection aims to define a region of interest that isolates a unimodal subproblem.
 Finally, a new multi-armed bandit technique, aiming to maximize the probability of acquiring the global optimum,
 is proposed to allocate resources for each unimodal.
-We combined our new techniques with Covariance Matrix Adaptation Evolution Strategy (CMA-ES), 
-Standard Particle Swarm Optimization (SPSO) 2011, and Ant Colony Optimization for Continuous Domain (ACO$_R$).
-The results are evaluated with the CEC2005 Special Session on Real-Parameter Optimization benchmark problems.
+We combined our new techniques with Covariance Matrix Adaptation Evolution Strategy, 
+Standard Particle Swarm Optimization 2011, and Ant Colony Optimization for Continuous Domain.
+The results are evaluated with the special session on real-parameter optimization benchmark problems of CEC 2005.
 \end{abstracten}
 
 \begin{comment}
-\category{I2.10}{Computing Methodologies}
-{Artificial Intelligence -- Vision and Scene Understanding} 
-\category{H5.3}{Information Systems}
-{Information Interfaces and Presentation (HCI) -- Web-based Interaction.}
+%\category{I2.10}{Computing Methodologies}
+%{Artificial Intelligence -- Vision and Scene Understanding} 
+%\category{H5.3}{Information Systems}
+%{Information Interfaces and Presentation (HCI) -- Web-based Interaction.}
 
-\terms{Design, Human factors, Performance.}
+%\terms{Design, Human factors, Performance.}
 
 \keywords{Real-valued Optimization, Multimodal Optimization, Homogeneous Coordinates, Multi-armed Bandit Algorithm.}
 \end{comment}

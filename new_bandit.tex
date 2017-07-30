@@ -1,7 +1,7 @@
 \chapter{The New Multimodal Optimization Technique}
 \label{chapter:new_bandit}
 
-In this chapter, we illustrate the proposed multimodal optimization technique step-by-step. 
+In this chapter, we describe the proposed multimodal optimization technique step-by-step. 
 We first give the framework of the new multimodal optimization technique.
 Then we go through details about initialization and unimodal identification.
 We also discuss more about the implementation of optimizing projection matrix that defines the ROI.
@@ -31,7 +31,7 @@ Finally, after clustering, the number samples in one cluster might be more or le
 Therefore, we need to enable the algorithms to replace particles during optimization.
 
 The new multimodal optimization technique starts with $100D$ samples within the given boundaries of a $D$-dimensional problem.
-We use selection pressure 2 to select particles with better fitness to identify potential unimodals in the search space.
+We use selection pressure of 2 to select particles with better fitness to identify potential unimodals in the search space.
 We use the hierarchical clustering technique and the MDL method mentioned in Chapter~\ref{chapter:clustering} to determine the clusters.
 Then, we define ROIs for each of these clusters with projection matrices, 
 which are optimized by (1+1)-ES, as described in Chapter~\ref{chapter:projection}.

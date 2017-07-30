@@ -1,7 +1,7 @@
 \chapter{Real-valued Optimization Algorithms}
 \label{chapter:algos}
 
-A real-valued optimization algorithm minimize a given \textit{objective function} in the continuous domain.
+A real-valued optimization algorithm minimizes a given \textit{objective function} in the continuous domain.
 It searches the continuous domain by iteratively asking for the fitness of solutions.
 We often evaluate an algorithm by the \textit{number of function evaluations} it consumes to obtain the global optimum solution.
 This task is often described as the \textit{black box optimization},
@@ -16,7 +16,7 @@ that are commonly used as the baseline for real-valued optimization.
 
 
 \section{Covariance Matrix Adaptation Evolution Strategy}
-The \textit{Evolutionary Strategies} (ES) samples new search points with a normal distribution.
+The \textit{Evolutionary Strategy} (ES) samples new search points with a normal distribution.
 Each $d$-dimensional sample $x_i$ in a population with size $\lambda$ is drawn from a multivariate normal distribution as following:  
 \begin{displaymath}
 x_i \sim m + \sigma N_i(0,C),
@@ -33,14 +33,14 @@ The covaraince matrix determines the shape of the distribution ellipsoid.
 \end{figure}
 
 \subsection{(1+1)-ES}
-One of the simplest Evolutionary Strategy is \textbf{(1+1)-ES}.
+One of the simplest evolutionary strategy is \textbf{(1+1)-ES}.
 It samples one offspring $x$ from parent $m$ according to the equation described above.
 If the offspring $x$ is better than $m$, it replaces $m$ to be the new mean of the next sampling distribution.
 It also follows the \textit{one-fifth success rule} as illustrated in Figure~\ref{fig:one_plus_one_ES}.
-The one-fifth success rule increases the step-size by $1.5$ if the current sample is not better than the previous best sample, \textit{i.e.} the mean $m$.
+The one-fifth success rule increases the step-size by $1.5$ if the current sample is better than the previous best sample, \textit{i.e.} the mean $m$.
 We believe the best solution, denoted as the flag in Figure~\ref{fig:one_plus_one_ES}(a), 
 should be somewhere outside of our current distribution and we should increase step-size to explore more search space.
-The one-fifth success rule decreases the step-size by $1.5^{-1/4}$ if the current sample is better than the previous best sample.
+The one-fifth success rule decreases the step-size by $1.5^{-1/4}$ if the current sample is not better than the previous best sample.
 This means that we believe the best solution, illustrated as the flag in Figure~\ref{fig:one_plus_one_ES}(b),
 should be within the sampling distribution, and we should decrease the step-size to further focus on the current region.
 Here we describe the (1+1)-ES with one-fifth success rule with independent restarts~\cite{Auger:2009:one_plus_one_ES}.
@@ -80,7 +80,7 @@ Initialize $\boldsymbol{X}_0, \sigma_0$ \\
 
 
 \subsection{CMA-ES}
-Covariance Matrix Adaptation Evolution Strategy (CMA-ES) is an Evolutionary Strategy 
+Covariance Matrix Adaptation Evolution Strategy (CMA-ES) is an evolutionary strategy 
 proposed by Hansen in 2003~\cite{Hansen:2003:CMA_ES}.
 It adopts a multivariate normal distribution to generate \textit{isotropic} search points which do not favor any direction.
 The multivariate normal distribution is widely observed in the nature and relatively easy to design and analysis for algorithms.
@@ -139,7 +139,7 @@ Throughout the years, numerous variants of PSO have been proposed to improve per
 As a result, a \textit{standard} PSO, composed of clear principals, is needed as the baseline for comparison.
 Standard PSO (SPSO) provides a well defined version that follows the common principals of PSO design.
 It is intended to be a milestone with simple and clear implementation for future comparison. %, instead of the best algorithm on the market.
-So far, there have been three successive versions of standard PSO: SPSO 2006, SPSO 2007, and SPSO 2011.
+So far, there have been three successive versions of standard PSO on the Particle Swarm Centeral~\footnote{https://www.particleswarm.info/}: SPSO 2006, SPSO 2007, and SPSO 2011.
 The underlying principals of these three algorithms are generally the same as all PSO variants.
 The exact formula and implementation are slightly different due to latest theoretical progress.
 A detailed description of SPSO 2011~\cite{Zambrano:2013:SPSO2011} is given in the following paragraphs.
@@ -158,7 +158,7 @@ At time $t$, each particle in the swarm possesses the following vectors with $D$
 \item $x_i(t)$ is the \textbf{position} of the particle $i$ at time $t$.
 \item $v_i(t)$ is the \textbf{velocity} of the particle $i$ at time $t$.
 \item $p_i(t)$ is the \textbf{previous best position} the particle $i$ had been to, at time $t$.
-\item $l_i(t)$ is best position of all the previous best positions in the \textbf{neighborhood} of particle $i$ at time $t$.
+\item $l_i(t)$ is the best position of all the previous best positions in the \textbf{neighborhood} of particle $i$ at time $t$.
 \end{itemize}
 
 Let $U(min_d, max_d)$ be a random number drawn from a uniform distribution within $[min_d, max_d]$, 

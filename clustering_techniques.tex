@@ -68,7 +68,7 @@ It calculates the gap statistics for different number of clusters and select the
 The \textit{Hartigans' dip test} uses the empirical cumulative distribution function (ECDF) to measure the maximum difference between multimodal samples and the unimodal samples. It calculates maximum deviation of the sample ECDF from the unimodal CDF and check if the difference is statistically significant.
 
 
-We wish that as the algorithms proceed, particles should gather around the good solutions and gives a clear density signal.
+We desire that as the algorithms proceed, particles should gather around the good solutions and gives a clear density signal.
 However, they seldom identify a unimodal at the beginning.
 It means that we need to add up more particles to meet the population size requirement for each clusters.
 This increases the density in that specific region, and creates an artificial cluster that should not exist in the first place.
@@ -199,7 +199,7 @@ P(X|\Theta) = \prod_{i=1}^{I} \sum_{j=1}^{J} \alpha_j P_j(X_i | \Theta_j).
 \end{equation}
 
 However, we would like to give a higher weight for the data with better fitness.
-The weight for the $i$-th particle that belongs to the $j$-th model with rank $r_{ij}$ within the $j$-th cluster is:
+The weight for $X_{ij}$, the $i$-th particle that belongs to the $j$-th model with rank $r_{ij}$ within the $j$-th cluster, is:
 \begin{equation}
 \omega_{ij} = \log(n_j+0.5) - \log(r_{ij}),
 \end{equation}
@@ -207,10 +207,9 @@ and the normalized weight is:
 \begin{equation}
 w_{ij} = \frac{\omega_{ij}}{\sum_{i = 1}^{n_j}\omega_{ij}},
 \end{equation}
-
 the data description accuracy can be descrived as a weighted sum of individual log-likelihoods:
 \begin{equation}
-\log(P(X|\Theta)) = \sum_{j=1}^{J}( n_j(\log(\alpha_j) + \sum_{i=1}^{n_j} w_{ij} \log(P_j(X_i | \Theta_j))) ).
+\log(P(X|\Theta)) = \sum_{j=1}^{J}( n_j(\log(\alpha_j) + \sum_{i=1}^{n_j} w_{ij} \log(P_j(X_{ij} | \Theta_j))) ).
 \end{equation}
 
 
@@ -238,19 +237,19 @@ the MDL defined in~\cite{Rissanen:1984:Universal} is denoted as:
 \end{equation}\label{equation:MDL}
 
 
-\subsection{Determining model with MDL}
+\subsection{Model selection with MDL}
 As mentioned before, we need to solve the problem of having too many ``ripple'' clusters on the margin area.
 Here we would like to use the MDL Equation to calculate model efficiency, and merge overfitting clusters.
 Therefore, after identifying potential unimodals with hierarchical clustering in Section~\ref{section:hierarchical},
 we use Equation~\ref{equation:MDL} to calculate model efficiency.
 We created multiple weighted Gaussian distribution according to the hierarchical clusters, 
-as shown in Figure~\ref{fig:MDL_comparison}(a) and Figure~\ref{fig:MDL_comparison_F19}(a).
+as shown in Figure~\ref{fig:MDL_comparison}(a) and~\ref{fig:MDL_comparison_F19}(a).
 Then we try all combinations of merging two clusters and calculate the corresponding MDL.
 Therefore, we compare the MDL score between the original hierarchical clusters and the new clusters with the minimal MDL score.
 If the MDL score of the new model is smaller than the previous model, we repeat the same procedure and keep merging.
 This procedure terminates when there is only one cluster remain, or when the minimum MDL score of all possible new modals is larger than the MDL score of the previous model.
 Then we get fewer yet still expressive clusters, 
-shown in Figure~\ref{fig:MDL_comparison}(b) and Figure~\ref{fig:MDL_comparison_F19}(b).
+shown in Figure~\ref{fig:MDL_comparison}(b) and~\ref{fig:MDL_comparison_F19}(b).
 
 
 

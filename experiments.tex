@@ -7,9 +7,9 @@ and some hybrid problems.
 We tested the CMA-ES, PSO, and ACO$_R$ algorithms with and without our new techniques.
 The results show that our technique reduces the average error of CMA-ES and ACO$_R$ on some multimodal problems.  
 
-\section{CEC2005 25 Benchmark Problems}
+\section{CEC 2005 Benchmark Problems}
 
-The CEC 2005 Special Session on Real-Paramter Optimization~\cite{Suganthan:2005:benchmark} aims to evaluate different algorithms in a more systematic manner by specifying a common termination criterion, size of problems, linkages/rotation, etc.
+The special session on real-paramter optimization of CEC 2005~\cite{Suganthan:2005:benchmark} aims to evaluate different algorithms in a more systematic manner by specifying a common termination criterion, size of problems, linkages/rotation, etc.
 It consists of 25 minimization problems with $2, 10, 30, 50$ dimensions.
 The evaluation requires 25 runs, each with maximum evaluations $10000 * D$. 
 Initialization is required to be uniform random within the search space, except for problems 7 and 25, for which initialization ranges are specified.
@@ -76,7 +76,7 @@ This is because the underlying model for SPSO is not a Gaussian, but a random to
 The flying particles make reclustering and redefining ROIs really unstable.
 
 
-Problem 1 to Problem 5 are unimodal functions.
+Problems 1 to 5 are unimodal functions.
 The optimum solution of Problem 5 is on the diagonal of the search space, 
 making it extremely easy to solve for SPSO and ACO$_R$.
 Thus there is no error line for these two algorithms on Problem 5
@@ -93,7 +93,7 @@ This is the reason why our technique does not improve the original algorithms.
 it falls into the valley
 
 
-Problem 6 to Problem 12 are basic multimodal functions.
+Problems 6 to 12 are basic multimodal functions.
 We can see significant improvement in Problem 11 and Problem 12 on algorithm CMA-ES and ACO$_R$.
 Besides, ACO$_R$ combined with our techniques leads with the minimum error in most of the problems.
 This means that the divide-and-conquer technique works well on problems with multiple hills.
@@ -105,7 +105,7 @@ Thus, no reclustering was performed and the population converged to the wrong hi
 
 Problem 13 and Problem 14 are expended problems, and they are a bit too difficult for most of the algorithms.
 
-Problem 15 to Problem 25 are hybrid composition functions.
+Problems 15 to 25 are hybrid composition functions.
 SPSO is suitable for these kinds of problems, since SPSO is good at exploring and takes a bit longer to converge.
 However, our methods enhanced the ability of ACO$_R$, making it compatible with SPSO, and even better sometimes.
 
